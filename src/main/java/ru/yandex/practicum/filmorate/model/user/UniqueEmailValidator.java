@@ -11,7 +11,7 @@ import ru.yandex.practicum.filmorate.storage.impl.UsersStorageService;
  * Аннотация @UniqueEmail связана с email-списком класса UserStorageService
  */
 @Slf4j
-class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
+public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
 
 	@Autowired
 	UsersStorageService userStorageService;
