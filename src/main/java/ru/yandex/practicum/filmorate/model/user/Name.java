@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = NameValidator.class)
-@interface Name {
+public @interface Name {
 
 	Class<?>[] groups() default {};
 

@@ -14,7 +14,7 @@ import jakarta.validation.Payload;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ReleaseDateValidator.class)
-@interface ReleaseDateValidation {
+public @interface ReleaseDateValidation {
 
 	Class<?>[] groups() default {};
 

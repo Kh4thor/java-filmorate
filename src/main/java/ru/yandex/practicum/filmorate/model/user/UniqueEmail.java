@@ -17,7 +17,7 @@ import ru.yandex.practicum.filmorate.storage.impl.UsersStorageService;
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UniqueEmailValidator.class)
-@interface UniqueEmail {
+public @interface UniqueEmail {
 
 	String message()
 

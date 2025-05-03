@@ -14,7 +14,7 @@ import jakarta.validation.Payload;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = BirthdayValidator.class)
-@interface Birthday {
+public @interface Birthday {
 
 	Class<?>[] groups() default {};
 
