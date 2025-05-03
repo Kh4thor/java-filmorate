@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 @Data
 @Builder
@@ -27,7 +28,7 @@ public class User {
 	private String name;
 
 	// login пользователя
-	@NotBlank(message = "Логин login не может содержать пробелы")
+	@NotBlank(message = "Поле логин login не может состоять из пробелов")
 	@NotNull(message = "Поле login не может быть null")
 	private String login;
 
@@ -39,6 +40,7 @@ public class User {
 	private String email;
 
 	// день рождения пользователя
+	@Past
 	@Birthday(message = "Пользователь не может быть младше 14 лет.")
 	@NotNull(message = "Поле birhday не может быть null")
 	private LocalDate birthday;

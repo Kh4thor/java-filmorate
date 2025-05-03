@@ -43,8 +43,8 @@ public class Film implements Cloneable {
 	private LocalDate releaseDate;
 
 	// заголовок фильма
-	@NotBlank(message = "Поле title не может быть пустым")
-	private String title;
+	@NotBlank(message = "Поле name не может быть пустым")
+	private String name;
 
 	@Override
 	public Film clone() throws CloneNotSupportedException {
