@@ -11,7 +11,7 @@ import jakarta.validation.Payload;
 /*
 * Аннотация @UniqueEmail связана с email-списком класса UserStorageService
 */
-@Target({ ElementType.FIELD })
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UniqueEmailValidator.class)
 public @interface UniqueEmail {

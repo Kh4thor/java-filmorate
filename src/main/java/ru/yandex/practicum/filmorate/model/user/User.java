@@ -19,6 +19,7 @@ import jakarta.validation.constraints.Past;
 @AllArgsConstructor
 @RestController
 @Name(message = "Имя не было задано. В качестве имени используется логин.")
+@UniqueEmail(message = "Пользователь с таким email уже зарегестрирован")
 public class User {
 
 	// id пользователя
@@ -34,7 +35,6 @@ public class User {
 
 	// email пользователя
 	@Email(message = "Поле email должно содежать символ @")
-	@UniqueEmail(message = "Пользователь с таким email уже зарегестрирован")
 	@NotBlank(message = "Поле email не может содержать пробелы")
 	@NotNull(message = "Поле email не может быть null")
 	private String email;

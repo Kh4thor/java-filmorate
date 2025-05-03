@@ -28,7 +28,7 @@ public class UserService implements AppService<User> {
 	public User createOrUpdate(User user) {
 
 		/*
-		 * обновить пользователя
+		 * создать пользователя
 		 */
 		if (user.getId() == null || user.getId() == 0) {
 			log.info("Начато создание пользователя. Получен объект {}", user);
@@ -37,7 +37,7 @@ public class UserService implements AppService<User> {
 			/*
 			 * обновить пользователя
 			 */
-		} else if (user.getId() > 1 && storageService.containsKey(user.getId())) {
+		} else if (user.getId() > 0 && storageService.containsKey(user.getId())) {
 			log.info("Начато обновление пользователя. Получен объект {}", user);
 			return update(user);
 			// если пользователя нет в хранилище

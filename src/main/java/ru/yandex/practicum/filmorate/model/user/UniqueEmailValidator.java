@@ -11,19 +11,31 @@ import ru.yandex.practicum.filmorate.storage.impl.UsersStorageService;
  * Аннотация @UniqueEmail связана с email-списком класса UserStorageService
  */
 @Slf4j
-public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
+public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, User> {
 
 	@Autowired
 	UsersStorageService userStorageService;
 
 	@Override
-	public boolean isValid(String value, ConstraintValidatorContext context) {
+	public boolean isValid(User value, ConstraintValidatorContext context) {
 
-		if (userStorageService.getEmailList().contains(value)) {
+		boolean isEmailListContainsSuchEmail = userStorageService.getEmailList().contains(value.getEmail());
+		boolean isUserStorageContainsUserWithSuchId = userStorageService.getRepository().containsKey(value.getId());
+
+		if (isEmailListContainsSuchEmail && !isUserStorageContainsUserWithSuchId) {
 			log.warn("Пользователь с таким email уже зарегестрирован");
 			return false;
 		} else {
 			return true;
 		}
 	}
+
+//		if (isEmailListContainsSuchEmail && !isUserStorageContainsUserWithSuchId) {
+//			log.warn("Пользователь с таким email уже зарегестрирован");
+//			return false;
+//		} else if (isEmailListContainsSuchEmail && isUserStorageContainsUserWithSuchId) {
+//			return true;
+//		}
+//		return false;
+//	}
 }
