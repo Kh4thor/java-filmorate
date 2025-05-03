@@ -15,6 +15,7 @@ import ru.yandex.practicum.filmorate.storage.StorageService;
 @Service
 public class UsersStorageService implements StorageService<User> {
 
+	// хранилище пользователей
 	private Map<Long, User> userStorage = new HashMap<>();
 
 	// email-список пользователей. Связан с аннотацией @UniqueEmail в классе User.
@@ -28,18 +29,10 @@ public class UsersStorageService implements StorageService<User> {
 		if (!emailList.contains(user.getEmail())) {
 			emailList.add(user.getEmail());
 		} else {
-			/*
-			 * обновление email-списка при обновлении пользователя для метода update
-			 * интерфейса AppService<User>. Связано с аннотацией @UniqueEmail класса User.
-			 */
-			if (userStorage.containsKey(user.getId())) {
-				User u = userStorage.get(user.getId());
-				emailList.remove(u.getEmail());
-				emailList.add(user.getEmail());
-			}
+			updateEmailList(user);
 		}
-		 userStorage.put(user.getId(), user);
-		 return user;
+		userStorage.put(user.getId(), user);
+		return user;
 	}
 
 	/*
@@ -92,5 +85,17 @@ public class UsersStorageService implements StorageService<User> {
 	 */
 	public List<String> getEmailList() {
 		return new ArrayList<String>(emailList);
+	}
+
+	/*
+	 * обновление email-списка при обновлении пользователя для метода update
+	 * интерфейса AppService<User>. Связано с аннотацией @UniqueEmail класса User.
+	 */
+	private void updateEmailList(User user) {
+		if (userStorage.containsKey(user.getId())) {
+			User u = userStorage.get(user.getId());
+			emailList.remove(u.getEmail());
+			emailList.add(user.getEmail());
+		}
 	}
 }
