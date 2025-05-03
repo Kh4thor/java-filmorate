@@ -6,10 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import jakarta.validation.Constraint;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
 import jakarta.validation.Payload;
-import lombok.extern.slf4j.Slf4j;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
