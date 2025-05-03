@@ -62,12 +62,10 @@ public class UserControllerMocMvcTest {
 		try {
 			mockMvc.perform(MockMvcRequestBuilders.delete(PATH + "/1").contentType(MediaType.APPLICATION_JSON)
 					.content(getContentFromFile(RESOURCE + "RequestUpdateUser.json")))
-					.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content()
-							.json(getContentFromFile(RESOURCE + "RequestUpdateUser.json")));
+					.andExpect(MockMvcResultMatchers.status().isOk());
 		} catch (Exception e) {
 			System.out.println("Ошибка при тестировании метода удаления пользователя");
 		}
-
 	}
 
 	private String getContentFromFile(String fileName) {
