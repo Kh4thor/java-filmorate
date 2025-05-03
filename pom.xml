@@ -38,7 +38,12 @@
 		    <groupId>jakarta.validation</groupId>
 		    <artifactId>jakarta.validation-api</artifactId>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>yandex.practicum</groupId>
+			<artifactId>catsgram</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
