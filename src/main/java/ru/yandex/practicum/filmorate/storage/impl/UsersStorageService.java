@@ -29,7 +29,7 @@ public class UsersStorageService implements StorageService<User> {
 		 * добавление email нового пользователя в email-список
 		 */
 		isUserUpdateable = true;
-		
+
 		if (!emailList.contains(user.getEmail())) {
 			emailList.add(user.getEmail());
 		} else {
