@@ -16,12 +16,9 @@ class BirthdayValidator implements ConstraintValidator<Birthday, LocalDate> {
 
 		if (yearsDifference > 14) {
 			return true;
-		}
-
-		else if (yearsDifference == 14) {
+		} else if (yearsDifference == 14) {
 			if (monthsDifference > 0) {
 				return true;
-
 			} else if (monthsDifference == 0) {
 				if (daysDifference >= 0) {
 					return true;
