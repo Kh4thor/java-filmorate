@@ -1,11 +1,12 @@
 package ru.yandex.practicum.filmorate.model.film;
 
-import lombok.Data;
-
 import java.time.LocalDate;
+import java.util.Objects;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.AllArgsConstructor;
 
 import jakarta.validation.constraints.Size;
@@ -14,27 +15,26 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Positive;
 
-/**
+/*
  * Film.
  */
-
-@Data
+@Getter
+@Setter
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Film implements Cloneable {
 
+	// id фильма
+	private Long id;
+
+	// название фильма
+	@NotBlank(message = "Поле name не может быть пустым")
+	private String name;
+
 	// описание фильма
 	@Size(max = 200, message = "Максимальная длина описания — 200 символов")
 	private String description;
-
-	// профдолжительность фильма
-	@Positive(message = "Значение поля duration должно быть положительным числом")
-	@NotNull(message = "Поле duration не может быть null")
-	private Long duration;
-
-	// id фильма
-	private Long id;
 
 	// дата выхода фильма
 	@Past(message = "Значение поля releaseDate не может быть текущей или будующей датой")
@@ -42,9 +42,28 @@ public class Film implements Cloneable {
 	@NotNull(message = "Поле releaseDate не может быть null")
 	private LocalDate releaseDate;
 
-	// заголовок фильма
-	@NotBlank(message = "Поле name не может быть пустым")
-	private String name;
+	// профдолжительность фильма
+	@Positive(message = "Значение поля duration должно быть положительным числом")
+	@NotNull(message = "Поле duration не может быть null")
+	private Long duration;
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(description, duration, name, releaseDate);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Film other = (Film) obj;
+		return Objects.equals(description, other.description) && Objects.equals(duration, other.duration)
+				&& Objects.equals(name, other.name) && Objects.equals(releaseDate, other.releaseDate);
+	}
 
 	@Override
 	public Film clone() throws CloneNotSupportedException {

@@ -1,19 +1,22 @@
 package ru.yandex.practicum.filmorate.model.user;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.AllArgsConstructor;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 
-@Data
+@Getter
+@Setter
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
@@ -44,6 +47,24 @@ public class User {
 	@Birthday(message = "Пользователь не может быть младше 14 лет.")
 	@NotNull(message = "Поле birhday не может быть null")
 	private LocalDate birthday;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(birthday, other.birthday) && Objects.equals(email, other.email)
+				&& Objects.equals(login, other.login) && Objects.equals(name, other.name);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(birthday, email, login, name);
+	}
 
 	@Override
 	public User clone() throws CloneNotSupportedException {

@@ -26,7 +26,6 @@ public class UserService implements AppService<User> {
 	 */
 	@Override
 	public User createOrUpdate(User user) {
-
 		/*
 		 * создать пользователя
 		 */
