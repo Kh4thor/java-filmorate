@@ -38,7 +38,7 @@ public class FilmController implements AppController<Film> {
 		Film f = appService.createOrUpdate(film);
 		if (f == null) {
 			log.warn("Неверно заданы параметры фильма {}", film);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		} else {
 			return ResponseEntity.status(HttpStatus.OK).body(f);
 		}
