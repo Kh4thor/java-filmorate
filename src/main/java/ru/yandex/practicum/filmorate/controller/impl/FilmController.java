@@ -30,17 +30,17 @@ public class FilmController implements AppController<Film> {
 	}
 
 	/*
-	 * создать/обновить фильм
+	 * создать или обновить фильм
 	 */
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	@Override
 	public ResponseEntity<Film> createOrUpdate(Film film) {
-
-		if (appService.createOrUpdate(film) == null) {
+		Film f = appService.createOrUpdate(film);
+		if (f == null) {
 			log.warn("Неверно заданы параметры фильма {}", film);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(appService.createOrUpdate(film));
+			return ResponseEntity.status(HttpStatus.OK).body(f);
 		}
 	}
 
@@ -73,7 +73,7 @@ public class FilmController implements AppController<Film> {
 	/*
 	 * получить фльм по id
 	 */
-	@DeleteMapping("/{id}")
+	@GetMapping("/{id}")
 	@Override
 	public ResponseEntity<Film> get(long id) {
 		log.info("Начат вызов фильма. Получен id={}", id);

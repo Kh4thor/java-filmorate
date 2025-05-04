@@ -89,21 +89,21 @@ public class FilmService implements AppService<Film> {
 		return storageService.add(film);
 	}
 
-	private void logUpdating(Film film) {
+	private void logCreation(Film film) {
 		log.info("Начато создание фильма. Получен объект {}", film);
-		if (create(film) == null) {
-			log.warn("Неверно заданы параметры фильма {}", film);
+		if (film.getId() == null || film.getId() == 0) {
+			log.info("Фильм {} успешно добавлен", film);
 		} else {
-			log.info("Фильм {} успешно обновлен", film);
+			log.warn("Неверно заданы параметры фильма {}", film);
 		}
 	}
 
-	private void logCreation(Film film) {
+	private void logUpdating(Film film) {
 		log.info("Начато обновление фильма. Получен объект {}", film);
-		if (create(film) == null) {
-			log.warn("Неверно заданы параметры фильма {}", film);
+		if (storageService.containsKey(film.getId())) {
+			log.info("Фильм {} успешно обновлен", film);
 		} else {
-			log.info("Фильм {} успешно добавлен", film);
+			log.warn("Неверно заданы параметры фильма {}", film);
 		}
 	}
 }

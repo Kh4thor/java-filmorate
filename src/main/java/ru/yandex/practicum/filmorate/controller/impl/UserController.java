@@ -35,11 +35,12 @@ public class UserController implements AppController<User> {
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	@Override
 	public ResponseEntity<User> createOrUpdate(User user) {
-		if (appService.createOrUpdate(user) == null) {
+		User u = appService.createOrUpdate(user);
+		if (u == null) {
 			log.warn("Неверный запрос или параметры пользователя {}", user);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(appService.createOrUpdate(user));
+			return ResponseEntity.status(HttpStatus.OK).body(u);
 		}
 	}
 
@@ -73,7 +74,7 @@ public class UserController implements AppController<User> {
 	/*
 	 * получить пользователя по id
 	 */
-	@DeleteMapping("/{id}")
+	@GetMapping("/{id}")
 	@Override
 	public ResponseEntity<User> get(long id) {
 		log.info("Начат вызов пользователя. Получен id={}", id);

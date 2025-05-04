@@ -29,9 +29,11 @@ public class UserService implements AppService<User> {
 		if (user.getId() == null || user.getId() == 0) {
 			logCreation(user);
 			return create(user);
-		} else {
+		} else if (storageService.containsKey(user.getId())) {
 			logUpdating(user);
 			return update(user);
+		} else {
+			return null;
 		}
 	}
 
@@ -89,21 +91,21 @@ public class UserService implements AppService<User> {
 		return storageService.add(user);
 	}
 
-	private void logUpdating(User user) {
-		log.info("Начато создание фильма. Получен объект {}", user);
-		if (create(user) == null) {
-			log.warn("Неверно заданы параметры фильма {}", user);
+	private void logCreation(User user) {
+		log.info("Начато создание пользователя. Получен объект {}", user);
+		if (user.getId() == null || user.getId() == 0) {
+			log.info("Пользователь {} успешно добавлен", user);
 		} else {
-			log.info("Фильм {} успешно обновлен", user);
+			log.warn("Неверно заданы параметры пользователя {}", user);
 		}
 	}
 
-	private void logCreation(User user) {
-		log.info("Начато обновление фильма. Получен объект {}", user);
-		if (create(user) == null) {
-			log.warn("Неверно заданы параметры фильма {}", user);
+	private void logUpdating(User user) {
+		log.info("Начато обновление пользователя. Получен объект {}", user);
+		if (storageService.containsKey(user.getId())) {
+			log.info("Пользователь {} успешно обновлен", user);
 		} else {
-			log.info("Фильм {} успешно добавлен", user);
+			log.warn("Неверно заданы параметры пользователя {}", user);
 		}
 	}
 }
