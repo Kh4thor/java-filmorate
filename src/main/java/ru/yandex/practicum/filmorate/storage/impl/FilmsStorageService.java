@@ -52,7 +52,7 @@ public class FilmsStorageService implements StorageService<Film> {
 	 */
 	@Override
 	public Map<Long, Film> getRepository() {
-		return new HashMap<Long, Film>(filmStorage);
+		return new HashMap<>(filmStorage);
 	}
 
 	/*

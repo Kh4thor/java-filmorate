@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -12,12 +13,12 @@ public interface AppController<T> {
 	/*
 	 * создать или обновить объект
 	 */
-	T createOrUpdate(@Valid @RequestBody T t);
+	ResponseEntity<T> createOrUpdate(@Valid @RequestBody T t);
 
 	/*
 	 * удалить объект по id
 	 */
-	T delete(@PathVariable long id);
+	ResponseEntity<T> delete(@PathVariable long id);
 
 	/*
 	 * удалить все объекты
@@ -27,7 +28,7 @@ public interface AppController<T> {
 	/*
 	 * получить объект по id
 	 */
-	T get(@PathVariable long id);
+	ResponseEntity<T> get(@PathVariable long id);
 
 	/*
 	 * получить список всех объектов

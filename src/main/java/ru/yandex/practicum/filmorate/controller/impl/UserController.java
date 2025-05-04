@@ -1,12 +1,14 @@
 package ru.yandex.practicum.filmorate.controller.impl;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.controller.AppController;
@@ -32,8 +34,13 @@ public class UserController implements AppController<User> {
 	 */
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	@Override
-	public User createOrUpdate(User user) {
-		return appService.createOrUpdate(user);
+	public ResponseEntity<User> createOrUpdate(User user) {
+		if (appService.createOrUpdate(user) == null) {
+			log.warn("Неверный запрос или параметры пользователя {}", user);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(appService.createOrUpdate(user));
+		}
 	}
 
 	/*
@@ -41,9 +48,15 @@ public class UserController implements AppController<User> {
 	 */
 	@DeleteMapping("/{id}")
 	@Override
-	public User delete(long id) {
-		log.info("Начато удаление пользователя. Получен id объекта id={}", id);
-		return appService.delete(id);
+	public ResponseEntity<User> delete(long id) {
+		log.info("Начато удаление фильма. Получен id={}", id);
+		if (appService.delete(id) == null) {
+			log.warn("Фильм с id={} в списке не найден", id);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} else {
+			log.info("Фильм с id={} удален", id);
+			return ResponseEntity.status(HttpStatus.OK).body(appService.delete(id));
+		}
 	}
 
 	/*
@@ -60,11 +73,17 @@ public class UserController implements AppController<User> {
 	/*
 	 * получить пользователя по id
 	 */
-	@GetMapping("/{id}")
+	@DeleteMapping("/{id}")
 	@Override
-	public User get(long id) {
-		log.info("Начато получение пользователя. Получен id объекта id={}", id);
-		return appService.get(id);
+	public ResponseEntity<User> get(long id) {
+		log.info("Начат вызов пользователя. Получен id={}", id);
+		if (appService.delete(id) == null) {
+			log.warn("Пользователь с id={} в списке не найден", id);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} else {
+			log.info("Пользователь с id={} получен", id);
+			return ResponseEntity.status(HttpStatus.OK).body(appService.get(id));
+		}
 	}
 
 	/*

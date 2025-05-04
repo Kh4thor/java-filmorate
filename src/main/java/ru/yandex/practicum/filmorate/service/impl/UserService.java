@@ -22,27 +22,16 @@ public class UserService implements AppService<User> {
 	}
 
 	/*
-	 * создать или обновить пользоватедя
+	 * создать или обновить пользвателя
 	 */
 	@Override
 	public User createOrUpdate(User user) {
-		/*
-		 * создать пользователя
-		 */
 		if (user.getId() == null || user.getId() == 0) {
-			log.info("Начато создание пользователя. Получен объект {}", user);
+			logCreation(user);
 			return create(user);
-
-			/*
-			 * обновить пользователя
-			 */
-		} else if (user.getId() > 1 && storageService.containsKey(user.getId())) {
-			log.info("Начато обновление пользователя. Получен объект {}", user);
-			return update(user);
-			// если пользователя нет в хранилище
 		} else {
-			log.info("Пользователь с id={} в списке не найден", user.getId());
-			return null;
+			logUpdating(user);
+			return update(user);
 		}
 	}
 
@@ -98,5 +87,23 @@ public class UserService implements AppService<User> {
 	 */
 	private User update(User user) {
 		return storageService.add(user);
+	}
+
+	private void logUpdating(User user) {
+		log.info("Начато создание фильма. Получен объект {}", user);
+		if (create(user) == null) {
+			log.warn("Неверно заданы параметры фильма {}", user);
+		} else {
+			log.info("Фильм {} успешно обновлен", user);
+		}
+	}
+
+	private void logCreation(User user) {
+		log.info("Начато обновление фильма. Получен объект {}", user);
+		if (create(user) == null) {
+			log.warn("Неверно заданы параметры фильма {}", user);
+		} else {
+			log.info("Фильм {} успешно добавлен", user);
+		}
 	}
 }

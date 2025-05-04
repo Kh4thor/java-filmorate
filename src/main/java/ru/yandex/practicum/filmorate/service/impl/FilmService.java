@@ -26,19 +26,12 @@ public class FilmService implements AppService<Film> {
 	 */
 	@Override
 	public Film createOrUpdate(Film film) {
-
-		// создать фильм
 		if (film.getId() == null || film.getId() == 0) {
-			log.info("Начато создание фильма. Получен объект {}", film);
+			logCreation(film);
 			return create(film);
-
-			// обновить фильм
-		} else if (film.getId() > 0 && storageService.containsKey(film.getId())) {
-			log.info("Начато обновление фильма. Получен объект {}", film);
-			return update(film);
 		} else {
-			log.info("Фильм с id={} в списке не найден", film.getId());
-			return null;
+			logUpdating(film);
+			return update(film);
 		}
 	}
 
@@ -94,5 +87,23 @@ public class FilmService implements AppService<Film> {
 	 */
 	private Film update(Film film) {
 		return storageService.add(film);
+	}
+
+	private void logUpdating(Film film) {
+		log.info("Начато создание фильма. Получен объект {}", film);
+		if (create(film) == null) {
+			log.warn("Неверно заданы параметры фильма {}", film);
+		} else {
+			log.info("Фильм {} успешно обновлен", film);
+		}
+	}
+
+	private void logCreation(Film film) {
+		log.info("Начато обновление фильма. Получен объект {}", film);
+		if (create(film) == null) {
+			log.warn("Неверно заданы параметры фильма {}", film);
+		} else {
+			log.info("Фильм {} успешно добавлен", film);
+		}
 	}
 }

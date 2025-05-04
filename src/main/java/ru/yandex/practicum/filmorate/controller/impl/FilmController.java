@@ -1,12 +1,14 @@
 package ru.yandex.practicum.filmorate.controller.impl;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.controller.AppController;
@@ -32,8 +34,14 @@ public class FilmController implements AppController<Film> {
 	 */
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	@Override
-	public Film createOrUpdate(Film film) {
-		return appService.createOrUpdate(film);
+	public ResponseEntity<Film> createOrUpdate(Film film) {
+
+		if (appService.createOrUpdate(film) == null) {
+			log.warn("Неверно заданы параметры фильма {}", film);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(appService.createOrUpdate(film));
+		}
 	}
 
 	/*
@@ -41,9 +49,15 @@ public class FilmController implements AppController<Film> {
 	 */
 	@DeleteMapping("/{id}")
 	@Override
-	public Film delete(long id) {
+	public ResponseEntity<Film> delete(long id) {
 		log.info("Начато удаление фильма. Получен id={}", id);
-		return appService.delete(id);
+		if (appService.delete(id) == null) {
+			log.warn("Фильм с id={} в списке не найден", id);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} else {
+			log.info("Фильм с id={} удален", id);
+			return ResponseEntity.status(HttpStatus.OK).body(appService.delete(id));
+		}
 	}
 
 	/*
@@ -59,11 +73,17 @@ public class FilmController implements AppController<Film> {
 	/*
 	 * получить фльм по id
 	 */
-	@GetMapping("/{id}")
+	@DeleteMapping("/{id}")
 	@Override
-	public Film get(long id) {
-		log.info("Начато получение фильма");
-		return appService.get(id);
+	public ResponseEntity<Film> get(long id) {
+		log.info("Начат вызов фильма. Получен id={}", id);
+		if (appService.get(id) == null) {
+			log.warn("Фильм с id={} в списке не найден", id);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} else {
+			log.info("Фильм с id={} получен", id);
+			return ResponseEntity.status(HttpStatus.OK).body(appService.get(id));
+		}
 	}
 
 	/*

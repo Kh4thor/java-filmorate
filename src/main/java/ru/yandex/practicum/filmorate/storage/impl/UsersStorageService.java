@@ -19,7 +19,7 @@ public class UsersStorageService implements StorageService<User> {
 	private Map<Long, User> userStorage = new HashMap<>();
 
 	// email-список пользователей. Связан с аннотацией @UniqueEmail в классе User.
-	private final List<String> emailList = new ArrayList<String>();
+	private final List<String> emailList = new ArrayList<>();
 
 	@Override
 	public User add(User user) {
@@ -72,7 +72,7 @@ public class UsersStorageService implements StorageService<User> {
 	 */
 	@Override
 	public Map<Long, User> getRepository() {
-		return new HashMap<Long, User>(userStorage);
+		return new HashMap<>(userStorage);
 	}
 
 	/*
@@ -95,7 +95,7 @@ public class UsersStorageService implements StorageService<User> {
 	 * получить email-список всех пользователей
 	 */
 	public List<String> getEmailList() {
-		return new ArrayList<String>(emailList);
+		return new ArrayList<>(emailList);
 	}
 
 	public boolean isUpdating(User user) {
