@@ -26,14 +26,12 @@ public class UserService implements AppService<User> {
 	 */
 	@Override
 	public User createOrUpdate(User user) {
-		if (user.getId() == null || user.getId() == 0 || !storageService.containsKey(user.getId())) {
+		if (user.getId() == null || user.getId() == 0) {
 			logCreation(user);
 			return create(user);
-		} else if (storageService.containsKey(user.getId())) {
+		} else {
 			logUpdating(user);
 			return update(user);
-		} else {
-			return null;
 		}
 	}
 

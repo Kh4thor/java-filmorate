@@ -35,12 +35,12 @@ public class UserController implements AppController<User> {
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	@Override
 	public ResponseEntity<User> createOrUpdate(User user) {
-		User u = appService.createOrUpdate(user);
-		if (u == null) {
+		User userResponse = appService.createOrUpdate(user);
+		if (userResponse == null) {
 			log.warn("Неверный запрос или параметры пользователя {}", user);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(u);
+			return ResponseEntity.status(HttpStatus.OK).body(userResponse);
 		}
 	}
 
@@ -51,12 +51,13 @@ public class UserController implements AppController<User> {
 	@Override
 	public ResponseEntity<User> delete(long id) {
 		log.info("Начато удаление фильма. Получен id={}", id);
-		if (appService.delete(id) == null) {
+		User u = appService.delete(id);
+		if (u == null) {
 			log.warn("Фильм с id={} в списке не найден", id);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		} else {
 			log.info("Фильм с id={} удален", id);
-			return ResponseEntity.status(HttpStatus.OK).body(appService.delete(id));
+			return ResponseEntity.status(HttpStatus.OK).body(u);
 		}
 	}
 
