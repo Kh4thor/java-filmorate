@@ -29,10 +29,11 @@ public class UserService implements AppService<User> {
 		if (user.getId() == null || user.getId() == 0) {
 			logCreation(user);
 			return create(user);
-		} else {
+		} else if (storageService.containsKey(user.getId())) {
 			logUpdating(user);
 			return update(user);
-		}
+		} else
+			return null;
 	}
 
 	/*
