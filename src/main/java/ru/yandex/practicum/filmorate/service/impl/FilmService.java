@@ -87,10 +87,8 @@ public class FilmService implements AppService<Film> {
 	 * создать фильм
 	 */
 	private Film create(Film film) {
-		if (film.getId() == null || film.getId() == 0) {
-			film.setId(generateId());
-			checkId(film);
-		}
+		film.setId(generateId());
+		checkId(film);
 		return storageService.add(film);
 	}
 
@@ -98,7 +96,8 @@ public class FilmService implements AppService<Film> {
 	 * обновить фильм
 	 */
 	private Film update(Film film) {
-		return storageService.add(film);
+		storageService.add(film);
+		return film;
 	}
 
 	private void logCreation(Film film) {

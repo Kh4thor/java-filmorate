@@ -35,12 +35,12 @@ public class FilmController implements AppController<Film> {
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	@Override
 	public ResponseEntity<Film> createOrUpdate(Film film) {
-		Film f = appService.createOrUpdate(film);
-		if (f == null) {
+		Film filmResponse = appService.createOrUpdate(film);
+		if (filmResponse == null) {
 			log.warn("Неверно заданы параметры фильма {}", film);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(f);
+			return ResponseEntity.status(HttpStatus.OK).body(filmResponse);
 		}
 	}
 
