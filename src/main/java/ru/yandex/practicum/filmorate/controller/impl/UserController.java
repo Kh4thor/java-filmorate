@@ -36,12 +36,12 @@ public class UserController implements AppController<User> {
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	@Override
 	public ResponseEntity<User> createOrUpdate(User user) {
-		User userResponse = appService.createOrUpdate(user);
-		if (userResponse == null) {
+		User responseBody = appService.createOrUpdate(user);
+		if (responseBody == null) {
 			log.warn("Неверно задан запрос или параметры пользователя {}", user);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
 		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(userResponse);
+			return ResponseEntity.status(HttpStatus.OK).body(responseBody);
 		}
 	}
 

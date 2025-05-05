@@ -77,22 +77,10 @@ public class FilmService implements AppService<Film> {
 	}
 
 	/*
-	 * если сгенерированный id- нового фильма совпал с id-добавленного фильма
-	 */
-	private void checkId(Film film) {
-		while (storageService.containsKey(film.getId())) {
-			film.setId(generateId());
-		}
-	}
-
-	/*
 	 * создать фильм
 	 */
 	private Film create(Film film) {
-		if (film.getId() == null || film.getId() == 0) {
-			film.setId(generateId());
-			checkId(film);
-		}
+		film.setId(generateId());
 		return storageService.add(film);
 	}
 

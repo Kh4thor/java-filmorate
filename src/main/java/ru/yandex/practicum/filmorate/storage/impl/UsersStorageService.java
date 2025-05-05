@@ -21,17 +21,12 @@ public class UsersStorageService implements StorageService<User> {
 	// email-список пользователей. Связан с аннотацией @UniqueEmail в классе User.
 	private final List<String> emailList = new ArrayList<>();
 
+	/*
+	 * добавить пользователя в хранилище
+	 */
 	@Override
 	public User add(User user) {
-		/*
-		 * добавление email нового пользователя в email-список
-		 */
-
-		if (!emailList.contains(user.getEmail())) {
-			emailList.add(user.getEmail());
-		} else {
-			updateEmailList(user);
-		}
+		checkEmailList(user);
 		userStorage.put(user.getId(), user);
 		return user;
 	}
@@ -103,14 +98,31 @@ public class UsersStorageService implements StorageService<User> {
 	}
 
 	/*
+	 * отсеживание состояния email-списка
+	 */
+	private void checkEmailList(User user) {
+		if (!emailList.contains(user.getEmail())) {
+			addToEmailList(user);
+		} else {
+			updateEmailList(user);
+		}
+	}
+
+	/*
+	 * добавить пользователя в email-список
+	 */
+	private void addToEmailList(User user) {
+		emailList.add(user.getEmail());
+	}
+
+	/*
 	 * обновление email-списка при обновлении пользователя для метода update
 	 * интерфейса AppService<User>. Связано с аннотацией @UniqueEmail класса User.
 	 */
-
 	private void updateEmailList(User user) {
 		if (userStorage.containsKey(user.getId())) {
-			User u = userStorage.get(user.getId());
-			emailList.remove(u.getEmail());
+			User userFromStorage = userStorage.get(user.getId());
+			emailList.remove(userFromStorage.getEmail());
 			emailList.add(user.getEmail());
 		}
 	}

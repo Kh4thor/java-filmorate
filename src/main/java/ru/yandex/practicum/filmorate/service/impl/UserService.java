@@ -77,23 +77,10 @@ public class UserService implements AppService<User> {
 	}
 
 	/*
-	 * если сгенерированный id- нового пользователя совпал с id-добавленного
-	 * пользователя
-	 */
-	private void checkId(User user) {
-		while (storageService.containsKey(user.getId())) {
-			user.setId(generateId());
-		}
-	}
-
-	/*
 	 * создать пользователя
 	 */
 	private User create(User user) {
-		if (user.getId() == null || user.getId() == 0) {
-			user.setId(generateId());
-			checkId(user);
-		}
+		user.setId(generateId());
 		return storageService.add(user);
 	}
 
