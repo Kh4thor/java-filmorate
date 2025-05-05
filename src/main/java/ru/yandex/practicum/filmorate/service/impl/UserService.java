@@ -32,8 +32,9 @@ public class UserService implements AppService<User> {
 		} else if (storageService.containsKey(user.getId())) {
 			logUpdating(user);
 			return update(user);
-		} else
+		} else {
 			return null;
+		}
 	}
 
 	/*

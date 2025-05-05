@@ -29,10 +29,11 @@ public class FilmService implements AppService<Film> {
 		if (film.getId() == null || film.getId() == 0) {
 			logCreation(film);
 			return create(film);
-		} else {
+		} else if (storageService.containsKey(film.getId())) {
 			logUpdating(film);
 			return update(film);
 		}
+		return null;
 	}
 
 	/*
