@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.film.Film;
+import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.service.AppService;
 import ru.yandex.practicum.filmorate.storage.StorageService;
 
@@ -89,8 +90,10 @@ public class FilmService implements AppService<Film> {
 	 * создать фильм
 	 */
 	private Film create(Film film) {
-		film.setId(generateId());
-		checkId(film);
+		if (film.getId() == null || film.getId() == 0) {
+			film.setId(generateId());
+			checkId(film);
+		}
 		return storageService.add(film);
 	}
 
@@ -98,8 +101,7 @@ public class FilmService implements AppService<Film> {
 	 * обновить фильм
 	 */
 	private Film update(Film film) {
-		storageService.add(film);
-		return film;
+		return storageService.add(film);
 	}
 
 	private void logCreation(Film film) {
