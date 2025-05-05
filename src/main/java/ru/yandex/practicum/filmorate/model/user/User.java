@@ -22,7 +22,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @RestController
 @Name(message = "Имя не было задано. В качестве имени используется логин.")
-@UniqueEmail(message = "Пользователь с таким email уже зарегестрирован")
 public class User {
 
 	// id пользователя
