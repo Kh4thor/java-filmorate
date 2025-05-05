@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.controller.AppController;
@@ -38,7 +39,7 @@ public class UserController implements AppController<User> {
 		User userResponse = appService.createOrUpdate(user);
 		if (userResponse == null) {
 			log.warn("Неверный запрос или параметры пользователя {}", user);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		} else {
 			return ResponseEntity.status(HttpStatus.OK).body(userResponse);
 		}
