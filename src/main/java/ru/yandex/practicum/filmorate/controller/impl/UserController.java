@@ -38,7 +38,7 @@ public class UserController implements AppController<User> {
 		User u = appService.createOrUpdate(user);
 		if (u == null) {
 			log.warn("Неверный запрос или параметры пользователя {}", user);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		} else {
 			return ResponseEntity.status(HttpStatus.OK).body(u);
 		}

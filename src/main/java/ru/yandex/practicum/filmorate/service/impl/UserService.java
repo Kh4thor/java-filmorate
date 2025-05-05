@@ -26,7 +26,7 @@ public class UserService implements AppService<User> {
 	 */
 	@Override
 	public User createOrUpdate(User user) {
-		if (user.getId() == null || user.getId() == 0) {
+		if (user.getId() == null || user.getId() == 0 || !storageService.containsKey(user.getId())) {
 			logCreation(user);
 			return create(user);
 		} else if (storageService.containsKey(user.getId())) {
@@ -77,10 +77,23 @@ public class UserService implements AppService<User> {
 	}
 
 	/*
+	 * если сгенерированный id- нового пользователя совпал с id-добавленного
+	 * пользователя
+	 */
+	private void checkId(User user) {
+		while (storageService.containsKey(user.getId())) {
+			user.setId(generateId());
+		}
+	}
+
+	/*
 	 * создать пользователя
 	 */
 	private User create(User user) {
-		user.setId(generateId());
+		if (user.getId() == null || user.getId() == 0) {
+			user.setId(generateId());
+			checkId(user);
+		}
 		return storageService.add(user);
 	}
 
@@ -94,7 +107,7 @@ public class UserService implements AppService<User> {
 	private void logCreation(User user) {
 		log.info("Начато создание пользователя. Получен объект {}", user);
 		if (user.getId() == null || user.getId() == 0) {
-			log.info("Пользователь {} успешно добавлен", user);
+			log.info("Пользователь успешно добавлен");
 		} else {
 			log.warn("Неверно заданы параметры пользователя {}", user);
 		}

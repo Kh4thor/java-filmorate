@@ -67,6 +67,12 @@ public class User {
 	}
 
 	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", login=" + login + ", email=" + email + ", birthday=" + birthday
+				+ "]";
+	}
+
+	@Override
 	public User clone() throws CloneNotSupportedException {
 		return (User) super.clone();
 	}

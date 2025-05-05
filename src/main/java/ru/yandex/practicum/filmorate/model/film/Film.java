@@ -65,7 +65,14 @@ public class Film implements Cloneable {
 	}
 
 	@Override
+	public String toString() {
+		return "Film [id=" + id + ", name=" + name + ", description=" + description + ", releaseDate=" + releaseDate
+				+ ", duration=" + duration + "]";
+	}
+
+	@Override
 	public Film clone() throws CloneNotSupportedException {
 		return (Film) super.clone();
 	}
+
 }

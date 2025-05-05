@@ -75,10 +75,22 @@ public class FilmService implements AppService<Film> {
 	}
 
 	/*
+	 * если сгенерированный id- нового фильма совпал с id-добавленного фильма
+	 */
+	private void checkId(Film film) {
+		while (storageService.containsKey(film.getId())) {
+			film.setId(generateId());
+		}
+	}
+
+	/*
 	 * создать фильм
 	 */
 	private Film create(Film film) {
-		film.setId(generateId());
+		if (film.getId() == null || film.getId() == 0) {
+			film.setId(generateId());
+			checkId(film);
+		}
 		return storageService.add(film);
 	}
 
@@ -92,7 +104,7 @@ public class FilmService implements AppService<Film> {
 	private void logCreation(Film film) {
 		log.info("Начато создание фильма. Получен объект {}", film);
 		if (film.getId() == null || film.getId() == 0) {
-			log.info("Фильм {} успешно добавлен", film);
+			log.info("Фильм {} успешно добавлен");
 		} else {
 			log.warn("Неверно заданы параметры фильма {}", film);
 		}
