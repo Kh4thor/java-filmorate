@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.service.AppService;
 import ru.yandex.practicum.filmorate.storage.StorageService;
 
