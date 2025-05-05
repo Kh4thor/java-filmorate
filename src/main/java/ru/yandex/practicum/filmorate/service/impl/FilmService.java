@@ -32,8 +32,9 @@ public class FilmService implements AppService<Film> {
 		} else if (storageService.containsKey(film.getId())) {
 			logUpdating(film);
 			return update(film);
+		} else {
+			return null;
 		}
-		return null;
 	}
 
 	/*
