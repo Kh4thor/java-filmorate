@@ -31,7 +31,7 @@ public class FilmService implements AppService<Film> {
 			Film createdFilm = create(film);
 			log.info("Фильм {} успешно добавлен", createdFilm);
 			return createdFilm;
-		} else if (appStorage.containsKey(film.getId())) {
+		} else if (appStorage.isEntityExist(film)) {
 			log.info("Начато обновление фильма. Получен объект {}", film);
 			Film updatedFilm = update(film);
 			log.info("Фильм {} успешно обновлен", updatedFilm);
@@ -72,8 +72,7 @@ public class FilmService implements AppService<Film> {
 	public List<Film> getAll() {
 		return appStorage
 				.getRepository()
-				.values()
-				.stream()
+				.values().stream()
 				.toList();
 	}
 

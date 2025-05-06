@@ -31,7 +31,7 @@ public class UserService implements AppService<User> {
 			User createdUser = create(user);
 			log.info("Пользователь {} успешно добавлен", createdUser);
 			return createdUser;
-		} else if (appStorage.containsKey(user.getId())) {
+		} else if (appStorage.isEntityExist(user)) {
 			log.info("Начато обновление пользователя. Получен объект {}", user);
 			User updatedUser = update(user);
 			log.info("Пользователь {} успешно обновлен", updatedUser);

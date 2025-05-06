@@ -35,8 +35,8 @@ public class FilmsStorage implements AppStorage<Film> {
 	 * проверить хранилище на наличие ключа id-фильма
 	 */
 	@Override
-	public boolean containsKey(Long id) {
-		return appStorage.containsKey(id);
+	public boolean isEntityExist(Film film) {
+		return appStorage.containsKey(film.getId());
 	}
 
 	/*

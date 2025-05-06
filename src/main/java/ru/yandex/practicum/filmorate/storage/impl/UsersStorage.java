@@ -37,8 +37,8 @@ public class UsersStorage implements AppStorage<User> {
 	 * проверить хранилище на наличие ключа id-пользователя
 	 */
 	@Override
-	public boolean containsKey(Long id) {
-		return appStorage.containsKey(id);
+	public boolean isEntityExist(User user) {
+		return appStorage.containsKey(user.getId());
 	}
 
 	/*

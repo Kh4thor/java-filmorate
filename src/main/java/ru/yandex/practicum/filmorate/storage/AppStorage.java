@@ -17,7 +17,7 @@ public interface AppStorage<T> {
 	/*
 	 * проверить хранилище на наличие ключа-id объекта
 	 */
-	boolean containsKey(Long id);
+	boolean isEntityExist(T t);
 
 	/*
 	 * получить объект из хранилища
