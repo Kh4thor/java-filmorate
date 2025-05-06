@@ -6,20 +6,20 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.storage.StorageService;
+import ru.yandex.practicum.filmorate.storage.AppStorage;
 
 @Service
-public class FilmsStorageService implements StorageService<Film> {
+public class FilmsStorage implements AppStorage<Film> {
 
 	// хранилище фильмов
-	private Map<Long, Film> filmStorage = new HashMap<>();
+	private Map<Long, Film> appStorage = new HashMap<>();
 
 	/*
 	 * добавить фильм в хранилище
 	 */
 	@Override
 	public Film add(Film film) {
-		filmStorage.put(film.getId(), film);
+		appStorage.put(film.getId(), film);
 		return film;
 	}
 
@@ -28,7 +28,7 @@ public class FilmsStorageService implements StorageService<Film> {
 	 */
 	@Override
 	public void clear() {
-		filmStorage.clear();
+		appStorage.clear();
 	}
 
 	/*
@@ -36,7 +36,7 @@ public class FilmsStorageService implements StorageService<Film> {
 	 */
 	@Override
 	public boolean containsKey(Long id) {
-		return filmStorage.containsKey(id);
+		return appStorage.containsKey(id);
 	}
 
 	/*
@@ -44,7 +44,7 @@ public class FilmsStorageService implements StorageService<Film> {
 	 */
 	@Override
 	public Film get(Long id) {
-		return filmStorage.get(id);
+		return appStorage.get(id);
 	}
 
 	/*
@@ -52,7 +52,7 @@ public class FilmsStorageService implements StorageService<Film> {
 	 */
 	@Override
 	public Map<Long, Film> getRepository() {
-		return new HashMap<>(filmStorage);
+		return new HashMap<>(appStorage);
 	}
 
 	/*
@@ -60,6 +60,6 @@ public class FilmsStorageService implements StorageService<Film> {
 	 */
 	@Override
 	public Film remove(Long id) {
-		return filmStorage.remove(id);
+		return appStorage.remove(id);
 	}
 }

@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.storage;
 
 import java.util.Map;
 
-public interface StorageService<T> {
+public interface AppStorage<T> {
 
 	/*
 	 * добавить объект в хранилище

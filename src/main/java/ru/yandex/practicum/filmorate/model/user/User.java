@@ -22,7 +22,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @RestController
 @Name(message = "Имя не было задано. В качестве имени используется логин.")
-//@UniqueEmail(message = "Пользователь с таким email уже зарегестрирован")
 public class User {
 
 	// id пользователя
@@ -44,7 +43,6 @@ public class User {
 
 	// день рождения пользователя
 	@Past
-	@Birthday(message = "Пользователь не может быть младше 14 лет.")
 	@NotNull(message = "Поле birhday не может быть null")
 	private LocalDate birthday;
 

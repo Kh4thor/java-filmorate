@@ -16,7 +16,7 @@ class NameValidator implements ConstraintValidator<Name, User> {
 			value.setName(value.getLogin());
 			logInfo(value.getName());
 			return true;
-		} else if (value.getName().isBlank() || value.getName().isEmpty()) {
+		} else if (value.getName().isBlank()) {
 			value.setName(value.getLogin());
 			logInfo(value.getName());
 			return true;

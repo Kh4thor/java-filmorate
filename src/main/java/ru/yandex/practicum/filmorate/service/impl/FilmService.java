@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.film.Film;
 import ru.yandex.practicum.filmorate.service.AppService;
-import ru.yandex.practicum.filmorate.storage.StorageService;
+import ru.yandex.practicum.filmorate.storage.AppStorage;
 
 @Slf4j
 @Service
@@ -15,10 +15,10 @@ public class FilmService implements AppService<Film> {
 
 	private long id = 0;
 
-	StorageService<Film> storageService;
+	AppStorage<Film> appStorage;
 
-	public FilmService(StorageService<Film> storageService) {
-		this.storageService = storageService;
+	public FilmService(AppStorage<Film> appStorage) {
+		this.appStorage = appStorage;
 	}
 
 	/*
@@ -27,11 +27,15 @@ public class FilmService implements AppService<Film> {
 	@Override
 	public Film createOrUpdate(Film film) {
 		if (film.getId() == null || film.getId() == 0) {
-			logCreation(film);
-			return create(film);
-		} else if (storageService.containsKey(film.getId())) {
-			logUpdating(film);
-			return update(film);
+			log.info("Начато создание фильма. Получен объект {}", film);
+			Film createdFilm = create(film);
+			log.info("Фильм {} успешно добавлен", createdFilm);
+			return createdFilm;
+		} else if (appStorage.containsKey(film.getId())) {
+			log.info("Начато обновление фильма. Получен объект {}", film);
+			Film updatedFilm = update(film);
+			log.info("Фильм {} успешно обновлен", updatedFilm);
+			return updatedFilm;
 		} else {
 			return null;
 		}
@@ -42,7 +46,7 @@ public class FilmService implements AppService<Film> {
 	 */
 	@Override
 	public Film delete(long id) {
-		return storageService.remove(id);
+		return appStorage.remove(id);
 	}
 
 	/*
@@ -50,7 +54,7 @@ public class FilmService implements AppService<Film> {
 	 */
 	@Override
 	public void deleteAll() {
-		storageService.clear();
+		appStorage.clear();
 	}
 
 	/*
@@ -58,7 +62,7 @@ public class FilmService implements AppService<Film> {
 	 */
 	@Override
 	public Film get(long id) {
-		return storageService.get(id);
+		return appStorage.get(id);
 	}
 
 	/*
@@ -66,7 +70,11 @@ public class FilmService implements AppService<Film> {
 	 */
 	@Override
 	public List<Film> getAll() {
-		return storageService.getRepository().values().stream().toList();
+		return appStorage
+				.getRepository()
+				.values()
+				.stream()
+				.toList();
 	}
 
 	/*
@@ -81,31 +89,13 @@ public class FilmService implements AppService<Film> {
 	 */
 	private Film create(Film film) {
 		film.setId(generateId());
-		return storageService.add(film);
+		return appStorage.add(film);
 	}
 
 	/*
 	 * обновить фильм
 	 */
 	private Film update(Film film) {
-		return storageService.add(film);
-	}
-
-	private void logCreation(Film film) {
-		log.info("Начато создание фильма. Получен объект {}", film);
-		if (film.getId() == null || film.getId() == 0) {
-			log.info("Фильм {} успешно добавлен");
-		} else {
-			log.warn("Неверно заданы параметры фильма {}", film);
-		}
-	}
-
-	private void logUpdating(Film film) {
-		log.info("Начато обновление фильма. Получен объект {}", film);
-		if (storageService.containsKey(film.getId())) {
-			log.info("Фильм {} успешно обновлен", film);
-		} else {
-			log.warn("Неверно заданы параметры фильма {}", film);
-		}
+		return appStorage.add(film);
 	}
 }

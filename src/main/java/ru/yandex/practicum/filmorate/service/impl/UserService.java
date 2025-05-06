@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.service.AppService;
-import ru.yandex.practicum.filmorate.storage.StorageService;
+import ru.yandex.practicum.filmorate.storage.AppStorage;
 
 @Slf4j
 @Service
@@ -15,23 +15,27 @@ public class UserService implements AppService<User> {
 
 	private long id = 0;
 
-	StorageService<User> storageService;
+	AppStorage<User> appStorage;
 
-	public UserService(StorageService<User> storageService) {
-		this.storageService = storageService;
+	public UserService(AppStorage<User> appStorage) {
+		this.appStorage = appStorage;
 	}
 
 	/*
-	 * создать или обновить пользвателя
+	 * создать или обновить пользователя
 	 */
 	@Override
 	public User createOrUpdate(User user) {
 		if (user.getId() == null || user.getId() == 0) {
-			logCreation(user);
-			return create(user);
-		} else if (storageService.containsKey(user.getId())) {
-			logUpdating(user);
-			return update(user);
+			log.info("Начато создание пользователья. Получен объект {}", user);
+			User createdUser = create(user);
+			log.info("Пользователь {} успешно добавлен", createdUser);
+			return createdUser;
+		} else if (appStorage.containsKey(user.getId())) {
+			log.info("Начато обновление пользователя. Получен объект {}", user);
+			User updatedUser = update(user);
+			log.info("Пользователь {} успешно обновлен", updatedUser);
+			return updatedUser;
 		} else {
 			return null;
 		}
@@ -42,7 +46,7 @@ public class UserService implements AppService<User> {
 	 */
 	@Override
 	public User delete(long id) {
-		return storageService.remove(id);
+		return appStorage.remove(id);
 	}
 
 	/*
@@ -50,7 +54,7 @@ public class UserService implements AppService<User> {
 	 */
 	@Override
 	public void deleteAll() {
-		storageService.clear();
+		appStorage.clear();
 	}
 
 	/*
@@ -58,7 +62,7 @@ public class UserService implements AppService<User> {
 	 */
 	@Override
 	public User get(long id) {
-		return storageService.get(id);
+		return appStorage.get(id);
 	}
 
 	/*
@@ -66,7 +70,11 @@ public class UserService implements AppService<User> {
 	 */
 	@Override
 	public List<User> getAll() {
-		return storageService.getRepository().values().stream().toList();
+		return appStorage
+				.getRepository()
+				.values()
+				.stream()
+				.toList();
 	}
 
 	/*
@@ -81,31 +89,13 @@ public class UserService implements AppService<User> {
 	 */
 	private User create(User user) {
 		user.setId(generateId());
-		return storageService.add(user);
+		return appStorage.add(user);
 	}
 
 	/*
 	 * обновить пользоватедя
 	 */
 	private User update(User user) {
-		return storageService.add(user);
-	}
-
-	private void logCreation(User user) {
-		log.info("Начато создание пользователя. Получен объект {}", user);
-		if (user.getId() == null || user.getId() == 0) {
-			log.info("Пользователь успешно добавлен");
-		} else {
-			log.warn("Неверно заданы параметры пользователя {}", user);
-		}
-	}
-
-	private void logUpdating(User user) {
-		log.info("Начато обновление пользователя. Получен объект {}", user);
-		if (storageService.containsKey(user.getId())) {
-			log.info("Пользователь {} успешно обновлен", user);
-		} else {
-			log.warn("Неверно заданы параметры пользователя {}", user);
-		}
+		return appStorage.add(user);
 	}
 }
