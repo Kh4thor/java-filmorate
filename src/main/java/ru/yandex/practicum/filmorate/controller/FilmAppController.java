@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.validation.Valid;
 
-public interface AppController<T> {
+public interface FilmAppController<T> {
 
 	/*
 	 * создать или обновить объект

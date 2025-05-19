@@ -6,19 +6,24 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.service.AppService;
-import ru.yandex.practicum.filmorate.storage.AppStorage;
+import ru.yandex.practicum.filmorate.service.UserAppService;
+import ru.yandex.practicum.filmorate.storage.FriendsAppStorage;
+import ru.yandex.practicum.filmorate.storage.UserAppStorage;
+import ru.yandex.practicum.filmorate.storage.impl.InMemoryFilmsStorage;
 
 @Slf4j
 @Service
-public class UserService implements AppService<User> {
+public class UserService implements UserAppService<User> {
 
 	private long id = 0;
 
-	AppStorage<User> appStorage;
+	UserAppStorage<User> userAppStorage;
+	FriendsAppStorage<User> associatedEntities;
 
-	public UserService(AppStorage<User> appStorage) {
-		this.appStorage = appStorage;
+	public UserService(UserAppStorage<User> userAppStorage, FriendsAppStorage<User> associatedEntities,
+			InMemoryFilmsStorage inMemoryFilmsStorage) {
+		this.userAppStorage = userAppStorage;
+		this.associatedEntities = associatedEntities;
 	}
 
 	/*
@@ -31,7 +36,7 @@ public class UserService implements AppService<User> {
 			User createdUser = create(user);
 			log.info("Пользователь {} успешно добавлен", createdUser);
 			return createdUser;
-		} else if (appStorage.isEntityExist(user)) {
+		} else if (userAppStorage.isEntityExist(user)) {
 			log.info("Начато обновление пользователя. Получен объект {}", user);
 			User updatedUser = update(user);
 			log.info("Пользователь {} успешно обновлен", updatedUser);
@@ -45,8 +50,9 @@ public class UserService implements AppService<User> {
 	 * удалить пользователя по id
 	 */
 	@Override
-	public User delete(long id) {
-		return appStorage.remove(id);
+	public User delete(long userId) {
+		associatedEntities.deleteEntityFromStorage(userId);
+		return userAppStorage.remove(userId);
 	}
 
 	/*
@@ -54,15 +60,16 @@ public class UserService implements AppService<User> {
 	 */
 	@Override
 	public void deleteAll() {
-		appStorage.clear();
+		associatedEntities.clearStorage();
+		userAppStorage.clear();
 	}
 
 	/*
 	 * получить пользователя по id
 	 */
 	@Override
-	public User get(long id) {
-		return appStorage.get(id);
+	public User get(long userId) {
+		return userAppStorage.get(userId);
 	}
 
 	/*
@@ -70,11 +77,7 @@ public class UserService implements AppService<User> {
 	 */
 	@Override
 	public List<User> getAll() {
-		return appStorage
-				.getRepository()
-				.values()
-				.stream()
-				.toList();
+		return userAppStorage.getRepository().values().stream().toList();
 	}
 
 	/*
@@ -89,13 +92,14 @@ public class UserService implements AppService<User> {
 	 */
 	private User create(User user) {
 		user.setId(generateId());
-		return appStorage.add(user);
+		associatedEntities.addEntityToStorage(user.getId());
+		return userAppStorage.add(user);
 	}
 
 	/*
 	 * обновить пользоватедя
 	 */
 	private User update(User user) {
-		return appStorage.add(user);
+		return userAppStorage.add(user);
 	}
 }

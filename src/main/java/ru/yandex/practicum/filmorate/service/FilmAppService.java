@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import java.util.List;
 
-public interface AppService<T> {
+public interface FilmAppService<T> {
 
 	/*
 	 * создать или обновить объект

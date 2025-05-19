@@ -6,10 +6,10 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.storage.AppStorage;
+import ru.yandex.practicum.filmorate.storage.FilmAppStorage;
 
 @Service
-public class FilmsStorage implements AppStorage<Film> {
+public class InMemoryFilmsStorage implements FilmAppStorage<Film> {
 
 	// хранилище фильмов
 	private Map<Long, Film> appStorage = new HashMap<>();
@@ -32,7 +32,7 @@ public class FilmsStorage implements AppStorage<Film> {
 	}
 
 	/*
-	 * проверить хранилище на наличие ключа id-фильма
+	 * проверить хранилище на наличие объекта
 	 */
 	@Override
 	public boolean isEntityExist(Film film) {
@@ -61,5 +61,13 @@ public class FilmsStorage implements AppStorage<Film> {
 	@Override
 	public Film remove(Long id) {
 		return appStorage.remove(id);
+	}
+
+	/*
+	 * проверить хранилище на наличие объекта по id
+	 */
+	@Override
+	public boolean isEntityExist(long id) {
+		return appStorage.containsKey(id);
 	}
 }

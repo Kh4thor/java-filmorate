@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.storage.AppStorage;
+import ru.yandex.practicum.filmorate.storage.FilmAppStorage;
 
 @Slf4j
 @Service
-public class UsersStorage implements AppStorage<User> {
+public class InMemoryUsersStorage implements FilmAppStorage<User> {
 
 	// хранилище пользователей
 	private Map<Long, User> appStorage = new HashMap<>();
@@ -38,7 +38,7 @@ public class UsersStorage implements AppStorage<User> {
 	 */
 	@Override
 	public boolean isEntityExist(User user) {
-		return appStorage.containsKey(user.getId());
+		return isEntityExist(user.getId());
 	}
 
 	/*
@@ -75,5 +75,10 @@ public class UsersStorage implements AppStorage<User> {
 			log.warn("Пользователь с id={} не найден", id);
 			return null;
 		}
+	}
+
+	@Override
+	public boolean isEntityExist(long id) {
+		return appStorage.containsKey(id);
 	}
 }

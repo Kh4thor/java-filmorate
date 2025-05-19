@@ -2,7 +2,10 @@ package ru.yandex.practicum.filmorate.storage;
 
 import java.util.Map;
 
-public interface AppStorage<T> {
+import org.springframework.stereotype.Service;
+
+@Service
+public interface UserAppStorage<T> {
 
 	/*
 	 * добавить объект в хранилище
@@ -15,9 +18,14 @@ public interface AppStorage<T> {
 	void clear();
 
 	/*
-	 * проверить хранилище на наличие ключа-id объекта
+	 * проверить хранилище на наличие объекта
 	 */
 	boolean isEntityExist(T t);
+
+	/*
+	 * проверить хранилище на наличие ключа-id объекта
+	 */
+	boolean isEntityExist(long id);
 
 	/*
 	 * получить объект из хранилища
