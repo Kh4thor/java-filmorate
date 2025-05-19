@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.storage.impl;
+package ru.yandex.practicum.filmorate.storage.friend.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,8 +9,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.storage.FilmAppStorage;
-import ru.yandex.practicum.filmorate.storage.FriendsAppStorage;
+import ru.yandex.practicum.filmorate.storage.film.FilmAppStorage;
+import ru.yandex.practicum.filmorate.storage.friend.FriendsAppStorage;
 
 @Component
 public class InMemoryFriendsStorage implements FriendsAppStorage<User> {

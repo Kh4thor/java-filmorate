@@ -11,11 +11,10 @@ public class ErrorHandler {
 
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	public ErrorResponse userNotFound(final FriendServiceException e) {
-		return new ErrorResponse("Пользователя с id=" + e.getId()
-				+ " невозможно добавить в друзья. Такой пользователь не зарегестрирован.");
-	}
-	
-	
+	public ErrorResponse thereIsNoSuchUserInStorage(final FriendServiceException e) {
+		return new ErrorResponse ("Пользователя с id=" + e.getHappinessLevel() + " невозможно добавить в друзья. Такой пользователь не зарегистрирован.");
 
+//		return new ErrorResponse("Пользователя с id=" + e.getHappinessLevel()
+//				+ " невозможно добавить в друзья. Такой пользователь не зарегестрирован.");
+	}
 }

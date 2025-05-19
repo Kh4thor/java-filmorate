@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.service.impl;
+package ru.yandex.practicum.filmorate.service.user.impl;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.service.UserAppService;
-import ru.yandex.practicum.filmorate.storage.FriendsAppStorage;
-import ru.yandex.practicum.filmorate.storage.UserAppStorage;
-import ru.yandex.practicum.filmorate.storage.impl.InMemoryFilmsStorage;
+import ru.yandex.practicum.filmorate.service.user.UserAppService;
+import ru.yandex.practicum.filmorate.storage.film.impl.InMemoryFilmsStorage;
+import ru.yandex.practicum.filmorate.storage.friend.FriendsAppStorage;
+import ru.yandex.practicum.filmorate.storage.user.UserAppStorage;
 
 @Slf4j
 @Service

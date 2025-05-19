@@ -1,19 +1,15 @@
 package ru.yandex.practicum.filmorate.exceptions;
 
-import java.io.IOException;
-
-public class FriendServiceException extends IOException {
-
+public class FriendServiceException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
-
-	private long id;
-
-	public FriendServiceException(long id) {
-		this.id = id;
-	}
+	private Long id;
 
 	public long getId() {
 		return id;
+	}
+
+	public FriendServiceException(Long id) {
+		this.id = id;
 	}
 
 }

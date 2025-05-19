@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controller.impl;
+package ru.yandex.practicum.filmorate.controller.film.impl;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.yandex.practicum.filmorate.controller.FilmAppController;
+import ru.yandex.practicum.filmorate.controller.film.FilmAppController;
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.service.FilmAppService;
+import ru.yandex.practicum.filmorate.service.film.FilmAppService;
 
 /*
  * Film

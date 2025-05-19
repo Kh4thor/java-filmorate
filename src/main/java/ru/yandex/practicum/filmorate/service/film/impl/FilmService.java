@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.service.impl;
+package ru.yandex.practicum.filmorate.service.film.impl;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.service.FilmAppService;
-import ru.yandex.practicum.filmorate.storage.FilmAppStorage;
+import ru.yandex.practicum.filmorate.service.film.FilmAppService;
+import ru.yandex.practicum.filmorate.storage.film.FilmAppStorage;
 
 @Slf4j
 @Service

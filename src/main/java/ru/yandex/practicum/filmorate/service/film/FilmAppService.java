@@ -1,8 +1,8 @@
-package ru.yandex.practicum.filmorate.service;
+package ru.yandex.practicum.filmorate.service.film;
 
 import java.util.List;
 
-public interface UserAppService<T> {
+public interface FilmAppService<T> {
 
 	/*
 	 * создать или обновить объект

@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.exceptions;
 
-public class UserServiceException extends Exception {
+public class UserServiceException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.service.impl;
+package ru.yandex.practicum.filmorate.service.friend.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,9 +6,9 @@ import java.util.Optional;
 import ru.yandex.practicum.filmorate.exceptions.FriendServiceException;
 import ru.yandex.practicum.filmorate.exceptions.UserStorageException;
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.service.FriendsAppService;
-import ru.yandex.practicum.filmorate.storage.FilmAppStorage;
-import ru.yandex.practicum.filmorate.storage.FriendsAppStorage;
+import ru.yandex.practicum.filmorate.service.friend.FriendsAppService;
+import ru.yandex.practicum.filmorate.storage.film.FilmAppStorage;
+import ru.yandex.practicum.filmorate.storage.friend.FriendsAppStorage;
 
 public class FriendService implements FriendsAppService {
 

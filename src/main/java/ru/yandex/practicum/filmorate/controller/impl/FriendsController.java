@@ -9,7 +9,7 @@ import ru.yandex.practicum.filmorate.controller.FriendAppController;
 import ru.yandex.practicum.filmorate.exceptions.FriendServiceException;
 import ru.yandex.practicum.filmorate.exceptions.UserServiceException;
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.service.FriendsAppService;
+import ru.yandex.practicum.filmorate.service.friend.FriendsAppService;
 
 @Slf4j
 @RestController
