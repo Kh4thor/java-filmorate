@@ -3,8 +3,9 @@ package ru.yandex.practicum.filmorate.service.friend.impl;
 import java.util.List;
 import java.util.Optional;
 
-import ru.yandex.practicum.filmorate.exceptions.FriendServiceException;
-import ru.yandex.practicum.filmorate.exceptions.UserStorageException;
+import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
+import ru.yandex.practicum.filmorate.exceptions.UsersAreAllreadyFriendsException;
+import ru.yandex.practicum.filmorate.exceptions.UsersAreNotFriendsException;
 import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.service.friend.FriendsAppService;
 import ru.yandex.practicum.filmorate.storage.film.FilmAppStorage;
@@ -20,13 +21,30 @@ public class FriendService implements FriendsAppService {
 		this.associatedEntities = associatedEntities;
 	}
 
-	private void checkUserServiceExceptions(long userOneId, long userTwoId)
-			throws FriendServiceException, UserStorageException {
-		if (!appStorage.isEntityExist(userOneId)) {
-			throw new UserStorageException("Пользователя c id=" + userOneId + " нет в списке");
+	/*
+	 * находятся ли пользователи userOne и userTwo в хранилище
+	 */
+	private void checkUserNotFoundException(long userOneId, long userTwoId) throws UserNotFoundException {
+		checkUserNotFoundException(userOneId);
+		checkUserNotFoundException(userTwoId);
+	}
+
+	/*
+	 * находится ли пользователь user в хранилище
+	 */
+	private void checkUserNotFoundException(long userId) throws UserNotFoundException {
+		if (!appStorage.isEntityExist(userId)) {
+			throw new UserNotFoundException(userId);
 		}
-		if (!appStorage.isEntityExist(userTwoId)) {
-			throw new UserStorageException("Пользователя c id=" + userTwoId + " нет в списке");
+	}
+
+	/*
+	 * являются ли пользователи userOne и userTwo друзьями
+	 */
+	private void checkUsersAreAllredayFriendsException(long userOneId, long userTwoId)
+			throws UsersAreAllreadyFriendsException {
+		if (associatedEntities.isEntitiesAssociated(userOneId, userTwoId)) {
+			throw new UsersAreAllreadyFriendsException(userOneId, userTwoId);
 		}
 	}
 
@@ -35,11 +53,9 @@ public class FriendService implements FriendsAppService {
 	 */
 	@Override
 	public boolean associateUsersAsFriends(long userOneId, long userTwoId)
-			throws FriendServiceException, UserStorageException {
-		if (associatedEntities.isEntitiesAssociated(userOneId, userTwoId)) {
-			throw new FriendServiceException("Пользователи уже друзья");
-		}
-		checkUserServiceExceptions(userOneId, userTwoId);
+			throws UsersAreAllreadyFriendsException, UserNotFoundException {
+		checkUsersAreAllredayFriendsException(userOneId, userTwoId);
+		checkUserNotFoundException(userOneId, userTwoId);
 		associatedEntities.associateEntitiesById(userOneId, userTwoId);
 		return true;
 	}
@@ -56,9 +72,8 @@ public class FriendService implements FriendsAppService {
 	 * убрать пользователей из списка друзей друг друга
 	 */
 	@Override
-	public void disassociateUsersAsFriends(long userOneId, long userTwoId)
-			throws FriendServiceException, UserStorageException {
-		checkUserServiceExceptions(userOneId, userTwoId);
+	public void disassociateUsersAsFriends(long userOneId, long userTwoId) throws UserNotFoundException {
+		checkUserNotFoundException(userOneId, userTwoId);
 		associatedEntities.disassociateEntitiesById(userOneId, userTwoId);
 	}
 
@@ -75,7 +90,9 @@ public class FriendService implements FriendsAppService {
 	 */
 	@Override
 	public List<User> getAllFriendsOfUserById(long userId) {
-		return associatedEntities.getAllAssociatedEntitiesById(userId);
+		List<Long> friendsIdList = associatedEntities.getListIdOfAssociatedEntities(userId);
+		// для каждого id из списка friendsIdList вытаскиваем пользователя из userStorage
+		return friendsIdList.stream().map(id -> appStorage.get(id)).toList();
 	}
 
 	/*
@@ -91,10 +108,12 @@ public class FriendService implements FriendsAppService {
 	}
 
 	@Override
-	public List<User> getCommonFriendsOfUsers(long userOneId, long userTwoId)
-			throws FriendServiceException, UserStorageException {
-		checkUserServiceExceptions(userOneId, userTwoId);
-		associatedEntities.getCommonEntitiesById(userOneId, userTwoId);
-		return null;
+	public List<User> getCommonFriendsOfUsers(long userOneId, long userTwoId) throws UsersAreNotFriendsException {
+		if (isUsersAreFriends(userOneId, userTwoId)) {
+			List<Long> commonFriendsIdList = associatedEntities.getListIdOfCommonEntitiesById(userOneId, userTwoId);
+			// для каждого id из списка friendsIdList вытаскиваем пользоватедя из userStorage
+			return commonFriendsIdList.stream().map(id -> appStorage.get(id)).toList();
+		}
+		throw new UsersAreNotFriendsException(userOneId, userTwoId);
 	}
 }

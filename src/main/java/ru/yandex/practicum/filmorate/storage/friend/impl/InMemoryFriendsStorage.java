@@ -41,7 +41,7 @@ public class InMemoryFriendsStorage implements FriendsAppStorage<User> {
 	}
 
 	/*
-	 * проверка
+	 * проверка, связанны ли сущности
 	 */
 	@Override
 	public boolean isEntitiesAssociated(long userOneId, long userTwoId) {
@@ -53,20 +53,25 @@ public class InMemoryFriendsStorage implements FriendsAppStorage<User> {
 		return false;
 	}
 
-	/*
-	 * получить список друзей (по типу User)
-	 */
 	@Override
-	public List<User> getAllAssociatedEntitiesById(long userId) {
-
-		List<User> friendsList = new ArrayList<>();
-
-		for (long friendId : friendsIdMap.get(userId)) {
-			User friend = appStorage.get(friendId);
-			friendsList.add(friend);
-		}
-		return friendsList;
+	public List<Long> getListIdOfAssociatedEntities(long userId) {
+		return friendsIdMap.get(userId);
 	}
+
+//	/*
+//	 * получить список друзей (по типу User)
+//	 */
+//	@Override //!!!
+//	public List<User> getAllAssociatedEntitiesById(long userId) {
+//
+//		List<User> friendsList = new ArrayList<>();
+//
+//		for (long friendId : friendsIdMap.get(userId)) {
+//			User friend = appStorage.get(friendId);
+//			friendsList.add(friend);
+//		}
+//		return friendsList;
+//	}
 
 	@Override
 	public Optional<User> getAssociatedEntity(long userOneId, long userTwoId) {
@@ -75,14 +80,13 @@ public class InMemoryFriendsStorage implements FriendsAppStorage<User> {
 	}
 
 	@Override
-	public void removeAllAssociatedEntitiesById(long id) {
-		// TODO Auto-generated method stub
+	public void removeAllAssociatedEntitiesById(long userId) {
+		friendsIdMap.remove(userId);
 
 	}
 
 	@Override
-	public List<User> getCommonEntitiesById(long entityOneId, long entityTwoId) {
-		// TODO Auto-generated method stub
+	public List<Long> getListIdOfCommonEntitiesById(long entityOneId, long entityTwoId) {
 		return null;
 	}
 
@@ -108,5 +112,4 @@ public class InMemoryFriendsStorage implements FriendsAppStorage<User> {
 	public void clearStorage() {
 		friendsIdMap.clear();
 	}
-
 }

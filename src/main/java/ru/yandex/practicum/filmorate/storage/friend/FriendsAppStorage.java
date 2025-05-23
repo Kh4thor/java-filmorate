@@ -26,11 +26,6 @@ public interface FriendsAppStorage<T> {
 	boolean isEntitiesAssociated(long entityOneId, long entityTwoId);
 
 	/*
-	 * получить все привязанные сущности к сущности
-	 */
-	List<T> getAllAssociatedEntitiesById(long entityId);
-
-	/*
 	 * получить привязанную сущность
 	 */
 	public Optional<T> getAssociatedEntity(long entityOneId, long entityTwoId);
@@ -41,11 +36,6 @@ public interface FriendsAppStorage<T> {
 	void removeAllAssociatedEntitiesById(long userId);
 
 	/*
-	 * получить список общих сущностией
-	 */
-	List<T> getCommonEntitiesById(long entityOneId, long entityTwoId);
-
-	/*
 	 * удалить сущность из хранилища
 	 */
 	void deleteEntityFromStorage(long id);
@@ -54,4 +44,14 @@ public interface FriendsAppStorage<T> {
 	 * удалить все сущности из хранилища
 	 */
 	void clearStorage();
+
+	/*
+	 * получить id-список связанных сущностей
+	 */
+	List<Long> getListIdOfAssociatedEntities(long userId);
+
+	/*
+	 * получить id-список общих связанных сущностей
+	 */
+	List<Long> getListIdOfCommonEntitiesById(long entityOneId, long entityTwoId);
 }
