@@ -69,15 +69,21 @@ public class FriendService implements FriendsAppService {
 	@Override
 	public List<User> getAllFriendsOfUser(long userId) {
 		List<Long> friendsIdList = friendsAppStorage.getIdListOfAssociatedEntities(userId);
-		// для каждого id из списка friendsIdList вытаскиваем пользователя из userStorage
-		return friendsIdList.stream().map(id -> userAppStorage.get(id)).toList();
+		
+		return friendsIdList
+				.stream()
+				.map(id -> userAppStorage.get(id)) // для каждого id из списка friendsIdList вытаскиваем пользователя из userStorage
+				.toList(); 
 	}
 
 	@Override
 	public List<User> getCommonFriendsOfUsers(long userOneId, long userTwoId) throws UsersAreNotFriendsException {
 		List<Long> commonFriendsIdList = friendsAppStorage.geIdListOfCommonEntities(userOneId, userTwoId);
-		// для каждого id из списка friendsIdList вытаскиваем пользоватедя из userStorage
-		return commonFriendsIdList.stream().map(id -> userAppStorage.get(id)).toList();
+		
+		return commonFriendsIdList
+				.stream()
+				.map(id -> userAppStorage.get(id)) // для каждого id из списка friendsIdList вытаскиваем пользоватедя из userStorage
+				.toList();
 	}
 
 	/*
