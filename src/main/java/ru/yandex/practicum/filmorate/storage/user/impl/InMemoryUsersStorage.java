@@ -3,15 +3,15 @@ package ru.yandex.practicum.filmorate.storage.user.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.storage.film.FilmAppStorage;
+import ru.yandex.practicum.filmorate.storage.user.UserAppStorage;
 
 @Slf4j
-@Service
-public class InMemoryUsersStorage implements FilmAppStorage<User> {
+@Component
+public class InMemoryUsersStorage implements UserAppStorage<User> {
 
 	// хранилище пользователей
 	private Map<Long, User> appStorage = new HashMap<>();

@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.storage.film.FilmAppStorage;
 import ru.yandex.practicum.filmorate.storage.friend.FriendsAppStorage;
 
 @Component
@@ -17,25 +15,22 @@ public class InMemoryFriendsStorage implements FriendsAppStorage<User> {
 
 	Map<Long, List<Long>> friendsIdMap = new HashMap<>();
 
-	FilmAppStorage<User> appStorage;
-
-	public InMemoryFriendsStorage(FilmAppStorage<User> appStorage) {
-		this.appStorage = appStorage;
-	}
-
 	@Override
 	public boolean associateEntitiesById(long userOneId, long userTwoId) {
-		friendsIdMap.get(userOneId);
+		List<Long> friendsIdListOfUserOne = friendsIdMap.get(userOneId);
+		List<Long> friendsIdListOfUserTwo = friendsIdMap.get(userTwoId);
+		friendsIdListOfUserOne.add(userTwoId);
+		friendsIdListOfUserTwo.add(userOneId);
 		return true;
 	}
 
 	@Override
 	public boolean disassociateEntitiesById(long userOneId, long userTwoId) {
-		List<Long> userOneIdFriends = friendsIdMap.get(userOneId);
-		userOneIdFriends.remove(userTwoId);
+		List<Long> friendsIdListOfUserOne = friendsIdMap.get(userOneId);
+		friendsIdListOfUserOne.remove(userTwoId);
 
-		List<Long> userTwoIdFriends = friendsIdMap.get(userTwoId);
-		userTwoIdFriends.remove(userOneId);
+		List<Long> friendsIdListOfUserTwo = friendsIdMap.get(userTwoId);
+		friendsIdListOfUserTwo.remove(userOneId);
 
 		return true;
 	}
@@ -45,38 +40,17 @@ public class InMemoryFriendsStorage implements FriendsAppStorage<User> {
 	 */
 	@Override
 	public boolean isEntitiesAssociated(long userOneId, long userTwoId) {
-		List<Long> userOneIdFriends = friendsIdMap.get(userOneId);
-		List<Long> userTwoIdFriends = friendsIdMap.get(userTwoId);
-		if (userOneIdFriends.contains(userTwoId) && userTwoIdFriends.contains(userOneId)) {
+		List<Long> friendsIdListOfUserOne = friendsIdMap.get(userOneId);
+		List<Long> friendsIdListOfUserTwo = friendsIdMap.get(userTwoId);
+		if (friendsIdListOfUserOne.contains(userTwoId) && friendsIdListOfUserTwo.contains(userOneId)) {
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public List<Long> getListIdOfAssociatedEntities(long userId) {
+	public List<Long> getIdListOfAssociatedEntities(long userId) {
 		return friendsIdMap.get(userId);
-	}
-
-//	/*
-//	 * получить список друзей (по типу User)
-//	 */
-//	@Override //!!!
-//	public List<User> getAllAssociatedEntitiesById(long userId) {
-//
-//		List<User> friendsList = new ArrayList<>();
-//
-//		for (long friendId : friendsIdMap.get(userId)) {
-//			User friend = appStorage.get(friendId);
-//			friendsList.add(friend);
-//		}
-//		return friendsList;
-//	}
-
-	@Override
-	public Optional<User> getAssociatedEntity(long userOneId, long userTwoId) {
-		User friend = appStorage.get(userTwoId);
-		return Optional.of(friend);
 	}
 
 	@Override
@@ -86,8 +60,17 @@ public class InMemoryFriendsStorage implements FriendsAppStorage<User> {
 	}
 
 	@Override
-	public List<Long> getListIdOfCommonEntitiesById(long entityOneId, long entityTwoId) {
-		return null;
+	public List<Long> geIdListOfCommonEntities(long userOneId, long userTwoId) {
+		List<Long> ListIdOfCommonEntities = new ArrayList<>();
+		List<Long> friendsIdListOfUserOne = friendsIdMap.get(userOneId);
+		List<Long> friendsIdListOfUserTwo = friendsIdMap.get(userTwoId);
+
+		for (long friendId : friendsIdListOfUserOne) {
+			if (friendsIdListOfUserTwo.contains(friendId)) {
+				ListIdOfCommonEntities.add(friendId);
+			}
+		}
+		return ListIdOfCommonEntities;
 	}
 
 	@Override

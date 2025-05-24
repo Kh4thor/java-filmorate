@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.springframework.stereotype.Component;
+
 import ru.yandex.practicum.filmorate.storage.like.LikesAppStorage;
 
+@Component
 public class InMemoryLikesStorage implements LikesAppStorage {
 
 	private Map<Long, Long> filmLikesMap = new TreeMap<>();

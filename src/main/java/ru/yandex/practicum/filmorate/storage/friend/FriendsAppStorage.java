@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.friend;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface FriendsAppStorage<T> {
 
@@ -26,11 +25,6 @@ public interface FriendsAppStorage<T> {
 	boolean isEntitiesAssociated(long entityOneId, long entityTwoId);
 
 	/*
-	 * получить привязанную сущность
-	 */
-	public Optional<T> getAssociatedEntity(long entityOneId, long entityTwoId);
-
-	/*
 	 * удалить у сущности все привязанные сущности
 	 */
 	void removeAllAssociatedEntitiesById(long userId);
@@ -48,10 +42,10 @@ public interface FriendsAppStorage<T> {
 	/*
 	 * получить id-список связанных сущностей
 	 */
-	List<Long> getListIdOfAssociatedEntities(long userId);
+	List<Long> getIdListOfAssociatedEntities(long userId);
 
 	/*
 	 * получить id-список общих связанных сущностей
 	 */
-	List<Long> getListIdOfCommonEntitiesById(long entityOneId, long entityTwoId);
+	List<Long> geIdListOfCommonEntities(long entityOneId, long entityTwoId);
 }

@@ -18,12 +18,12 @@ public class UserService implements UserAppService<User> {
 	private long id = 0;
 
 	UserAppStorage<User> userAppStorage;
-	FriendsAppStorage<User> associatedEntities;
+	FriendsAppStorage<User> friendsAppStorage;
 
-	public UserService(UserAppStorage<User> userAppStorage, FriendsAppStorage<User> associatedEntities,
+	public UserService(UserAppStorage<User> userAppStorage, FriendsAppStorage<User> friendsAppStorage,
 			InMemoryFilmsStorage inMemoryFilmsStorage) {
 		this.userAppStorage = userAppStorage;
-		this.associatedEntities = associatedEntities;
+		this.friendsAppStorage = friendsAppStorage;
 	}
 
 	/*
@@ -51,7 +51,7 @@ public class UserService implements UserAppService<User> {
 	 */
 	@Override
 	public User delete(long userId) {
-		associatedEntities.deleteEntityFromStorage(userId);
+		friendsAppStorage.deleteEntityFromStorage(userId);
 		return userAppStorage.remove(userId);
 	}
 
@@ -60,7 +60,7 @@ public class UserService implements UserAppService<User> {
 	 */
 	@Override
 	public void deleteAll() {
-		associatedEntities.clearStorage();
+		friendsAppStorage.clearStorage();
 		userAppStorage.clear();
 	}
 
@@ -92,7 +92,7 @@ public class UserService implements UserAppService<User> {
 	 */
 	private User create(User user) {
 		user.setId(generateId());
-		associatedEntities.addEntityToStorage(user.getId());
+		friendsAppStorage.addEntityToStorage(user.getId());
 		return userAppStorage.add(user);
 	}
 

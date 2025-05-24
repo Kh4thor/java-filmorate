@@ -1,11 +1,7 @@
 package ru.yandex.practicum.filmorate.service.friend;
 
 import java.util.List;
-import java.util.Optional;
 
-import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
-import ru.yandex.practicum.filmorate.exceptions.UsersAreAllreadyFriendsException;
-import ru.yandex.practicum.filmorate.exceptions.UsersAreNotFriendsException;
 import ru.yandex.practicum.filmorate.model.user.User;
 
 public interface FriendsAppService {
@@ -13,8 +9,7 @@ public interface FriendsAppService {
 	/*
 	 * объеденить пользователей в друзья
 	 */
-	boolean associateUsersAsFriends(long userOneId, long userTwoId)
-			throws UsersAreAllreadyFriendsException, UserNotFoundException;
+	boolean associateUsersAsFriends(long userOneId, long userTwoId);
 
 	/*
 	 * проверка пользователей, являются ли они друзьями
@@ -24,7 +19,7 @@ public interface FriendsAppService {
 	/*
 	 * убрать пользователей из списка друзей друг друга
 	 */
-	void disassociateUsersAsFriends(long userOneId, long userTwoId) throws UserNotFoundException;
+	boolean disassociateUsersAsFriends(long userOneId, long userTwoId);
 
 	/*
 	 * очистить список друзей пользователя
@@ -34,16 +29,10 @@ public interface FriendsAppService {
 	/*
 	 * получить список всех друзей (по типу User)
 	 */
-	List<User> getAllFriendsOfUserById(long userId);
+	List<User> getAllFriendsOfUser(long userId);
 
 	/*
 	 * получить список всех друзей (по типу User)
 	 */
-	List<User> getCommonFriendsOfUsers(long userOneId, long userTwoId) throws UsersAreNotFriendsException;
-
-	/*
-	 * получить друга (по типу User)
-	 */
-	Optional<User> getFriendOfUser(long userId, long friendId);
-
+	List<User> getCommonFriendsOfUsers(long userOneId, long userTwoId);
 }
