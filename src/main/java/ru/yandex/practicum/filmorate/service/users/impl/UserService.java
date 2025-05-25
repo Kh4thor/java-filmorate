@@ -82,7 +82,11 @@ public class UserService implements UserAppService<User> {
 	 */
 	@Override
 	public List<User> getAllUsers() {
-		return usersAppStorage.getRepository().values().stream().toList();
+		return usersAppStorage
+				.getRepository()
+				.values()
+				.stream()
+				.toList();
 	}
 
 	/*
