@@ -31,7 +31,7 @@ public class FriendService implements FriendsAppService {
 	@Override
 	public boolean associateUsersAsFriends(long userOneId, long userTwoId) {
 		String error = "Невозможно добавить пользователя в друзья";
-		exceptionsChecker.checkUsersAreAllredayFriendsException(userOneId, userTwoId, error);
+		exceptionsChecker.checkUsersAreFriendsException(userOneId, userTwoId, error);
 		exceptionsChecker.checkUserNotFoundException(userOneId, error);
 		exceptionsChecker.checkUserNotFoundException(userTwoId, error);
 		friendsAppStorage.associateUsersAsFriends(userOneId, userTwoId);
@@ -75,9 +75,9 @@ public class FriendService implements FriendsAppService {
 	public List<User> getAllFriendsOfUser(long userId) {
 		List<Long> friendsIdList = friendsAppStorage.getIdListOfAssociatedFriends(userId);
 
-		return friendsIdList.stream().map(id -> usersAppStorage.getUser(id)) // для каждого id из списка friendsIdList
-																				// вытаскиваем пользователя из
-																				// userStorage
+		return friendsIdList
+				.stream()
+				.map(id -> usersAppStorage.getUser(id)) // для каждого id из списка friendsIdList вытаскиваем пользователя из userStorage
 				.toList();
 	}
 
@@ -85,10 +85,9 @@ public class FriendService implements FriendsAppService {
 	public List<User> getCommonFriendsOfUsers(long userOneId, long userTwoId) throws UsersAreNotFriendsException {
 		List<Long> commonFriendsIdList = friendsAppStorage.geIdListOfCommonFriends(userOneId, userTwoId);
 
-		return commonFriendsIdList.stream().map(id -> usersAppStorage.getUser(id)) // для каждого id из списка
-																					// friendsIdList
-																					// вытаскиваем пользоватедя из
-																					// userStorage
+		return commonFriendsIdList
+				.stream()
+				.map(id -> usersAppStorage.getUser(id)) // для каждого id из списка friendsIdList вытаскиваем пользоватедя из userStorage
 				.toList();
 	}
 }

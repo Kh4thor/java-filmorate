@@ -96,7 +96,12 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 		}
 		LinkedList<Long> idListOfFilmsIdByRate = new LinkedList<>();
 
-		filmLikesMap.values().stream().flatMap(List::stream).limit(countOfFilms).forEach(idListOfFilmsIdByRate::add);
+		filmLikesMap
+		.values()
+		.stream()
+		.flatMap(List::stream)
+		.limit(countOfFilms)
+		.forEach(idListOfFilmsIdByRate::add);
 
 		return idListOfFilmsIdByRate;
 	}

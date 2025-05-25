@@ -1,13 +1,11 @@
 package ru.yandex.practicum.filmorate.exceptions.exceptionsChecker;
 
-import ru.yandex.practicum.filmorate.exceptions.userExceptions.UserNotFoundException;
-
 public interface ExceptionsAppChecker {
 
 	/*
 	 * проверка на ошибку - фильм уже существует
 	 */
-	void checkFilmAllreadyExist(long filmId, String error);
+	void checkFilmIsExistException(long filmId, String error);
 
 	/*
 	 * проверка на ошибку - фильм не найден
@@ -17,17 +15,17 @@ public interface ExceptionsAppChecker {
 	/*
 	 * проверка на ошибку - пользователь не найден
 	 */
-	void checkUserNotFoundException(long userId, String error) throws UserNotFoundException;
+	void checkUserNotFoundException(long userId, String error);
 
 	/*
 	 * проверка на ошибку - пользователь не найден
 	 */
-	void checkUserAllreadyExist(long userId, String error) throws UserNotFoundException;
+	void checkUserIsExistException(long userId, String error);
 
 	/*
 	 * проверка на ошибку - пользователи уже друзья
 	 */
-	void checkUsersAreAllredayFriendsException(long userOneId, long userTwoId, String error);
+	void checkUsersAreFriendsException(long userOneId, long userTwoId, String error);
 
 	/*
 	 * проверка на ошибку - пользователи не являются друзьями

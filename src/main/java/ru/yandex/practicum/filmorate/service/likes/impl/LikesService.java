@@ -59,7 +59,9 @@ public class LikesService implements LikesAppService {
 		List<Long> ratedFilmsIdList = likesAppStorage.getIdListOfFilmsIdByRate(count);
 		Map<Long, Film> filmsRepository = filmsAppStorage.getRepository();
 
-		List<Film> ratedFilmsList = ratedFilmsIdList.stream().map(id -> filmsRepository.get(id)).toList();
+		List<Film> ratedFilmsList =	ratedFilmsIdList
+				.stream()
+				.map(id -> filmsRepository.get(id)).toList();
 
 		if (ratedFilmsList.isEmpty()) {
 			log.info("Список рейтинговых фильмов пуст");

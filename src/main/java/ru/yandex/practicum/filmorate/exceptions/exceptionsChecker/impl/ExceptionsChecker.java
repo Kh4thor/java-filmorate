@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.impl;
 
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.ExceptionsAppChecker;
 import ru.yandex.practicum.filmorate.exceptions.filmExceptions.FilmAllreadyExistException;
 import ru.yandex.practicum.filmorate.exceptions.filmExceptions.FilmNotFoundException;
@@ -16,6 +17,7 @@ import ru.yandex.practicum.filmorate.storage.friends.FriendsAppStorage;
 import ru.yandex.practicum.filmorate.storage.likes.LikesAppStorage;
 import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 
+@Slf4j
 @Component
 public class ExceptionsChecker implements ExceptionsAppChecker {
 
@@ -36,9 +38,11 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 * проверка на ошибку - фильм уже существует
 	 */
 	@Override
-	public void checkFilmAllreadyExist(long filmId, String error) {
-		if (likesAppStorage.isFilmExist(filmId)) {
-			throw new FilmAllreadyExistException(filmId, error);
+	public void checkFilmIsExistException(long filmId, String error) {
+		if (filmsAppStorage.isFilmExist(filmId)) {
+			RuntimeException exception = new FilmAllreadyExistException(filmId, error);
+			log.warn(error + " " + exception.getMessage());
+			throw exception;
 		}
 	}
 
@@ -47,8 +51,10 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 */
 	@Override
 	public void checkFilmNotFoundException(long filmId, String error) {
-		if (!likesAppStorage.isFilmExist(filmId)) {
-			throw new FilmNotFoundException(filmId, error);
+		if (filmsAppStorage.isFilmExist(filmId) == false) {
+			RuntimeException exception = new FilmNotFoundException(filmId, error);
+			log.warn(error + " " + exception.getMessage());
+			throw exception;
 		}
 	}
 
@@ -56,19 +62,23 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 * проверка на ошибку - пользователь не найден
 	 */
 	@Override
-	public void checkUserNotFoundException(long userId, String error) throws UserNotFoundException {
-		if (!usersAppStorage.isUserExist(userId)) {
-			throw new UserNotFoundException(userId, error);
+	public void checkUserNotFoundException(long userId, String error) {
+		if (usersAppStorage.isUserExist(userId) == false) {
+			RuntimeException exception = new UserNotFoundException(userId, error);
+			log.warn(error + " " + exception.getMessage());
+			throw exception;
 		}
 	}
 
 	/*
-	 * проверка на ошибку - пользователь не найден
+	 * проверка на ошибку - пользователь уже создан
 	 */
 	@Override
-	public void checkUserAllreadyExist(long userId, String error) throws UserNotFoundException {
-		if (!usersAppStorage.isUserExist(userId)) {
-			throw new UserAllreadyExistException(userId, error);
+	public void checkUserIsExistException(long userId, String error) {
+		if (usersAppStorage.isUserExist(userId) == false) {
+			RuntimeException exception = new UserAllreadyExistException(userId, error);
+			log.warn(error + " " + exception.getMessage());
+			throw exception;
 		}
 	}
 
@@ -76,9 +86,11 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 * проверка на ошибку - пользователи уже друзья
 	 */
 	@Override
-	public void checkUsersAreAllredayFriendsException(long userOneId, long userTwoId, String error) {
+	public void checkUsersAreFriendsException(long userOneId, long userTwoId, String error) {
 		if (friendsAppStorage.isUsersAssociatedAsFriends(userOneId, userTwoId)) {
-			throw new UsersAreAllreadyFriendsException(userOneId, userTwoId, error);
+			RuntimeException exception = new UsersAreAllreadyFriendsException(userOneId, userTwoId, error);
+			log.warn(error + " " + exception.getMessage());
+			throw exception;
 		}
 	}
 
@@ -87,8 +99,10 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 */
 	@Override
 	public void checkUsersAreNotFriendsException(long userOneId, long userTwoId, String error) {
-		if (!friendsAppStorage.isUsersAssociatedAsFriends(userOneId, userTwoId)) {
-			throw new UsersAreNotFriendsException(userOneId, userTwoId, error);
+		if (friendsAppStorage.isUsersAssociatedAsFriends(userOneId, userTwoId) == false) {
+			RuntimeException exception = new UsersAreNotFriendsException(userOneId, userTwoId, error);
+			log.warn(error + " " + exception.getMessage());
+			throw exception;
 		}
 	}
 

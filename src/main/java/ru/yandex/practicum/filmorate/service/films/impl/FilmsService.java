@@ -55,7 +55,7 @@ public class FilmsService implements FilmsAppService<Film> {
 	 */
 	@Override
 	public Film delete(long filmId) {
-		String error = "Невозможно удалить фильм из хранилища лайков.";
+		String error = "Невозможно удалить фильм.";
 		exceptionsAppChecker.checkFilmNotFoundException(filmId, error);
 		likesAppStorage.deleteFilm(filmId);
 		log.info("Фильм с id=" + filmId + " удален");
@@ -110,7 +110,7 @@ public class FilmsService implements FilmsAppService<Film> {
 	private Film create(Film film) {
 		String error = "Невозможно создать фильм";
 		film.setId(generateId());
-		exceptionsAppChecker.checkFilmAllreadyExist(film.getId(), error);
+		exceptionsAppChecker.checkFilmIsExistException(film.getId(), error);
 		likesAppStorage.addFilm(film.getId());
 		return filmsAppStorage.addFilm(film);
 	}
