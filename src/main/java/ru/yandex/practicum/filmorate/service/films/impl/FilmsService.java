@@ -56,7 +56,7 @@ public class FilmsService implements FilmsAppService<Film> {
 	@Override
 	public Film delete(long filmId) {
 		String error = "Невозможно удалить фильм из хранилища лайков.";
-		exceptionsAppChecker.checkFilmNotFoundException(filmId, error);
+//		exceptionsAppChecker.checkFilmNotFoundException(filmId, error);
 		likesAppStorage.deleteFromLikesStorage(filmId);
 		log.info("Фильм с id=" + filmId + " удален");
 		return filmsAppStorage.remove(filmId);
@@ -84,11 +84,7 @@ public class FilmsService implements FilmsAppService<Film> {
 	 */
 	@Override
 	public List<Film> getAll() {
-		return filmsAppStorage
-				.getRepository()
-				.values()
-				.stream()
-				.toList();
+		return filmsAppStorage.getRepository().values().stream().toList();
 	}
 
 	/*
@@ -125,6 +121,7 @@ public class FilmsService implements FilmsAppService<Film> {
 	private Film update(Film film) {
 		String error = "Невозможно обновить фильм";
 		exceptionsAppChecker.checkFilmNotFoundException(film.getId(), error);
+		likesAppStorage.addToLikesStorage(film.getId());
 		return filmsAppStorage.add(film);
 	}
 
