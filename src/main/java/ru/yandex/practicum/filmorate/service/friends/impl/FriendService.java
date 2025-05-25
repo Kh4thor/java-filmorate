@@ -34,7 +34,7 @@ public class FriendService implements FriendsAppService {
 		exceptionsChecker.checkUsersAreAllredayFriendsException(userOneId, userTwoId, error);
 		exceptionsChecker.checkUserNotFoundException(userOneId, error);
 		exceptionsChecker.checkUserNotFoundException(userTwoId, error);
-		friendsAppStorage.associateEntitiesById(userOneId, userTwoId);
+		friendsAppStorage.associateUsersAsFriends(userOneId, userTwoId);
 		return true;
 	}
 
@@ -43,7 +43,7 @@ public class FriendService implements FriendsAppService {
 	 */
 	@Override
 	public boolean isUsersAreFriends(long userOneId, long userTwoId) {
-		return friendsAppStorage.isEntitiesAssociated(userOneId, userTwoId);
+		return friendsAppStorage.isUsersAssociatedAsFriends(userOneId, userTwoId);
 	}
 
 	/*
@@ -54,7 +54,7 @@ public class FriendService implements FriendsAppService {
 		String error = "Невозможно удалить пользователя из друзей";
 		exceptionsChecker.checkUserNotFoundException(userOneId, error);
 		exceptionsChecker.checkUserNotFoundException(userTwoId, error);
-		friendsAppStorage.disassociateEntitiesById(userOneId, userTwoId);
+		friendsAppStorage.disassociateUserAsFriends(userOneId, userTwoId);
 		return true;
 	}
 
@@ -65,7 +65,7 @@ public class FriendService implements FriendsAppService {
 	public void disassociateAllFriendsOfUser(long userId) {
 		String error = "Невозможно удалить друзей пользователя";
 		exceptionsChecker.checkUserNotFoundException(userId, error);
-		friendsAppStorage.removeAllAssociatedEntitiesById(userId);
+		friendsAppStorage.removeAllAssociatedFriendsOfUser(userId);
 	}
 
 	/*
@@ -73,20 +73,22 @@ public class FriendService implements FriendsAppService {
 	 */
 	@Override
 	public List<User> getAllFriendsOfUser(long userId) {
-		List<Long> friendsIdList = friendsAppStorage.getIdListOfAssociatedEntities(userId);
+		List<Long> friendsIdList = friendsAppStorage.getIdListOfAssociatedFriends(userId);
 
-		return friendsIdList.stream().map(id -> usersAppStorage.get(id)) // для каждого id из списка friendsIdList
-																			// вытаскиваем пользователя из userStorage
+		return friendsIdList.stream().map(id -> usersAppStorage.getUser(id)) // для каждого id из списка friendsIdList
+																				// вытаскиваем пользователя из
+																				// userStorage
 				.toList();
 	}
 
 	@Override
 	public List<User> getCommonFriendsOfUsers(long userOneId, long userTwoId) throws UsersAreNotFriendsException {
-		List<Long> commonFriendsIdList = friendsAppStorage.geIdListOfCommonEntities(userOneId, userTwoId);
+		List<Long> commonFriendsIdList = friendsAppStorage.geIdListOfCommonFriends(userOneId, userTwoId);
 
-		return commonFriendsIdList.stream().map(id -> usersAppStorage.get(id)) // для каждого id из списка friendsIdList
-																				// вытаскиваем пользоватедя из
-																				// userStorage
+		return commonFriendsIdList.stream().map(id -> usersAppStorage.getUser(id)) // для каждого id из списка
+																					// friendsIdList
+																					// вытаскиваем пользоватедя из
+																					// userStorage
 				.toList();
 	}
 }

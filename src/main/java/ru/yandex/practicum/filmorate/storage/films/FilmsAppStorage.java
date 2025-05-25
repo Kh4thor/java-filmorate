@@ -7,7 +7,7 @@ public interface FilmsAppStorage<T> {
 	/*
 	 * добавить объект в хранилище
 	 */
-	T add(T t);
+	T addFilm(T t);
 
 	/*
 	 * очистить хранилище
@@ -17,17 +17,17 @@ public interface FilmsAppStorage<T> {
 	/*
 	 * проверить хранилище на наличие объекта
 	 */
-	boolean isEntityExist(T t);
+	boolean isFilmExist(T t);
 
 	/*
 	 * проверить хранилище на наличие ключа-id объекта
 	 */
-	boolean isEntityExist(long id);
+	boolean isFilmExist(long id);
 
 	/*
 	 * получить объект из хранилища
 	 */
-	T get(Long id);
+	T getFilm(Long id);
 
 	/*
 	 * получить хранилище
@@ -37,5 +37,5 @@ public interface FilmsAppStorage<T> {
 	/*
 	 * удалить объект из хранилища
 	 */
-	T remove(Long id);
+	T removeFilm(Long id);
 }

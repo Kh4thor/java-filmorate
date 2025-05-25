@@ -18,7 +18,7 @@ public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 	 * добавить фильм в хранилище
 	 */
 	@Override
-	public Film add(Film film) {
+	public Film addFilm(Film film) {
 		appStorage.put(film.getId(), film);
 		return film;
 	}
@@ -35,7 +35,7 @@ public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 	 * проверить хранилище на наличие объекта
 	 */
 	@Override
-	public boolean isEntityExist(Film film) {
+	public boolean isFilmExist(Film film) {
 		return appStorage.containsKey(film.getId());
 	}
 
@@ -43,7 +43,7 @@ public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 	 * получить фильм из хранилища
 	 */
 	@Override
-	public Film get(Long id) {
+	public Film getFilm(Long id) {
 		return appStorage.get(id);
 	}
 
@@ -59,7 +59,7 @@ public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 	 * удалить фильм из хранилища
 	 */
 	@Override
-	public Film remove(Long id) {
+	public Film removeFilm(Long id) {
 		return appStorage.remove(id);
 	}
 
@@ -67,7 +67,7 @@ public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 	 * проверить хранилище на наличие объекта по id
 	 */
 	@Override
-	public boolean isEntityExist(long id) {
+	public boolean isFilmExist(long id) {
 		return appStorage.containsKey(id);
 	}
 }

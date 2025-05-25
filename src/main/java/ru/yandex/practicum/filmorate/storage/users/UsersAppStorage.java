@@ -5,9 +5,9 @@ import java.util.Map;
 public interface UsersAppStorage<T> {
 
 	/*
-	 * добавить объект в хранилище
+	 * добавить пользователя в хранилище
 	 */
-	T add(T t);
+	T addUser(T t);
 
 	/*
 	 * очистить хранилище
@@ -15,19 +15,19 @@ public interface UsersAppStorage<T> {
 	void clear();
 
 	/*
-	 * проверить хранилище на наличие объекта
+	 * проверить хранилище на наличие пользователя
 	 */
-	boolean isEntityExist(T t);
+	boolean isUserExist(T t);
 
 	/*
-	 * проверить хранилище на наличие ключа-id объекта
+	 * проверить хранилище на наличие пользователя
 	 */
-	boolean isEntityExist(long id);
+	boolean isUserExist(long id);
 
 	/*
-	 * получить объект из хранилища
+	 * получить пользователя из хранилища
 	 */
-	T get(Long id);
+	T getUser(Long id);
 
 	/*
 	 * получить хранилище
@@ -35,7 +35,7 @@ public interface UsersAppStorage<T> {
 	Map<Long, T> getRepository();
 
 	/*
-	 * удалить объект из хранилища
+	 * удалить пользователя из хранилища
 	 */
-	T remove(Long id);
+	T removeUser(Long id);
 }

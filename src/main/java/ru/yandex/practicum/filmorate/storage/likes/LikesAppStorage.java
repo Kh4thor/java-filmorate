@@ -7,7 +7,7 @@ public interface LikesAppStorage {
 	/*
 	 * добавиить фильм в хранилище-счетчик
 	 */
-	boolean addToLikesStorage(long filmId);
+	boolean addFilm(long filmId);
 
 	/*
 	 * поставить лайк фильму
@@ -37,12 +37,12 @@ public interface LikesAppStorage {
 	/*
 	 * удалить фильм из хранаилища-счетчика
 	 */
-	boolean deleteFromLikesStorage(long filmId);
+	boolean deleteFilm(long filmId);
 
 	/*
 	 * проверка на наличие id-фильма в хранилище-счетчике
 	 */
-	boolean isFilmInLikesAppStorageExist(long filmId);
+	boolean isFilmExist(long filmId);
 
 	/*
 	 * удалить все фильмы из хранилища-счетчика

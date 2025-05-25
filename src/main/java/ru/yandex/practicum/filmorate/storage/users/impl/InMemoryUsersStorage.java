@@ -20,7 +20,7 @@ public class InMemoryUsersStorage implements UsersAppStorage<User> {
 	 * добавить пользователя в хранилище
 	 */
 	@Override
-	public User add(User user) {
+	public User addUser(User user) {
 		appStorage.put(user.getId(), user);
 		return user;
 	}
@@ -34,18 +34,10 @@ public class InMemoryUsersStorage implements UsersAppStorage<User> {
 	}
 
 	/*
-	 * проверить хранилище на наличие ключа id-пользователя
-	 */
-	@Override
-	public boolean isEntityExist(User user) {
-		return isEntityExist(user.getId());
-	}
-
-	/*
 	 * получить пользователя из хранилища
 	 */
 	@Override
-	public User get(Long id) {
+	public User getUser(Long id) {
 		if (appStorage.containsKey(id)) {
 			return appStorage.get(id);
 		} else {
@@ -66,7 +58,7 @@ public class InMemoryUsersStorage implements UsersAppStorage<User> {
 	 * удалить пользователя из хранилища
 	 */
 	@Override
-	public User remove(Long id) {
+	public User removeUser(Long id) {
 		if (appStorage.containsKey(id)) {
 			User deletedUser = appStorage.remove(id);
 			log.warn("Пользователь с id={} удален", id);
@@ -77,8 +69,19 @@ public class InMemoryUsersStorage implements UsersAppStorage<User> {
 		}
 	}
 
+	/*
+	 * проверить хранилище на наличие пользователя
+	 */
 	@Override
-	public boolean isEntityExist(long id) {
+	public boolean isUserExist(User user) {
+		return isUserExist(user.getId());
+	}
+
+	/*
+	 * проверить хранилище на наличие пользователя
+	 */
+	@Override
+	public boolean isUserExist(long id) {
 		return appStorage.containsKey(id);
 	}
 }

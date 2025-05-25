@@ -36,7 +36,7 @@ public class UserController implements UsersAppController<User> {
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	@Override
 	public ResponseEntity<User> createOrUpdate(User user) {
-		User responseBody = userAppService.createOrUpdate(user);
+		User responseBody = userAppService.createOrUpdateUser(user);
 		if (responseBody == null) {
 			log.warn("Неверно задан запрос или параметры пользователя {}", user);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -52,7 +52,7 @@ public class UserController implements UsersAppController<User> {
 	@Override
 	public ResponseEntity<User> delete(long id) {
 		log.info("Начато удаление пользователя. Получен id={}", id);
-		User u = userAppService.delete(id);
+		User u = userAppService.deleteUser(id);
 		if (u == null) {
 			log.warn("Фильм с id={} в списке не найден", id);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -69,7 +69,7 @@ public class UserController implements UsersAppController<User> {
 	@Override
 	public void deleteAll() {
 		log.info("Начато удаление всех пользователей.");
-		userAppService.deleteAll();
+		userAppService.deleteAllUsers();
 		log.info("Все пользователи удалены.");
 	}
 
@@ -80,12 +80,12 @@ public class UserController implements UsersAppController<User> {
 	@Override
 	public ResponseEntity<User> get(long id) {
 		log.info("Начат вызов пользователя. Получен id={}", id);
-		if (userAppService.delete(id) == null) {
+		if (userAppService.deleteUser(id) == null) {
 			log.warn("Пользователь с id={} в списке не найден", id);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		} else {
 			log.info("Пользователь с id={} получен", id);
-			return ResponseEntity.status(HttpStatus.OK).body(userAppService.get(id));
+			return ResponseEntity.status(HttpStatus.OK).body(userAppService.getUser(id));
 		}
 	}
 
@@ -96,6 +96,6 @@ public class UserController implements UsersAppController<User> {
 	@Override
 	public List<User> getAll() {
 		log.info("Начато получение всех пользователей.");
-		return userAppService.getAll();
+		return userAppService.getAllUsers();
 	}
 }

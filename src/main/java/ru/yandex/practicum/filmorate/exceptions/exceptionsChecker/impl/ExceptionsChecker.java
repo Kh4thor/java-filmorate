@@ -37,7 +37,7 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 */
 	@Override
 	public void checkFilmAllreadyExist(long filmId, String error) {
-		if (likesAppStorage.isFilmInLikesAppStorageExist(filmId)) {
+		if (likesAppStorage.isFilmExist(filmId)) {
 			throw new FilmAllreadyExistException(filmId, error);
 		}
 	}
@@ -47,7 +47,7 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 */
 	@Override
 	public void checkFilmNotFoundException(long filmId, String error) {
-		if (!likesAppStorage.isFilmInLikesAppStorageExist(filmId)) {
+		if (!likesAppStorage.isFilmExist(filmId)) {
 			throw new FilmNotFoundException(filmId, error);
 		}
 	}
@@ -57,7 +57,7 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 */
 	@Override
 	public void checkUserNotFoundException(long userId, String error) throws UserNotFoundException {
-		if (!usersAppStorage.isEntityExist(userId)) {
+		if (!usersAppStorage.isUserExist(userId)) {
 			throw new UserNotFoundException(userId, error);
 		}
 	}
@@ -67,7 +67,7 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 */
 	@Override
 	public void checkUserAllreadyExist(long userId, String error) throws UserNotFoundException {
-		if (!usersAppStorage.isEntityExist(userId)) {
+		if (!usersAppStorage.isUserExist(userId)) {
 			throw new UserAllreadyExistException(userId, error);
 		}
 	}
@@ -77,7 +77,7 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 */
 	@Override
 	public void checkUsersAreAllredayFriendsException(long userOneId, long userTwoId, String error) {
-		if (friendsAppStorage.isEntitiesAssociated(userOneId, userTwoId)) {
+		if (friendsAppStorage.isUsersAssociatedAsFriends(userOneId, userTwoId)) {
 			throw new UsersAreAllreadyFriendsException(userOneId, userTwoId, error);
 		}
 	}
@@ -87,7 +87,7 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 */
 	@Override
 	public void checkUsersAreNotFriendsException(long userOneId, long userTwoId, String error) {
-		if (!friendsAppStorage.isEntitiesAssociated(userOneId, userTwoId)) {
+		if (!friendsAppStorage.isUsersAssociatedAsFriends(userOneId, userTwoId)) {
 			throw new UsersAreNotFriendsException(userOneId, userTwoId, error);
 		}
 	}

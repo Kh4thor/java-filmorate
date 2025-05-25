@@ -5,27 +5,27 @@ import java.util.List;
 public interface UserAppService<T> {
 
 	/*
-	 * создать или обновить объект
+	 * создать или обновить пользователя
 	 */
-	T createOrUpdate(T t);
+	T createOrUpdateUser(T t);
 
 	/*
-	 * удалить объект по id
+	 * удалить пользователя
 	 */
-	T delete(long id);
+	T deleteUser(long id);
 
 	/*
-	 * удалить все объекты
+	 * удалить всех пользователей
 	 */
-	void deleteAll();
+	void deleteAllUsers();
 
 	/*
-	 * получить объект по id
+	 * получить пользователя
 	 */
-	T get(long id);
+	T getUser(long id);
 
 	/*
-	 * получить список всех объектов
+	 * получить список всех пользователей
 	 */
-	List<T> getAll();
+	List<T> getAllUsers();
 }

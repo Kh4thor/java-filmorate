@@ -40,7 +40,7 @@ public class FilmsService implements FilmsAppService<Film> {
 			Film createdFilm = create(film);
 			log.info("Фильм {} успешно добавлен", createdFilm);
 			return createdFilm;
-		} else if (filmsAppStorage.isEntityExist(film)) {
+		} else if (filmsAppStorage.isFilmExist(film)) {
 			log.info("Начато обновление фильма. Получен объект {}", film);
 			Film updatedFilm = update(film);
 			log.info("Фильм {} успешно обновлен", updatedFilm);
@@ -56,10 +56,10 @@ public class FilmsService implements FilmsAppService<Film> {
 	@Override
 	public Film delete(long filmId) {
 		String error = "Невозможно удалить фильм из хранилища лайков.";
-//		exceptionsAppChecker.checkFilmNotFoundException(filmId, error);
-		likesAppStorage.deleteFromLikesStorage(filmId);
+		exceptionsAppChecker.checkFilmNotFoundException(filmId, error);
+		likesAppStorage.deleteFilm(filmId);
 		log.info("Фильм с id=" + filmId + " удален");
-		return filmsAppStorage.remove(filmId);
+		return filmsAppStorage.removeFilm(filmId);
 
 	}
 
@@ -76,7 +76,7 @@ public class FilmsService implements FilmsAppService<Film> {
 	 */
 	@Override
 	public Film get(long id) {
-		return filmsAppStorage.get(id);
+		return filmsAppStorage.getFilm(id);
 	}
 
 	/*
@@ -111,8 +111,8 @@ public class FilmsService implements FilmsAppService<Film> {
 		String error = "Невозможно создать фильм";
 		film.setId(generateId());
 		exceptionsAppChecker.checkFilmAllreadyExist(film.getId(), error);
-		likesAppStorage.addToLikesStorage(film.getId());
-		return filmsAppStorage.add(film);
+		likesAppStorage.addFilm(film.getId());
+		return filmsAppStorage.addFilm(film);
 	}
 
 	/*
@@ -121,8 +121,8 @@ public class FilmsService implements FilmsAppService<Film> {
 	private Film update(Film film) {
 		String error = "Невозможно обновить фильм";
 		exceptionsAppChecker.checkFilmNotFoundException(film.getId(), error);
-		likesAppStorage.addToLikesStorage(film.getId());
-		return filmsAppStorage.add(film);
+		likesAppStorage.addFilm(film.getId());
+		return filmsAppStorage.addFilm(film);
 	}
 
 }

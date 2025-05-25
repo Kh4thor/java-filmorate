@@ -33,7 +33,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	}
 
 	@Override
-	public boolean isFilmInLikesAppStorageExist(long filmId) {
+	public boolean isFilmExist(long filmId) {
 		return filmLikesMap.containsKey(filmId);
 	}
 
@@ -41,8 +41,9 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 * добавиить фильм в хранилище-счетчик
 	 */
 	@Override
-	public boolean addToLikesStorage(long filmId) {
-		filmLikesMap.put(filmId, new ArrayList<>());
+	public boolean addFilm(long filmId) {
+		List<Long> usersIdList = new ArrayList<>();
+		filmLikesMap.put(filmId, usersIdList);
 		return true;
 	}
 
@@ -50,7 +51,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 * удалить фильм из хранаилища-счетчика
 	 */
 	@Override
-	public boolean deleteFromLikesStorage(long filmId) {
+	public boolean deleteFilm(long filmId) {
 		filmLikesMap.remove(filmId);
 		return true;
 	}
@@ -95,12 +96,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 		}
 		LinkedList<Long> idListOfFilmsIdByRate = new LinkedList<>();
 
-		filmLikesMap
-		.values()
-		.stream()
-		.flatMap(List::stream)
-		.limit(countOfFilms)
-		.forEach(idListOfFilmsIdByRate::add);
+		filmLikesMap.values().stream().flatMap(List::stream).limit(countOfFilms).forEach(idListOfFilmsIdByRate::add);
 
 		return idListOfFilmsIdByRate;
 	}

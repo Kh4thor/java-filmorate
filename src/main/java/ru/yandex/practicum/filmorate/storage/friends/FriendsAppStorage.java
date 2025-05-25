@@ -5,47 +5,47 @@ import java.util.List;
 public interface FriendsAppStorage {
 
 	/*
-	 * добавить сущность в хранилище
+	 * добавить пользователя в хранилище
 	 */
-	void addEntityToStorage(long id);
+	void addUser(long id);
 
 	/*
-	 * связать сущности
+	 * связать пользователей в качестве друзей
 	 */
-	boolean associateEntitiesById(long entityOneId, long entityTwoId);
+	boolean associateUsersAsFriends(long entityOneId, long entityTwoId);
 
 	/*
-	 * отвязать сущности
+	 * отвязать пользователей в качестве друзей
 	 */
-	boolean disassociateEntitiesById(long entityOneId, long entityTwoId);
+	boolean disassociateUserAsFriends(long entityOneId, long entityTwoId);
 
 	/*
-	 * проверка сущностей на связь
+	 * проверка пользователей на дружбу
 	 */
-	boolean isEntitiesAssociated(long entityOneId, long entityTwoId);
+	boolean isUsersAssociatedAsFriends(long entityOneId, long entityTwoId);
 
 	/*
-	 * удалить у сущности все привязанные сущности
+	 * удалить у пользователя всех привязанных друзей
 	 */
-	void removeAllAssociatedEntitiesById(long userId);
+	void removeAllAssociatedFriendsOfUser(long userId);
 
 	/*
-	 * удалить сущность из хранилища
+	 * удалить пользователя из хранилища
 	 */
-	void deleteEntityFromStorage(long id);
+	void deleteUser(long id);
 
 	/*
-	 * удалить все сущности из хранилища
+	 * удалить всех пользователей из хранилища
 	 */
 	void clearStorage();
 
 	/*
-	 * получить id-список связанных сущностей
+	 * получить id-список связанных друзей пользователя
 	 */
-	List<Long> getIdListOfAssociatedEntities(long userId);
+	List<Long> getIdListOfAssociatedFriends(long userId);
 
 	/*
-	 * получить id-список общих связанных сущностей
+	 * получить id-список общих друзей двух пользователей
 	 */
-	List<Long> geIdListOfCommonEntities(long entityOneId, long entityTwoId);
+	List<Long> geIdListOfCommonFriends(long entityOneId, long entityTwoId);
 }
