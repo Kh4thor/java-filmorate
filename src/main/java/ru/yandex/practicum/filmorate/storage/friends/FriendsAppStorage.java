@@ -15,7 +15,7 @@ public interface FriendsAppStorage {
 	boolean associateEntitiesById(long entityOneId, long entityTwoId);
 
 	/*
-	 * развязать сущности
+	 * отвязать сущности
 	 */
 	boolean disassociateEntitiesById(long entityOneId, long entityTwoId);
 

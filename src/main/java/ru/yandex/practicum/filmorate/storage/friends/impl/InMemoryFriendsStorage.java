@@ -14,6 +14,9 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 
 	Map<Long, List<Long>> friendsIdMap = new HashMap<>();
 
+	/*
+	 * связать сущности
+	 */
 	@Override
 	public boolean associateEntitiesById(long userOneId, long userTwoId) {
 		List<Long> friendsIdListOfUserOne = friendsIdMap.get(userOneId);
@@ -23,6 +26,9 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 		return true;
 	}
 
+	/*
+	 * отвязать сущности
+	 */
 	@Override
 	public boolean disassociateEntitiesById(long userOneId, long userTwoId) {
 		List<Long> friendsIdListOfUserOne = friendsIdMap.get(userOneId);
@@ -35,7 +41,7 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 	}
 
 	/*
-	 * проверка, связанны ли сущности
+	 * проверка сущностей на связь
 	 */
 	@Override
 	public boolean isEntitiesAssociated(long userOneId, long userTwoId) {
@@ -47,17 +53,26 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 		return false;
 	}
 
+	/*
+	 * получить id-список связанных сущностей
+	 */
 	@Override
 	public List<Long> getIdListOfAssociatedEntities(long userId) {
 		return friendsIdMap.get(userId);
 	}
 
+	/*
+	 * удалить у сущности все привязанные сущности
+	 */
 	@Override
 	public void removeAllAssociatedEntitiesById(long userId) {
 		friendsIdMap.remove(userId);
 
 	}
 
+	/*
+	 * получить id-список общих связанных сущностей
+	 */
 	@Override
 	public List<Long> geIdListOfCommonEntities(long userOneId, long userTwoId) {
 		List<Long> ListIdOfCommonEntities = new ArrayList<>();
@@ -72,11 +87,17 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 		return ListIdOfCommonEntities;
 	}
 
+	/*
+	 * добавить сущность в хранилище
+	 */
 	@Override
 	public void addEntityToStorage(long id) {
 		friendsIdMap.put(id, new ArrayList<>());
 	}
 
+	/*
+	 * удалить сущность из хранилища
+	 */
 	@Override
 	public void deleteEntityFromStorage(long userId) {
 		List<Long> friendsIdListOfUser = friendsIdMap.get(userId);
@@ -90,6 +111,9 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 		friendsIdMap.remove(userId);
 	}
 
+	/*
+	 * удалить все сущности из хранилища
+	 */
 	@Override
 	public void clearStorage() {
 		friendsIdMap.clear();

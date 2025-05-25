@@ -84,7 +84,11 @@ public class FilmsService implements FilmsAppService<Film> {
 	 */
 	@Override
 	public List<Film> getAll() {
-		return filmsAppStorage.getRepository().values().stream().toList();
+		return filmsAppStorage
+				.getRepository()
+				.values()
+				.stream()
+				.toList();
 	}
 
 	/*
