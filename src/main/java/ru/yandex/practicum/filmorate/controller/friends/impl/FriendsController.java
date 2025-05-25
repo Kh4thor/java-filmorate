@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controller.friend.impl;
+package ru.yandex.practicum.filmorate.controller.friends.impl;
 
 import java.util.List;
 
@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.yandex.practicum.filmorate.controller.friend.FriendAppController;
+import ru.yandex.practicum.filmorate.controller.friends.FriendsAppController;
 import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.service.friends.FriendsAppService;
 
-@RestController
 @Slf4j
+@RestController
 @RequestMapping("/users/{id}/friends")
-public class FriendController implements FriendAppController {
+public class FriendsController implements FriendsAppController {
 
-	private final FriendsAppService friendService;
+	private final FriendsAppService friendsAppService;
 
-	public FriendController(FriendsAppService friendService) {
-		this.friendService = friendService;
+	public FriendsController(FriendsAppService friendsAppService) {
+		this.friendsAppService = friendsAppService;
 	}
 
 	/*
@@ -33,7 +33,7 @@ public class FriendController implements FriendAppController {
 	@PutMapping("/{friendsId}")
 	public ResponseEntity<String> addFriend(long id, long friendsId) {
 		log.info("Начат процесс добавления друга. Получен id-пользователя=" + id + " и id-друга=" + friendsId);
-		boolean isFriendsAssociated = friendService.associateUsersAsFriends(id, friendsId);
+		boolean isFriendsAssociated = friendsAppService.associateUsersAsFriends(id, friendsId);
 		if (isFriendsAssociated) {
 			log.info("Пользователи id=" + id + " и id=" + friendsId + " объединены в друзья");
 			return ResponseEntity.status(HttpStatus.OK)
@@ -50,7 +50,7 @@ public class FriendController implements FriendAppController {
 	@Override
 	@DeleteMapping("/{friendsId}")
 	public ResponseEntity<String> deleteFriend(long id, long friendsId) {
-		boolean isFriendsDisassociated = friendService.disassociateUsersAsFriends(id, friendsId);
+		boolean isFriendsDisassociated = friendsAppService.disassociateUsersAsFriends(id, friendsId);
 		if (isFriendsDisassociated) {
 			log.info("Пользователи c id=" + id + " и id=" + friendsId + " больше не друзья");
 			return ResponseEntity.status(HttpStatus.OK)
@@ -67,7 +67,7 @@ public class FriendController implements FriendAppController {
 	@Override
 	@GetMapping
 	public List<User> getListOfFriends(long id) {
-		return friendService.getAllFriendsOfUser(id);
+		return friendsAppService.getAllFriendsOfUser(id);
 	}
 
 	/*
@@ -76,6 +76,6 @@ public class FriendController implements FriendAppController {
 	@Override
 	@GetMapping("/common/{otherId}")
 	public List<User> getCommonFriends(long id, long otherId) {
-		return friendService.getCommonFriendsOfUsers(id, otherId);
+		return friendsAppService.getCommonFriendsOfUsers(id, otherId);
 	}
 }

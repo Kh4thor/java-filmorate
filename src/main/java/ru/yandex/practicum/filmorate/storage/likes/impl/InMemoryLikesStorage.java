@@ -42,7 +42,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 */
 	@Override
 	public boolean addToLikesStorage(long filmId) {
-		filmLikesMap.put(filmId, new ArrayList<Long>());
+		filmLikesMap.put(filmId, new ArrayList<>());
 		return true;
 	}
 
@@ -116,6 +116,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 
 		// сортировка фильмов по количеству лайков у фильма (value.size())
 		Collections.sort(entries, new Comparator<Map.Entry<Long, List<Long>>>() {
+			@Override
 			public int compare(Map.Entry<Long, List<Long>> a, Map.Entry<Long, List<Long>> b) {
 				return Integer.compare(a.getValue().size(), b.getValue().size());
 			}

@@ -3,12 +3,12 @@ package ru.yandex.practicum.filmorate.storage.films.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import ru.yandex.practicum.filmorate.model.film.Film;
 import ru.yandex.practicum.filmorate.storage.films.FilmsAppStorage;
 
-@Service
+@Component
 public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 
 	// хранилище фильмов

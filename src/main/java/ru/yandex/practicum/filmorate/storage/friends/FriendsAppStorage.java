@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.storage.friends;
 
 import java.util.List;
 
-public interface FriendsAppStorage<T> {
+public interface FriendsAppStorage {
 
 	/*
 	 * добавить сущность в хранилище

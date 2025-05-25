@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controller.film;
+package ru.yandex.practicum.filmorate.controller.users;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.validation.Valid;
 
-public interface FilmAppController<T> {
+public interface UsersAppController<T> {
 
 	/*
 	 * создать или обновить объект

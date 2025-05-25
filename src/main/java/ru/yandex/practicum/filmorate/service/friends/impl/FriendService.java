@@ -15,10 +15,10 @@ import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 public class FriendService implements FriendsAppService {
 
 	private final UsersAppStorage<User> usersAppStorage;
-	private final FriendsAppStorage<User> friendsAppStorage;
+	private final FriendsAppStorage friendsAppStorage;
 	private final ExceptionsChecker exceptionsChecker;
 
-	public FriendService(UsersAppStorage<User> usersAppStorage, FriendsAppStorage<User> friendsAppStorage,
+	public FriendService(UsersAppStorage<User> usersAppStorage, FriendsAppStorage friendsAppStorage,
 			ExceptionsChecker exceptionsChecker) {
 		this.friendsAppStorage = friendsAppStorage;
 		this.usersAppStorage = usersAppStorage;

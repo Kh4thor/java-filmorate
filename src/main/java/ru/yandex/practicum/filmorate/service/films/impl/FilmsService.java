@@ -8,22 +8,22 @@ import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.ExceptionsAppChecker;
 import ru.yandex.practicum.filmorate.model.film.Film;
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.service.films.FilmAppService;
+import ru.yandex.practicum.filmorate.service.films.FilmsAppService;
 import ru.yandex.practicum.filmorate.storage.films.FilmsAppStorage;
 import ru.yandex.practicum.filmorate.storage.likes.LikesAppStorage;
 import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 
 @Slf4j
 @Service
-public class FilmService implements FilmAppService<Film> {
+public class FilmsService implements FilmsAppService<Film> {
 
 	private long id = 0;
 
-	FilmsAppStorage<Film> filmsAppStorage;
-	LikesAppStorage likesAppStorage;
-	ExceptionsAppChecker exceptionsAppChecker;
+	private final FilmsAppStorage<Film> filmsAppStorage;
+	private final LikesAppStorage likesAppStorage;
+	private final ExceptionsAppChecker exceptionsAppChecker;
 
-	public FilmService(FilmsAppStorage<Film> filmsAppStorage, LikesAppStorage likesAppStorage,
+	public FilmsService(FilmsAppStorage<Film> filmsAppStorage, LikesAppStorage likesAppStorage,
 			UsersAppStorage<User> usersAppStorage, ExceptionsAppChecker exceptionsChecker) {
 		this.filmsAppStorage = filmsAppStorage;
 		this.likesAppStorage = likesAppStorage;

@@ -20,16 +20,16 @@ import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 public class ExceptionsChecker implements ExceptionsAppChecker {
 
 	LikesAppStorage likesAppStorage;
+	FriendsAppStorage friendsAppStorage;
 	UsersAppStorage<User> usersAppStorage;
-	FriendsAppStorage<User> friendsAppStorage;
 	FilmsAppStorage<Film> filmsAppStorage;
 
-	ExceptionsChecker(UsersAppStorage<User> usersAppStorage, FriendsAppStorage<User> friendsAppStorage,
-			FilmsAppStorage<Film> filmsAppStorage) {
+	ExceptionsChecker(UsersAppStorage<User> usersAppStorage, FriendsAppStorage friendsAppStorage,
+			FilmsAppStorage<Film> filmsAppStorage, LikesAppStorage likesAppStorage) {
 		this.usersAppStorage = usersAppStorage;
 		this.friendsAppStorage = friendsAppStorage;
 		this.filmsAppStorage = filmsAppStorage;
-
+		this.likesAppStorage = likesAppStorage;
 	}
 
 	/*

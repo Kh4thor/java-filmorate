@@ -2,9 +2,6 @@ package ru.yandex.practicum.filmorate.storage.users;
 
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
-
-@Service
 public interface UsersAppStorage<T> {
 
 	/*

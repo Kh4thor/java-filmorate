@@ -2,9 +2,6 @@ package ru.yandex.practicum.filmorate.storage.films;
 
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
-
-@Service
 public interface FilmsAppStorage<T> {
 
 	/*

@@ -7,11 +7,10 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.storage.friends.FriendsAppStorage;
 
 @Component
-public class InMemoryFriendsStorage implements FriendsAppStorage<User> {
+public class InMemoryFriendsStorage implements FriendsAppStorage {
 
 	Map<Long, List<Long>> friendsIdMap = new HashMap<>();
 

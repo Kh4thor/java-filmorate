@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controller.friend;
+package ru.yandex.practicum.filmorate.controller.friends;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import ru.yandex.practicum.filmorate.model.user.User;
 
-public interface FriendAppController {
+public interface FriendsAppController {
 
 	/*
 	 * добавить пользователя в друзья

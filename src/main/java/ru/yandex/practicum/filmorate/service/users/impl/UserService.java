@@ -18,9 +18,9 @@ public class UserService implements UserAppService<User> {
 	private long id = 0;
 
 	UsersAppStorage<User> usersAppStorage;
-	FriendsAppStorage<User> friendsAppStorage;
+	FriendsAppStorage friendsAppStorage;
 
-	public UserService(UsersAppStorage<User> usersAppStorage, FriendsAppStorage<User> friendsAppStorage,
+	public UserService(UsersAppStorage<User> usersAppStorage, FriendsAppStorage friendsAppStorage,
 			InMemoryFilmsStorage inMemoryFilmsStorage) {
 		this.usersAppStorage = usersAppStorage;
 		this.friendsAppStorage = friendsAppStorage;

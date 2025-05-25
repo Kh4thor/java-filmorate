@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controller.user.impl;
+package ru.yandex.practicum.filmorate.controller.users.impl;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.yandex.practicum.filmorate.controller.user.UserAppController;
+import ru.yandex.practicum.filmorate.controller.users.UsersAppController;
 import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.service.users.UserAppService;
 
@@ -22,7 +22,7 @@ import ru.yandex.practicum.filmorate.service.users.UserAppService;
 @Slf4j
 @RestController
 @RequestMapping("/users")
-public class UserController implements UserAppController<User> {
+public class UserController implements UsersAppController<User> {
 
 	private final UserAppService<User> userAppService;
 
