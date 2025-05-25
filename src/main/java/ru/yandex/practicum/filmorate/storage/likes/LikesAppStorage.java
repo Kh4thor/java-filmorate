@@ -4,13 +4,54 @@ import java.util.List;
 
 public interface LikesAppStorage {
 
-	void resetLikes(long filmId);
+	/*
+	 * добавиить фильм в хранилище-счетчик
+	 */
+	boolean addToLikesStorage(long filmId);
 
-	void setLike(long filmId);
+	/*
+	 * поставить лайк фильму
+	 */
+	boolean setLike(long filmId, long userId);
 
-	void removeLike();
+	/*
+	 * проверка, ствавил ли пользователь лайк фильму
+	 */
+	boolean isUserSetLike(long filmId, long userId);
 
-	List<Long> getFilmsIdByRate(long filmId);
+	/*
+	 * удалить лайк пользователя
+	 */
+	boolean removeLike(long filmId, long userId);
 
-	List<Long> getFilmsIdByRate(long filmId, int countOfFilms);
+	/*
+	 * получить id-список с указанным количеством рейтиноговых фильмов
+	 */
+	List<Long> getIdListOfFilmsIdByRate(long filmId, long countOfFilms);
+
+	/*
+	 * получить id-список по-умолчанию
+	 */
+	List<Long> getIdListOfFilmsIdByRate(long filmId);
+
+	/*
+	 * обнулить лайки для фильма
+	 */
+	boolean resetLikes(long filmId);
+
+	/*
+	 * удалить фильм из хранаилища-счетчика
+	 */
+	boolean deleteFromLikesStorage(long filmId);
+
+	/*
+	 * проверка на наличие id-фильма в хранилище-счетчике
+	 */
+	boolean isFilmInLikesAppStorageExist(long filmId);
+
+	/*
+	 * удалить все фильмы из хранилища-счетчика
+	 */
+	void deleteAllFilms();
+
 }

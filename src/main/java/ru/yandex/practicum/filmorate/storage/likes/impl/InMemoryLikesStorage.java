@@ -11,8 +11,10 @@ import java.util.Map.Entry;
 
 import org.springframework.stereotype.Component;
 
+import ru.yandex.practicum.filmorate.storage.likes.LikesAppStorage;
+
 @Component
-public class InMemoryLikesStorage {
+public class InMemoryLikesStorage implements LikesAppStorage {
 
 	/*
 	 * хранилище-счетчик лайков фильмов;
@@ -23,25 +25,40 @@ public class InMemoryLikesStorage {
 	private Map<Long, List<Long>> filmLikesMap = new LinkedHashMap<>();
 
 	/*
-	 * сортировка хранилища-счетчика лайков фильмов по количеству лайков
+	 * удалить все фильмы из хранилища-счетчика
 	 */
-	private void sortFilmLikesMap() {
-		List<Map.Entry<Long, List<Long>>> entries = new ArrayList<>(filmLikesMap.entrySet());
+	@Override
+	public void deleteAllFilms() {
+		filmLikesMap.clear();
+	}
 
-		Collections.sort(entries, new Comparator<Map.Entry<Long, List<Long>>>() {
-			public int compare(Map.Entry<Long, List<Long>> a, Map.Entry<Long, List<Long>> b) {
-				return Integer.compare(a.getValue().size(), b.getValue().size());
-			}
-		});
+	@Override
+	public boolean isFilmInLikesAppStorageExist(long filmId) {
+		return filmLikesMap.containsKey(filmId);
+	}
 
-		for (Entry<Long, List<Long>> entry : entries) {
-			filmLikesMap.put(entry.getKey(), entry.getValue());
-		}
+	/*
+	 * добавиить фильм в хранилище-счетчик
+	 */
+	@Override
+	public boolean addToLikesStorage(long filmId) {
+		filmLikesMap.put(filmId, new ArrayList<Long>());
+		return true;
+	}
+
+	/*
+	 * удалить фильм из хранаилища-счетчика
+	 */
+	@Override
+	public boolean deleteFromLikesStorage(long filmId) {
+		filmLikesMap.remove(filmId);
+		return true;
 	}
 
 	/*
 	 * поставить лайк фильму
 	 */
+	@Override
 	public boolean setLike(long filmId, long userId) {
 		List<Long> usersIdLikesList = filmLikesMap.get(filmId);
 		usersIdLikesList.add(userId);
@@ -52,6 +69,7 @@ public class InMemoryLikesStorage {
 	/*
 	 * проверка, ствавил ли пользователь лайк фильму
 	 */
+	@Override
 	public boolean isUserSetLike(long filmId, long userId) {
 		List<Long> usersIdLikesList = filmLikesMap.get(filmId);
 		return usersIdLikesList.contains(userId);
@@ -60,24 +78,27 @@ public class InMemoryLikesStorage {
 	/*
 	 * удалить лайк пользователя
 	 */
-	public void removeLike(long filmId, long userId) {
+	@Override
+	public boolean removeLike(long filmId, long userId) {
 		List<Long> usersIdLikesList = filmLikesMap.get(filmId);
 		usersIdLikesList.remove(userId);
+		return true;
 	}
 
 	/*
 	 * получить id-список с указанным количеством рейтиноговых фильмов
 	 */
+	@Override
 	public List<Long> getIdListOfFilmsIdByRate(long filmId, long countOfFilms) {
 		LinkedList<Long> idListOfFilmsIdByRate = new LinkedList<>();
 		filmLikesMap.values().stream().flatMap(List::stream).limit(countOfFilms).forEach(idListOfFilmsIdByRate::add);
 		return idListOfFilmsIdByRate;
-
 	}
 
 	/*
 	 * получить id-список по-умолчанию
 	 */
+	@Override
 	public List<Long> getIdListOfFilmsIdByRate(long filmId) {
 		int countOfFilms = 10;
 		LinkedList<Long> idListOfFilmsIdByRate = new LinkedList<>();
@@ -86,8 +107,29 @@ public class InMemoryLikesStorage {
 
 	}
 
-	public void resetLikes(long filmId) {
+	@Override
+	public boolean resetLikes(long filmId) {
 		List<Long> usersIdLikesList = filmLikesMap.get(filmId);
 		usersIdLikesList.clear();
+		return true;
+	}
+
+	/*
+	 * сортировка хранилища-счетчика лайков фильмов по количеству лайков
+	 */
+	private void sortFilmLikesMap() {
+		List<Map.Entry<Long, List<Long>>> entries = new ArrayList<>(filmLikesMap.entrySet());
+	
+		// сортировка фильмов по количеству лайков у фильма (value.size())
+		Collections.sort(entries, new Comparator<Map.Entry<Long, List<Long>>>() {
+			public int compare(Map.Entry<Long, List<Long>> a, Map.Entry<Long, List<Long>> b) {
+				return Integer.compare(a.getValue().size(), b.getValue().size());
+			}
+		});
+	
+		// перезапись хранилища-счетчика с новым порядком
+		for (Entry<Long, List<Long>> entry : entries) {
+			filmLikesMap.put(entry.getKey(), entry.getValue());
+		}
 	}
 }

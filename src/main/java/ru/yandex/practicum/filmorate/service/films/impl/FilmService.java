@@ -5,9 +5,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.ExceptionsAppChecker;
 import ru.yandex.practicum.filmorate.model.film.Film;
+import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.service.films.FilmAppService;
 import ru.yandex.practicum.filmorate.storage.films.FilmsAppStorage;
+import ru.yandex.practicum.filmorate.storage.likes.LikesAppStorage;
+import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 
 @Slf4j
 @Service
@@ -16,9 +20,14 @@ public class FilmService implements FilmAppService<Film> {
 	private long id = 0;
 
 	FilmsAppStorage<Film> filmsAppStorage;
+	LikesAppStorage likesAppStorage;
+	ExceptionsAppChecker exceptionsChecker;
 
-	public FilmService(FilmsAppStorage<Film> filmsAppStorage) {
+	public FilmService(FilmsAppStorage<Film> filmsAppStorage, LikesAppStorage likesAppStorage,
+			UsersAppStorage<User> usersAppStorage, ExceptionsAppChecker exceptionsChecker) {
 		this.filmsAppStorage = filmsAppStorage;
+		this.likesAppStorage = likesAppStorage;
+		this.exceptionsChecker = exceptionsChecker;
 	}
 
 	/*
@@ -29,7 +38,6 @@ public class FilmService implements FilmAppService<Film> {
 		if (film.getId() == null || film.getId() == 0) {
 			log.info("Начато создание фильма. Получен объект {}", film);
 			Film createdFilm = create(film);
-
 			log.info("Фильм {} успешно добавлен", createdFilm);
 			return createdFilm;
 		} else if (filmsAppStorage.isEntityExist(film)) {
@@ -46,8 +54,13 @@ public class FilmService implements FilmAppService<Film> {
 	 * удалить фильм по id
 	 */
 	@Override
-	public Film delete(long id) {
-		return filmsAppStorage.remove(id);
+	public Film delete(long filmId) {
+		String error = "Невозможно удалить фильм из хранилища лайков.";
+		exceptionsChecker.checkFilmNotFoundException(filmId, error);
+		likesAppStorage.deleteFromLikesStorage(filmId);
+		log.info("Фильм с id=" + filmId + " удален");
+		return filmsAppStorage.remove(filmId);
+
 	}
 
 	/*
@@ -75,6 +88,16 @@ public class FilmService implements FilmAppService<Film> {
 	}
 
 	/*
+	 * поставить лайк фильму
+	 */
+	public void setLikeToFilm(long userId, long filmId) {
+		String error = "Невозможно поставить лайк фильму";
+		exceptionsChecker.checkFilmNotFoundException(filmId, error);
+		exceptionsChecker.checkUserNotFoundException(userId, error);
+		likesAppStorage.setLike(filmId, userId);
+	}
+
+	/*
 	 * генератор id для нового фильма
 	 */
 	private long generateId() {
@@ -85,7 +108,10 @@ public class FilmService implements FilmAppService<Film> {
 	 * создать фильм
 	 */
 	private Film create(Film film) {
+		String error = "Невозможно создать фильм";
 		film.setId(generateId());
+		exceptionsChecker.checkFilmAllreadyExist(film.getId(), error);
+		likesAppStorage.addToLikesStorage(film.getId());
 		return filmsAppStorage.add(film);
 	}
 
@@ -93,6 +119,9 @@ public class FilmService implements FilmAppService<Film> {
 	 * обновить фильм
 	 */
 	private Film update(Film film) {
+		String error = "Невозможно обновить фильм";
+		exceptionsChecker.checkFilmNotFoundException(film.getId(), error);
 		return filmsAppStorage.add(film);
 	}
+
 }

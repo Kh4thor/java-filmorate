@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.exceptions.filmExceptions;
+package ru.yandex.practicum.filmorate.exceptions.likeExceptions;
 
 public class UserAllreadySetLikeToFilmException extends RuntimeException {
 

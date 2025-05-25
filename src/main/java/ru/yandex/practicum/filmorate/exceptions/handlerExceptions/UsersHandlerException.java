@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.exceptions.userExceptions;
+package ru.yandex.practicum.filmorate.exceptions.handlerExceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import ru.yandex.practicum.filmorate.exceptions.ErrorResponse;
+import ru.yandex.practicum.filmorate.exceptions.userExceptions.UserNotFoundException;
+import ru.yandex.practicum.filmorate.exceptions.userExceptions.UsersAreAllreadyFriendsException;
+import ru.yandex.practicum.filmorate.exceptions.userExceptions.UsersAreNotFriendsException;
 
 @RestControllerAdvice
 public class UsersHandlerException {
