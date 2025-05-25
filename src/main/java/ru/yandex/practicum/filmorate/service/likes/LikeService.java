@@ -1,42 +1,56 @@
 package ru.yandex.practicum.filmorate.service.likes;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Component;
 
-import ru.yandex.practicum.filmorate.exceptions.filmExceptions.FilmNotFoundException;
+import ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.impl.ExceptionsChecker;
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.storage.films.FilmsAppStorage;
 import ru.yandex.practicum.filmorate.storage.likes.LikesAppStorage;
-import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 
 @Component
 public class LikeService {
 
-	LikesAppStorage likesAppStorage;
-	UsersAppStorage<User> usersAppStorage;
-	FilmsAppStorage<Film> filmsAppStorage;
+	private final FilmsAppStorage<Film> filmsAppStorage;
 
-	public LikeService(LikesAppStorage likesAppStorage, UsersAppStorage<User> usersAppStorage,
+	LikesAppStorage likesAppStorage;
+	ExceptionsChecker exceptionsChecker;
+
+	public LikeService(LikesAppStorage likesAppStorage, ExceptionsChecker exceptionsChecker,
 			FilmsAppStorage<Film> filmsAppStorage) {
 		this.likesAppStorage = likesAppStorage;
-		this.usersAppStorage = usersAppStorage;
+		this.exceptionsChecker = exceptionsChecker;
 		this.filmsAppStorage = filmsAppStorage;
 	}
 
 	/*
 	 * поставить лайк фильму
 	 */
-	public void setLikeToFilm(long filmId, long userId) {
+	public void setLike(long filmId, long userId) {
+		String error = "Невозможно поставить лайк фильму";
+		exceptionsChecker.checkFilmNotFoundException(filmId, error);
+		exceptionsChecker.checkUserNotFoundException(userId, error);
 		likesAppStorage.setLike(filmId, userId);
 	}
 
 	/*
-	 * проверка фильма на отсутсвие фильма в хранилище-счетчике лайков
+	 * удалить лайк
 	 */
-	private void checkFilmNotFoundException(long filmId, String error) {
-		if (!likesAppStorage.isFilmInLikesAppStorageExist(filmId)) {
-			throw new FilmNotFoundException(filmId, error);
-		}
+	public void removeLike(long filmId, long userId) {
+		String error = "Невозможно убрать лайк у фильма";
+		exceptionsChecker.checkFilmNotFoundException(filmId, error);
+		exceptionsChecker.checkUserNotFoundException(userId, error);
+		likesAppStorage.removeLike(filmId, userId);
 	}
 
+	/*
+	 * вернуть список из первых count-фильмов по количеству лайков
+	 */
+	public List<Film> getRatedFilms(int count) {
+		List<Long> ratedFilmsIdList = likesAppStorage.getIdListOfFilmsIdByRate(count);
+		Map<Long, Film> filmsRepository = filmsAppStorage.getRepository();
+		return ratedFilmsIdList.stream().map(id -> filmsRepository.get(id)).toList();
+	}
 }

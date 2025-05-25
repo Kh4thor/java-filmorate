@@ -24,4 +24,14 @@ public interface ExceptionsAppChecker {
 	 */
 	void checkUserAllreadyExist(long userId, String error) throws UserNotFoundException;
 
+	/*
+	 * проверка на ошибку - пользователи уже друзья
+	 */
+	void checkUsersAreAllredayFriendsException(long userOneId, long userTwoId, String error);
+
+	/*
+	 * проверка на ошибку - пользователи не являются друзьями
+	 */
+	void checkUsersAreNotFriendsException(long userOneId, long userTwoId, String error);
+
 }

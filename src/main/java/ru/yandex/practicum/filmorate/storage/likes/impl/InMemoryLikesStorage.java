@@ -89,24 +89,18 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 * получить id-список с указанным количеством рейтиноговых фильмов
 	 */
 	@Override
-	public List<Long> getIdListOfFilmsIdByRate(long filmId, long countOfFilms) {
+	public List<Long> getIdListOfFilmsIdByRate(int countOfFilms) {
+		if (countOfFilms == 0) {
+			countOfFilms = 10;
+		}
 		LinkedList<Long> idListOfFilmsIdByRate = new LinkedList<>();
 		filmLikesMap.values().stream().flatMap(List::stream).limit(countOfFilms).forEach(idListOfFilmsIdByRate::add);
 		return idListOfFilmsIdByRate;
 	}
 
 	/*
-	 * получить id-список по-умолчанию
+	 * обнулить количество лайков фильма
 	 */
-	@Override
-	public List<Long> getIdListOfFilmsIdByRate(long filmId) {
-		int countOfFilms = 10;
-		LinkedList<Long> idListOfFilmsIdByRate = new LinkedList<>();
-		filmLikesMap.values().stream().flatMap(List::stream).limit(countOfFilms).forEach(idListOfFilmsIdByRate::add);
-		return idListOfFilmsIdByRate;
-
-	}
-
 	@Override
 	public boolean resetLikes(long filmId) {
 		List<Long> usersIdLikesList = filmLikesMap.get(filmId);
@@ -119,14 +113,14 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 */
 	private void sortFilmLikesMap() {
 		List<Map.Entry<Long, List<Long>>> entries = new ArrayList<>(filmLikesMap.entrySet());
-	
+
 		// сортировка фильмов по количеству лайков у фильма (value.size())
 		Collections.sort(entries, new Comparator<Map.Entry<Long, List<Long>>>() {
 			public int compare(Map.Entry<Long, List<Long>> a, Map.Entry<Long, List<Long>> b) {
 				return Integer.compare(a.getValue().size(), b.getValue().size());
 			}
 		});
-	
+
 		// перезапись хранилища-счетчика с новым порядком
 		for (Entry<Long, List<Long>> entry : entries) {
 			filmLikesMap.put(entry.getKey(), entry.getValue());

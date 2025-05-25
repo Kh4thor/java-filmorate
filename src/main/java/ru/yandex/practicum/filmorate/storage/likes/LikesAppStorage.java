@@ -27,12 +27,7 @@ public interface LikesAppStorage {
 	/*
 	 * получить id-список с указанным количеством рейтиноговых фильмов
 	 */
-	List<Long> getIdListOfFilmsIdByRate(long filmId, long countOfFilms);
-
-	/*
-	 * получить id-список по-умолчанию
-	 */
-	List<Long> getIdListOfFilmsIdByRate(long filmId);
+	List<Long> getIdListOfFilmsIdByRate(int countOfFilms);
 
 	/*
 	 * обнулить лайки для фильма

@@ -21,13 +21,13 @@ public class FilmService implements FilmAppService<Film> {
 
 	FilmsAppStorage<Film> filmsAppStorage;
 	LikesAppStorage likesAppStorage;
-	ExceptionsAppChecker exceptionsChecker;
+	ExceptionsAppChecker exceptionsAppChecker;
 
 	public FilmService(FilmsAppStorage<Film> filmsAppStorage, LikesAppStorage likesAppStorage,
 			UsersAppStorage<User> usersAppStorage, ExceptionsAppChecker exceptionsChecker) {
 		this.filmsAppStorage = filmsAppStorage;
 		this.likesAppStorage = likesAppStorage;
-		this.exceptionsChecker = exceptionsChecker;
+		this.exceptionsAppChecker = exceptionsChecker;
 	}
 
 	/*
@@ -56,7 +56,7 @@ public class FilmService implements FilmAppService<Film> {
 	@Override
 	public Film delete(long filmId) {
 		String error = "Невозможно удалить фильм из хранилища лайков.";
-		exceptionsChecker.checkFilmNotFoundException(filmId, error);
+		exceptionsAppChecker.checkFilmNotFoundException(filmId, error);
 		likesAppStorage.deleteFromLikesStorage(filmId);
 		log.info("Фильм с id=" + filmId + " удален");
 		return filmsAppStorage.remove(filmId);
@@ -92,8 +92,8 @@ public class FilmService implements FilmAppService<Film> {
 	 */
 	public void setLikeToFilm(long userId, long filmId) {
 		String error = "Невозможно поставить лайк фильму";
-		exceptionsChecker.checkFilmNotFoundException(filmId, error);
-		exceptionsChecker.checkUserNotFoundException(userId, error);
+		exceptionsAppChecker.checkFilmNotFoundException(filmId, error);
+		exceptionsAppChecker.checkUserNotFoundException(userId, error);
 		likesAppStorage.setLike(filmId, userId);
 	}
 
@@ -110,7 +110,7 @@ public class FilmService implements FilmAppService<Film> {
 	private Film create(Film film) {
 		String error = "Невозможно создать фильм";
 		film.setId(generateId());
-		exceptionsChecker.checkFilmAllreadyExist(film.getId(), error);
+		exceptionsAppChecker.checkFilmAllreadyExist(film.getId(), error);
 		likesAppStorage.addToLikesStorage(film.getId());
 		return filmsAppStorage.add(film);
 	}
@@ -120,7 +120,7 @@ public class FilmService implements FilmAppService<Film> {
 	 */
 	private Film update(Film film) {
 		String error = "Невозможно обновить фильм";
-		exceptionsChecker.checkFilmNotFoundException(film.getId(), error);
+		exceptionsAppChecker.checkFilmNotFoundException(film.getId(), error);
 		return filmsAppStorage.add(film);
 	}
 
