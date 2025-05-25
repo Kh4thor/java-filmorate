@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.service.friend.impl;
+package ru.yandex.practicum.filmorate.service.friends.impl;
 
 import java.util.List;
 
@@ -8,19 +8,19 @@ import ru.yandex.practicum.filmorate.exceptions.userExceptions.UserNotFoundExcep
 import ru.yandex.practicum.filmorate.exceptions.userExceptions.UsersAreAllreadyFriendsException;
 import ru.yandex.practicum.filmorate.exceptions.userExceptions.UsersAreNotFriendsException;
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.service.friend.FriendsAppService;
-import ru.yandex.practicum.filmorate.storage.friend.FriendsAppStorage;
-import ru.yandex.practicum.filmorate.storage.user.UserAppStorage;
+import ru.yandex.practicum.filmorate.service.friends.FriendsAppService;
+import ru.yandex.practicum.filmorate.storage.friends.FriendsAppStorage;
+import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 
 @Service
 public class FriendService implements FriendsAppService {
 
-	private final UserAppStorage<User> userAppStorage;
+	private final UsersAppStorage<User> usersAppStorage;
 	private final FriendsAppStorage<User> friendsAppStorage;
 
-	public FriendService(UserAppStorage<User> userAppStorage, FriendsAppStorage<User> friendsAppStorage) {
+	public FriendService(UsersAppStorage<User> usersAppStorage, FriendsAppStorage<User> friendsAppStorage) {
 		this.friendsAppStorage = friendsAppStorage;
-		this.userAppStorage = userAppStorage;
+		this.usersAppStorage = usersAppStorage;
 	}
 
 	/*
@@ -69,20 +69,19 @@ public class FriendService implements FriendsAppService {
 	@Override
 	public List<User> getAllFriendsOfUser(long userId) {
 		List<Long> friendsIdList = friendsAppStorage.getIdListOfAssociatedEntities(userId);
-		
-		return friendsIdList
-				.stream()
-				.map(id -> userAppStorage.get(id)) // для каждого id из списка friendsIdList вытаскиваем пользователя из userStorage
-				.toList(); 
+
+		return friendsIdList.stream().map(id -> usersAppStorage.get(id)) // для каждого id из списка friendsIdList
+																			// вытаскиваем пользователя из userStorage
+				.toList();
 	}
 
 	@Override
 	public List<User> getCommonFriendsOfUsers(long userOneId, long userTwoId) throws UsersAreNotFriendsException {
 		List<Long> commonFriendsIdList = friendsAppStorage.geIdListOfCommonEntities(userOneId, userTwoId);
-		
-		return commonFriendsIdList
-				.stream()
-				.map(id -> userAppStorage.get(id)) // для каждого id из списка friendsIdList вытаскиваем пользоватедя из userStorage
+
+		return commonFriendsIdList.stream().map(id -> usersAppStorage.get(id)) // для каждого id из списка friendsIdList
+																				// вытаскиваем пользоватедя из
+																				// userStorage
 				.toList();
 	}
 
@@ -114,7 +113,7 @@ public class FriendService implements FriendsAppService {
 	 * находится ли пользователь user в хранилище
 	 */
 	private void checkUserNotFoundException(long userId, String error) throws UserNotFoundException {
-		if (!userAppStorage.isEntityExist(userId)) {
+		if (!usersAppStorage.isEntityExist(userId)) {
 			throw new UserNotFoundException(userId, error);
 		}
 	}

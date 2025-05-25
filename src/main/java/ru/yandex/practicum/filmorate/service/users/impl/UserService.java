@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.service.user.impl;
+package ru.yandex.practicum.filmorate.service.users.impl;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.service.user.UserAppService;
-import ru.yandex.practicum.filmorate.storage.film.impl.InMemoryFilmsStorage;
-import ru.yandex.practicum.filmorate.storage.friend.FriendsAppStorage;
-import ru.yandex.practicum.filmorate.storage.user.UserAppStorage;
+import ru.yandex.practicum.filmorate.service.users.UserAppService;
+import ru.yandex.practicum.filmorate.storage.films.impl.InMemoryFilmsStorage;
+import ru.yandex.practicum.filmorate.storage.friends.FriendsAppStorage;
+import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 
 @Slf4j
 @Service
@@ -17,12 +17,12 @@ public class UserService implements UserAppService<User> {
 
 	private long id = 0;
 
-	UserAppStorage<User> userAppStorage;
+	UsersAppStorage<User> usersAppStorage;
 	FriendsAppStorage<User> friendsAppStorage;
 
-	public UserService(UserAppStorage<User> userAppStorage, FriendsAppStorage<User> friendsAppStorage,
+	public UserService(UsersAppStorage<User> usersAppStorage, FriendsAppStorage<User> friendsAppStorage,
 			InMemoryFilmsStorage inMemoryFilmsStorage) {
-		this.userAppStorage = userAppStorage;
+		this.usersAppStorage = usersAppStorage;
 		this.friendsAppStorage = friendsAppStorage;
 	}
 
@@ -36,7 +36,7 @@ public class UserService implements UserAppService<User> {
 			User createdUser = create(user);
 			log.info("Пользователь {} успешно добавлен", createdUser);
 			return createdUser;
-		} else if (userAppStorage.isEntityExist(user)) {
+		} else if (usersAppStorage.isEntityExist(user)) {
 			log.info("Начато обновление пользователя. Получен объект {}", user);
 			User updatedUser = update(user);
 			log.info("Пользователь {} успешно обновлен", updatedUser);
@@ -52,7 +52,7 @@ public class UserService implements UserAppService<User> {
 	@Override
 	public User delete(long userId) {
 		friendsAppStorage.deleteEntityFromStorage(userId);
-		return userAppStorage.remove(userId);
+		return usersAppStorage.remove(userId);
 	}
 
 	/*
@@ -61,7 +61,7 @@ public class UserService implements UserAppService<User> {
 	@Override
 	public void deleteAll() {
 		friendsAppStorage.clearStorage();
-		userAppStorage.clear();
+		usersAppStorage.clear();
 	}
 
 	/*
@@ -69,7 +69,7 @@ public class UserService implements UserAppService<User> {
 	 */
 	@Override
 	public User get(long userId) {
-		return userAppStorage.get(userId);
+		return usersAppStorage.get(userId);
 	}
 
 	/*
@@ -77,7 +77,7 @@ public class UserService implements UserAppService<User> {
 	 */
 	@Override
 	public List<User> getAll() {
-		return userAppStorage.getRepository().values().stream().toList();
+		return usersAppStorage.getRepository().values().stream().toList();
 	}
 
 	/*
@@ -93,13 +93,13 @@ public class UserService implements UserAppService<User> {
 	private User create(User user) {
 		user.setId(generateId());
 		friendsAppStorage.addEntityToStorage(user.getId());
-		return userAppStorage.add(user);
+		return usersAppStorage.add(user);
 	}
 
 	/*
 	 * обновить пользоватедя
 	 */
 	private User update(User user) {
-		return userAppStorage.add(user);
+		return usersAppStorage.add(user);
 	}
 }

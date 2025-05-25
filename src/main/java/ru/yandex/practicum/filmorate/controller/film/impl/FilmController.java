@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.controller.film.FilmAppController;
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.service.film.FilmAppService;
+import ru.yandex.practicum.filmorate.service.films.FilmAppService;
 
 /*
  * Film

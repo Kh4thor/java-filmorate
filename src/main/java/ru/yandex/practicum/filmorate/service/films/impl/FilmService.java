@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.service.film.impl;
+package ru.yandex.practicum.filmorate.service.films.impl;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.service.film.FilmAppService;
-import ru.yandex.practicum.filmorate.storage.film.FilmAppStorage;
+import ru.yandex.practicum.filmorate.service.films.FilmAppService;
+import ru.yandex.practicum.filmorate.storage.films.FilmsAppStorage;
 
 @Slf4j
 @Service
@@ -15,10 +15,10 @@ public class FilmService implements FilmAppService<Film> {
 
 	private long id = 0;
 
-	FilmAppStorage<Film> filmAppStorage;
+	FilmsAppStorage<Film> filmsAppStorage;
 
-	public FilmService(FilmAppStorage<Film> filmAppStorage) {
-		this.filmAppStorage = filmAppStorage;
+	public FilmService(FilmsAppStorage<Film> filmsAppStorage) {
+		this.filmsAppStorage = filmsAppStorage;
 	}
 
 	/*
@@ -29,9 +29,10 @@ public class FilmService implements FilmAppService<Film> {
 		if (film.getId() == null || film.getId() == 0) {
 			log.info("Начато создание фильма. Получен объект {}", film);
 			Film createdFilm = create(film);
+
 			log.info("Фильм {} успешно добавлен", createdFilm);
 			return createdFilm;
-		} else if (filmAppStorage.isEntityExist(film)) {
+		} else if (filmsAppStorage.isEntityExist(film)) {
 			log.info("Начато обновление фильма. Получен объект {}", film);
 			Film updatedFilm = update(film);
 			log.info("Фильм {} успешно обновлен", updatedFilm);
@@ -46,7 +47,7 @@ public class FilmService implements FilmAppService<Film> {
 	 */
 	@Override
 	public Film delete(long id) {
-		return filmAppStorage.remove(id);
+		return filmsAppStorage.remove(id);
 	}
 
 	/*
@@ -54,7 +55,7 @@ public class FilmService implements FilmAppService<Film> {
 	 */
 	@Override
 	public void deleteAll() {
-		filmAppStorage.clear();
+		filmsAppStorage.clear();
 	}
 
 	/*
@@ -62,7 +63,7 @@ public class FilmService implements FilmAppService<Film> {
 	 */
 	@Override
 	public Film get(long id) {
-		return filmAppStorage.get(id);
+		return filmsAppStorage.get(id);
 	}
 
 	/*
@@ -70,7 +71,7 @@ public class FilmService implements FilmAppService<Film> {
 	 */
 	@Override
 	public List<Film> getAll() {
-		return filmAppStorage.getRepository().values().stream().toList();
+		return filmsAppStorage.getRepository().values().stream().toList();
 	}
 
 	/*
@@ -85,13 +86,13 @@ public class FilmService implements FilmAppService<Film> {
 	 */
 	private Film create(Film film) {
 		film.setId(generateId());
-		return filmAppStorage.add(film);
+		return filmsAppStorage.add(film);
 	}
 
 	/*
 	 * обновить фильм
 	 */
 	private Film update(Film film) {
-		return filmAppStorage.add(film);
+		return filmsAppStorage.add(film);
 	}
 }

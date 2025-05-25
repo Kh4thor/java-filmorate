@@ -1,11 +1,11 @@
-package ru.yandex.practicum.filmorate.storage.film;
+package ru.yandex.practicum.filmorate.storage.films;
 
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 @Service
-public interface FilmAppStorage<T> {
+public interface FilmsAppStorage<T> {
 
 	/*
 	 * добавить объект в хранилище

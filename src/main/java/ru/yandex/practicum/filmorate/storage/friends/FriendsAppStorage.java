@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.storage.friend;
+package ru.yandex.practicum.filmorate.storage.friends;
 
 import java.util.List;
 

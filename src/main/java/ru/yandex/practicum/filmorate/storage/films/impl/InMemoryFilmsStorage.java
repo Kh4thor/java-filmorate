@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.storage.film.impl;
+package ru.yandex.practicum.filmorate.storage.films.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,10 +6,10 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.storage.film.FilmAppStorage;
+import ru.yandex.practicum.filmorate.storage.films.FilmsAppStorage;
 
 @Service
-public class InMemoryFilmsStorage implements FilmAppStorage<Film> {
+public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 
 	// хранилище фильмов
 	private Map<Long, Film> appStorage = new HashMap<>();

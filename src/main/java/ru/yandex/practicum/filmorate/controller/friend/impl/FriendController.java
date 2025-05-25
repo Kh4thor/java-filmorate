@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.controller.friend.FriendAppController;
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.service.friend.FriendsAppService;
+import ru.yandex.practicum.filmorate.service.friends.FriendsAppService;
 
 @RestController
 @Slf4j
