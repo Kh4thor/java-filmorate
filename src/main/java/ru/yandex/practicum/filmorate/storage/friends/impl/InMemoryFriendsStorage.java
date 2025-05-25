@@ -75,16 +75,16 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 	 */
 	@Override
 	public List<Long> geIdListOfCommonEntities(long userOneId, long userTwoId) {
-		List<Long> ListIdOfCommonEntities = new ArrayList<>();
+		List<Long> listIdOfCommonEntities = new ArrayList<>();
 		List<Long> friendsIdListOfUserOne = friendsIdMap.get(userOneId);
 		List<Long> friendsIdListOfUserTwo = friendsIdMap.get(userTwoId);
 
 		for (long friendId : friendsIdListOfUserOne) {
 			if (friendsIdListOfUserTwo.contains(friendId)) {
-				ListIdOfCommonEntities.add(friendId);
+				listIdOfCommonEntities.add(friendId);
 			}
 		}
-		return ListIdOfCommonEntities;
+		return listIdOfCommonEntities;
 	}
 
 	/*
