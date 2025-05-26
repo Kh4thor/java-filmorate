@@ -16,7 +16,7 @@ import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 @Service
 public class UserService implements UserAppService<User> {
 
-	private long id = 0;
+	private Long id = 0L;
 
 	UsersAppStorage<User> usersAppStorage;
 	FriendsAppStorage friendsAppStorage;
@@ -53,10 +53,10 @@ public class UserService implements UserAppService<User> {
 	 * удалить пользователя по id
 	 */
 	@Override
-	public User deleteUser(long userId) {
-		String error = "Невозможно удалить пользователя";
+	public User deleteUser(Long userId) {
+		String errorMessage = "Невозможно удалить пользователя";
 		friendsAppStorage.deleteUser(userId);
-		exceptionsAppChecker.checkUserNotFoundException(userId, error);
+		exceptionsAppChecker.checkUserNotFoundException(userId, errorMessage);
 		return usersAppStorage.removeUser(userId);
 	}
 
@@ -73,7 +73,7 @@ public class UserService implements UserAppService<User> {
 	 * получить пользователя по id
 	 */
 	@Override
-	public User getUser(long userId) {
+	public User getUser(Long userId) {
 		return usersAppStorage.getUser(userId);
 	}
 
@@ -82,17 +82,13 @@ public class UserService implements UserAppService<User> {
 	 */
 	@Override
 	public List<User> getAllUsers() {
-		return usersAppStorage
-				.getRepository()
-				.values()
-				.stream()
-				.toList();
+		return usersAppStorage.getRepository().values().stream().toList();
 	}
 
 	/*
 	 * генератор id для нового пользователя
 	 */
-	private long generateId() {
+	private Long generateId() {
 		return ++id;
 	}
 
@@ -100,8 +96,8 @@ public class UserService implements UserAppService<User> {
 	 * создать пользователя
 	 */
 	private User create(User user) {
-		String error = "Невозможно обновить пользователя";
-		exceptionsAppChecker.checkUserIsExistException(user.getId(), error);
+		String errorMessage = "Невозможно обновить пользователя";
+		exceptionsAppChecker.checkUserIsExistException(user.getId(), errorMessage);
 		user.setId(generateId());
 		friendsAppStorage.addUser(user.getId());
 		return usersAppStorage.addUser(user);
@@ -111,8 +107,8 @@ public class UserService implements UserAppService<User> {
 	 * обновить пользоватедя
 	 */
 	private User update(User user) {
-		String error = "Невозможно обновить пользователя";
-		exceptionsAppChecker.checkUserNotFoundException(user.getId(), error);
+		String errorMessage = "Невозможно обновить пользователя";
+		exceptionsAppChecker.checkUserNotFoundException(user.getId(), errorMessage);
 		friendsAppStorage.addUser(user.getId());
 		return usersAppStorage.addUser(user);
 	}

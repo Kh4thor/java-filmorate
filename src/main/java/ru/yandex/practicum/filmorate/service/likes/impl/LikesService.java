@@ -31,10 +31,10 @@ public class LikesService implements LikesAppService {
 	 * поставить лайк фильму
 	 */
 	@Override
-	public void setLike(long filmId, long userId) {
-		String error = "Невозможно поставить лайк фильму";
-		exceptionsChecker.checkFilmNotFoundException(filmId, error);
-		exceptionsChecker.checkUserNotFoundException(userId, error);
+	public void setLike(Long filmId, Long userId) {
+		String errorMessage = "Невозможно поставить лайк фильму";
+		exceptionsChecker.checkFilmNotFoundException(filmId, errorMessage);
+		exceptionsChecker.checkUserNotFoundException(userId, errorMessage);
 		likesAppStorage.setLike(filmId, userId);
 		log.info("Пользователь id=" + userId + " поставил лайк фильму id=" + filmId);
 	}
@@ -43,10 +43,10 @@ public class LikesService implements LikesAppService {
 	 * удалить лайк
 	 */
 	@Override
-	public void removeLike(long filmId, long userId) {
-		String error = "Невозможно убрать лайк у фильма";
-		exceptionsChecker.checkFilmNotFoundException(filmId, error);
-		exceptionsChecker.checkUserNotFoundException(userId, error);
+	public void removeLike(Long filmId, Long userId) {
+		String errorMessage = "Невозможно убрать лайк у фильма";
+		exceptionsChecker.checkFilmNotFoundException(filmId, errorMessage);
+		exceptionsChecker.checkUserNotFoundException(userId, errorMessage);
 		likesAppStorage.removeLike(filmId, userId);
 		log.info("Пользователь id=" + userId + " удалил лайк у фильма id=" + filmId);
 	}

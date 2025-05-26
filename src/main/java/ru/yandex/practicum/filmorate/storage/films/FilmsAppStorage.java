@@ -22,7 +22,7 @@ public interface FilmsAppStorage<T> {
 	/*
 	 * проверить хранилище на наличие ключа-id объекта
 	 */
-	boolean isFilmExist(long id);
+	boolean isFilmExist(Long id);
 
 	/*
 	 * получить объект из хранилища

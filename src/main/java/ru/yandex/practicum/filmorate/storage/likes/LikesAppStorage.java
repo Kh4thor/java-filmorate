@@ -7,22 +7,22 @@ public interface LikesAppStorage {
 	/*
 	 * добавиить фильм в хранилище-счетчик
 	 */
-	boolean addFilm(long filmId);
+	boolean addFilm(Long filmId);
 
 	/*
 	 * поставить лайк фильму
 	 */
-	boolean setLike(long filmId, long userId);
+	boolean setLike(Long filmId, Long userId);
 
 	/*
 	 * проверка, ствавил ли пользователь лайк фильму
 	 */
-	boolean isUserSetLike(long filmId, long userId);
+	boolean isUserSetLike(Long filmId, Long userId);
 
 	/*
 	 * удалить лайк пользователя
 	 */
-	boolean removeLike(long filmId, long userId);
+	boolean removeLike(Long filmId, Long userId);
 
 	/*
 	 * получить id-список с указанным количеством рейтиноговых фильмов
@@ -32,17 +32,17 @@ public interface LikesAppStorage {
 	/*
 	 * обнулить лайки для фильма
 	 */
-	boolean resetLikes(long filmId);
+	boolean resetLikes(Long filmId);
 
 	/*
 	 * удалить фильм из хранаилища-счетчика
 	 */
-	boolean deleteFilm(long filmId);
+	boolean deleteFilm(Long filmId);
 
 	/*
 	 * проверка на наличие id-фильма в хранилище-счетчике
 	 */
-	boolean isFilmExist(long filmId);
+	boolean isFilmExist(Long filmId);
 
 	/*
 	 * удалить все фильмы из хранилища-счетчика

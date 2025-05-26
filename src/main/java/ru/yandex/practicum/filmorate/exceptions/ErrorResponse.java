@@ -1,16 +1,16 @@
 package ru.yandex.practicum.filmorate.exceptions;
 
 public class ErrorResponse {
-	private final String error;
+	private final String errorMessage;
 	private final String description;
 
-	public ErrorResponse(String error, String description) {
-		this.error = error;
+	public ErrorResponse(String errorMessage, String description) {
+		this.errorMessage = errorMessage;
 		this.description = description;
 	}
 
-	public String getError() {
-		return error;
+	public String getErrorMessage() {
+		return errorMessage;
 	}
 
 	public String getDescription() {

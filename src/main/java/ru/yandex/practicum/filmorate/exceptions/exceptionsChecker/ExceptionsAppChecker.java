@@ -5,31 +5,31 @@ public interface ExceptionsAppChecker {
 	/*
 	 * проверка на ошибку - фильм уже существует
 	 */
-	void checkFilmIsExistException(long filmId, String error);
+	void checkFilmIsExistException(Long filmId, String errorMessage);
 
 	/*
 	 * проверка на ошибку - фильм не найден
 	 */
-	void checkFilmNotFoundException(long filmId, String error);
+	void checkFilmNotFoundException(Long filmId, String errorMessage);
 
 	/*
 	 * проверка на ошибку - пользователь не найден
 	 */
-	void checkUserNotFoundException(long userId, String error);
+	void checkUserNotFoundException(Long userId, String errorMessage);
 
 	/*
 	 * проверка на ошибку - пользователь не найден
 	 */
-	void checkUserIsExistException(long userId, String error);
+	void checkUserIsExistException(Long userId, String errorMessage);
 
 	/*
 	 * проверка на ошибку - пользователи уже друзья
 	 */
-	void checkUsersAreFriendsException(long userOneId, long userTwoId, String error);
+	void checkUsersAreFriendsException(Long userOneId, Long userTwoId, String errorMessage);
 
 	/*
 	 * проверка на ошибку - пользователи не являются друзьями
 	 */
-	void checkUsersAreNotFriendsException(long userOneId, long userTwoId, String error);
+	void checkUsersAreNotFriendsException(Long userOneId, Long userTwoId, String errorMessage);
 
 }

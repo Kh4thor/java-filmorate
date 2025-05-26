@@ -31,7 +31,7 @@ public class FriendsController implements FriendsAppController {
 	 */
 	@Override
 	@PutMapping("/{friendsId}")
-	public ResponseEntity<String> addFriend(long id, long friendsId) {
+	public ResponseEntity<String> addFriend(Long id, Long friendsId) {
 		log.info("Начат процесс добавления друга. Получен id-пользователя=" + id + " и id-друга=" + friendsId);
 		boolean isFriendsAssociated = friendsAppService.associateUsersAsFriends(id, friendsId);
 		if (isFriendsAssociated) {
@@ -49,7 +49,7 @@ public class FriendsController implements FriendsAppController {
 	 */
 	@Override
 	@DeleteMapping("/{friendsId}")
-	public ResponseEntity<String> deleteFriend(long id, long friendsId) {
+	public ResponseEntity<String> deleteFriend(Long id, Long friendsId) {
 		boolean isFriendsDisassociated = friendsAppService.disassociateUsersAsFriends(id, friendsId);
 		if (isFriendsDisassociated) {
 			log.info("Пользователи c id=" + id + " и id=" + friendsId + " больше не друзья");
@@ -66,7 +66,7 @@ public class FriendsController implements FriendsAppController {
 	 */
 	@Override
 	@GetMapping
-	public List<User> getListOfFriends(long id) {
+	public List<User> getListOfFriends(Long id) {
 		return friendsAppService.getAllFriendsOfUser(id);
 	}
 
@@ -75,7 +75,7 @@ public class FriendsController implements FriendsAppController {
 	 */
 	@Override
 	@GetMapping("/common/{otherId}")
-	public List<User> getCommonFriends(long id, long otherId) {
+	public List<User> getCommonFriends(Long id, Long otherId) {
 		return friendsAppService.getCommonFriendsOfUsers(id, otherId);
 	}
 }

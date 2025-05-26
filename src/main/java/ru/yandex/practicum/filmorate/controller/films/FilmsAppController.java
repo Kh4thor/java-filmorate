@@ -18,7 +18,7 @@ public interface FilmsAppController<T> {
 	/*
 	 * удалить объект по id
 	 */
-	ResponseEntity<T> delete(@PathVariable long id);
+	ResponseEntity<T> delete(@PathVariable Long id);
 
 	/*
 	 * удалить все объекты
@@ -28,7 +28,7 @@ public interface FilmsAppController<T> {
 	/*
 	 * получить объект по id
 	 */
-	ResponseEntity<T> get(@PathVariable long id);
+	ResponseEntity<T> get(@PathVariable Long id);
 
 	/*
 	 * получить список всех объектов

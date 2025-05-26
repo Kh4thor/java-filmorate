@@ -12,21 +12,21 @@ public interface FriendsAppController {
 	/*
 	 * добавить пользователя в друзья
 	 */
-	ResponseEntity<String> addFriend(@PathVariable long id, @PathVariable long friendsId);
+	ResponseEntity<String> addFriend(@PathVariable Long id, @PathVariable Long friendsId);
 
 	/*
 	 * удалить пользователя из друзей
 	 */
-	ResponseEntity<String> deleteFriend(@PathVariable long id, @PathVariable long friendsId);
+	ResponseEntity<String> deleteFriend(@PathVariable Long id, @PathVariable Long friendsId);
 
 	/*
 	 * получить друзей пользователя
 	 */
-	List<User> getListOfFriends(@PathVariable long id);
+	List<User> getListOfFriends(@PathVariable Long id);
 
 	/*
 	 * получить список общих друзей
 	 */
-	List<User> getCommonFriends(@PathVariable long id, @PathVariable long otherId);
+	List<User> getCommonFriends(@PathVariable Long id, @PathVariable Long otherId);
 
 }

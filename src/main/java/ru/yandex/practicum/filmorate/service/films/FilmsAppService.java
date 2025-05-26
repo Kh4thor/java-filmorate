@@ -12,7 +12,7 @@ public interface FilmsAppService<T> {
 	/*
 	 * удалить объект по id
 	 */
-	T delete(long id);
+	T delete(Long id);
 
 	/*
 	 * удалить все объекты
@@ -22,7 +22,7 @@ public interface FilmsAppService<T> {
 	/*
 	 * получить объект по id
 	 */
-	T get(long id);
+	T get(Long id);
 
 	/*
 	 * получить список всех объектов

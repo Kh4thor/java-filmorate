@@ -9,12 +9,12 @@ public interface LikesAppService {
 	/*
 	 * поставить лайк фильму
 	 */
-	void setLike(long filmId, long userId);
+	void setLike(Long filmId, Long userId);
 
 	/*
 	 * удалить лайк
 	 */
-	void removeLike(long filmId, long userId);
+	void removeLike(Long filmId, Long userId);
 
 	/*
 	 * вернуть список из первых count-фильмов по количеству лайков
