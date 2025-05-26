@@ -29,11 +29,11 @@ public class FriendService implements FriendsAppService {
 	 * объеденить пользователей в друзей
 	 */
 	@Override
-	public boolean associateUsersAsFriends(long userOneId, long userTwoId) {
-		String error = "Невозможно добавить пользователя в друзья";
-		exceptionsChecker.checkUsersAreFriendsException(userOneId, userTwoId, error);
-		exceptionsChecker.checkUserNotFoundException(userOneId, error);
-		exceptionsChecker.checkUserNotFoundException(userTwoId, error);
+	public boolean associateUsersAsFriends(Long userOneId, Long userTwoId) {
+		String errorMessage = "Невозможно добавить пользователя в друзья";
+		exceptionsChecker.checkUsersAreFriendsException(userOneId, userTwoId, errorMessage);
+		exceptionsChecker.checkUserNotFoundException(userOneId, errorMessage);
+		exceptionsChecker.checkUserNotFoundException(userTwoId, errorMessage);
 		friendsAppStorage.associateUsersAsFriends(userOneId, userTwoId);
 		return true;
 	}
@@ -42,7 +42,7 @@ public class FriendService implements FriendsAppService {
 	 * проверка пользователей, являются ли они друзьями (by user's id)
 	 */
 	@Override
-	public boolean isUsersAreFriends(long userOneId, long userTwoId) {
+	public boolean isUsersAreFriends(Long userOneId, Long userTwoId) {
 		return friendsAppStorage.isUsersAssociatedAsFriends(userOneId, userTwoId);
 	}
 
@@ -50,10 +50,10 @@ public class FriendService implements FriendsAppService {
 	 * убрать пользователей из списка друзей друг друга
 	 */
 	@Override
-	public boolean disassociateUsersAsFriends(long userOneId, long userTwoId) {
-		String error = "Невозможно удалить пользователя из друзей";
-		exceptionsChecker.checkUserNotFoundException(userOneId, error);
-		exceptionsChecker.checkUserNotFoundException(userTwoId, error);
+	public boolean disassociateUsersAsFriends(Long userOneId, Long userTwoId) {
+		String errorMessage = "Невозможно удалить пользователя из друзей";
+		exceptionsChecker.checkUserNotFoundException(userOneId, errorMessage);
+		exceptionsChecker.checkUserNotFoundException(userTwoId, errorMessage);
 		friendsAppStorage.disassociateUserAsFriends(userOneId, userTwoId);
 		return true;
 	}
@@ -62,9 +62,9 @@ public class FriendService implements FriendsAppService {
 	 * очистить список друзей пользователя
 	 */
 	@Override
-	public void disassociateAllFriendsOfUser(long userId) {
-		String error = "Невозможно удалить друзей пользователя";
-		exceptionsChecker.checkUserNotFoundException(userId, error);
+	public void disassociateAllFriendsOfUser(Long userId) {
+		String errorMessage = "Невозможно удалить друзей пользователя";
+		exceptionsChecker.checkUserNotFoundException(userId, errorMessage);
 		friendsAppStorage.removeAllAssociatedFriendsOfUser(userId);
 	}
 
@@ -72,7 +72,7 @@ public class FriendService implements FriendsAppService {
 	 * получить список всех друзей (по типу User)
 	 */
 	@Override
-	public List<User> getAllFriendsOfUser(long userId) {
+	public List<User> getAllFriendsOfUser(Long userId) {
 		List<Long> friendsIdList = friendsAppStorage.getIdListOfAssociatedFriends(userId);
 
 		return friendsIdList
@@ -82,7 +82,7 @@ public class FriendService implements FriendsAppService {
 	}
 
 	@Override
-	public List<User> getCommonFriendsOfUsers(long userOneId, long userTwoId) throws UsersAreNotFriendsException {
+	public List<User> getCommonFriendsOfUsers(Long userOneId, Long userTwoId) throws UsersAreNotFriendsException {
 		List<Long> commonFriendsIdList = friendsAppStorage.geIdListOfCommonFriends(userOneId, userTwoId);
 
 		return commonFriendsIdList

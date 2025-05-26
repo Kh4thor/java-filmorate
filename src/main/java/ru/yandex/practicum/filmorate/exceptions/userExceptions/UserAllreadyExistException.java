@@ -3,21 +3,21 @@ package ru.yandex.practicum.filmorate.exceptions.userExceptions;
 public class UserAllreadyExistException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
-	private long userId;
-	private String error;
+	private Long userId;
+	private String errorMessage;
 
-	public UserAllreadyExistException(long userId, String error) {
+	public UserAllreadyExistException(Long userId, String errorMessage) {
 		super("Пользователь с id=" + userId + "уже существует");
 		this.userId = userId;
-		this.error = error;
+		this.errorMessage = errorMessage;
 	}
 
-	public long getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public String getError() {
-		return error;
+	public String geterrorMessage() {
+		return errorMessage;
 	}
 
 }

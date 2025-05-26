@@ -50,7 +50,7 @@ public class FilmsController implements FilmsAppController<Film> {
 	 */
 	@DeleteMapping("/{id}")
 	@Override
-	public ResponseEntity<Film> delete(long id) {
+	public ResponseEntity<Film> delete(Long id) {
 		log.info("Начато удаление фильма. Получен id={}", id);
 		if (appService.delete(id) == null) {
 			log.warn("Фильм с id={} в списке не найден", id);
@@ -76,7 +76,7 @@ public class FilmsController implements FilmsAppController<Film> {
 	 */
 	@GetMapping("/{id}")
 	@Override
-	public ResponseEntity<Film> get(long id) {
+	public ResponseEntity<Film> get(Long id) {
 		log.info("Начат вызов фильма. Получен id={}", id);
 		if (appService.get(id) == null) {
 			log.warn("Фильм с id={} в списке не найден", id);

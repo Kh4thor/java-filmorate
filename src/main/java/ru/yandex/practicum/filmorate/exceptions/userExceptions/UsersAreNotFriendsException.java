@@ -4,25 +4,25 @@ public class UsersAreNotFriendsException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	private long userOneId;
-	private long userTwoId;
-	private String error;
+	private Long userOneId;
+	private Long userTwoId;
+	private String errorMessage;
 
-	public UsersAreNotFriendsException(long userOneId, long userTwoId, String error) {
+	public UsersAreNotFriendsException(Long userOneId, Long userTwoId, String errorMessage) {
 		super("Пользователь с id=" + userOneId + " и пользователь с id=" + userTwoId + " не являются друзьями");
 		this.userOneId = userOneId;
 		this.userTwoId = userTwoId;
 	}
 
-	public long getUserOneId() {
+	public Long getUserOneId() {
 		return userOneId;
 	}
 
-	public long getUserTwoId() {
+	public Long getUserTwoId() {
 		return userTwoId;
 	}
 
-	public String getError() {
-		return error;
+	public String getErrorMessage() {
+		return errorMessage;
 	}
 }

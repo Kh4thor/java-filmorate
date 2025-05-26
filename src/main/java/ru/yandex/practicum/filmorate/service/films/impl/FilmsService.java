@@ -17,7 +17,7 @@ import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 @Service
 public class FilmsService implements FilmsAppService<Film> {
 
-	private long id = 0;
+	private Long id = 0L;
 
 	private final FilmsAppStorage<Film> filmsAppStorage;
 	private final LikesAppStorage likesAppStorage;
@@ -54,9 +54,9 @@ public class FilmsService implements FilmsAppService<Film> {
 	 * удалить фильм по id
 	 */
 	@Override
-	public Film delete(long filmId) {
-		String error = "Невозможно удалить фильм.";
-		exceptionsAppChecker.checkFilmNotFoundException(filmId, error);
+	public Film delete(Long filmId) {
+		String errorMessage = "Невозможно удалить фильм.";
+		exceptionsAppChecker.checkFilmNotFoundException(filmId, errorMessage);
 		likesAppStorage.deleteFilm(filmId);
 		log.info("Фильм с id=" + filmId + " удален");
 		return filmsAppStorage.removeFilm(filmId);
@@ -75,7 +75,7 @@ public class FilmsService implements FilmsAppService<Film> {
 	 * получить фильм по id
 	 */
 	@Override
-	public Film get(long id) {
+	public Film get(Long id) {
 		return filmsAppStorage.getFilm(id);
 	}
 
@@ -84,27 +84,23 @@ public class FilmsService implements FilmsAppService<Film> {
 	 */
 	@Override
 	public List<Film> getAll() {
-		return filmsAppStorage
-				.getRepository()
-				.values()
-				.stream()
-				.toList();
+		return filmsAppStorage.getRepository().values().stream().toList();
 	}
 
 	/*
 	 * поставить лайк фильму
 	 */
-	public void setLikeToFilm(long userId, long filmId) {
-		String error = "Невозможно поставить лайк фильму";
-		exceptionsAppChecker.checkFilmNotFoundException(filmId, error);
-		exceptionsAppChecker.checkUserNotFoundException(userId, error);
+	public void setLikeToFilm(Long userId, Long filmId) {
+		String errorMessage = "Невозможно поставить лайк фильму";
+		exceptionsAppChecker.checkFilmNotFoundException(filmId, errorMessage);
+		exceptionsAppChecker.checkUserNotFoundException(userId, errorMessage);
 		likesAppStorage.setLike(filmId, userId);
 	}
 
 	/*
 	 * генератор id для нового фильма
 	 */
-	private long generateId() {
+	private Long generateId() {
 		return ++id;
 	}
 
@@ -112,9 +108,9 @@ public class FilmsService implements FilmsAppService<Film> {
 	 * создать фильм
 	 */
 	private Film create(Film film) {
-		String error = "Невозможно создать фильм";
+		String errorMessage = "Невозможно создать фильм";
 		film.setId(generateId());
-		exceptionsAppChecker.checkFilmIsExistException(film.getId(), error);
+		exceptionsAppChecker.checkFilmIsExistException(film.getId(), errorMessage);
 		likesAppStorage.addFilm(film.getId());
 		return filmsAppStorage.addFilm(film);
 	}
@@ -123,10 +119,9 @@ public class FilmsService implements FilmsAppService<Film> {
 	 * обновить фильм
 	 */
 	private Film update(Film film) {
-		String error = "Невозможно обновить фильм";
-		exceptionsAppChecker.checkFilmNotFoundException(film.getId(), error);
+		String errorMessage = "Невозможно обновить фильм";
+		exceptionsAppChecker.checkFilmNotFoundException(film.getId(), errorMessage);
 		likesAppStorage.addFilm(film.getId());
 		return filmsAppStorage.addFilm(film);
 	}
-
 }

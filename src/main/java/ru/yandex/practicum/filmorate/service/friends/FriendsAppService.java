@@ -9,30 +9,30 @@ public interface FriendsAppService {
 	/*
 	 * объеденить пользователей в друзья
 	 */
-	boolean associateUsersAsFriends(long userOneId, long userTwoId);
+	boolean associateUsersAsFriends(Long userOneId, Long userTwoId);
 
 	/*
 	 * проверка пользователей, являются ли они друзьями
 	 */
-	boolean isUsersAreFriends(long userOneId, long userTwoId);
+	boolean isUsersAreFriends(Long userOneId, Long userTwoId);
 
 	/*
 	 * убрать пользователей из списка друзей друг друга
 	 */
-	boolean disassociateUsersAsFriends(long userOneId, long userTwoId);
+	boolean disassociateUsersAsFriends(Long userOneId, Long userTwoId);
 
 	/*
 	 * очистить список друзей пользователя
 	 */
-	void disassociateAllFriendsOfUser(long userId);
+	void disassociateAllFriendsOfUser(Long userId);
 
 	/*
 	 * получить список всех друзей (по типу User)
 	 */
-	List<User> getAllFriendsOfUser(long userId);
+	List<User> getAllFriendsOfUser(Long userId);
 
 	/*
 	 * получить список всех друзей (по типу User)
 	 */
-	List<User> getCommonFriendsOfUsers(long userOneId, long userTwoId);
+	List<User> getCommonFriendsOfUsers(Long userOneId, Long userTwoId);
 }

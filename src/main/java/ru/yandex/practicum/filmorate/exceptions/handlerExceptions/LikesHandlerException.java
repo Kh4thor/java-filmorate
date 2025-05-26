@@ -15,12 +15,12 @@ public class LikesHandlerException {
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
 	public ErrorResponse handlerUserAllreadySetLikeToFilmException(final UserAllreadySetLikeToFilmException exception) {
-		return new ErrorResponse(exception.getError(), exception.getMessage());
+		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 	}
 
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
 	public ErrorResponse handlerUserDidntSetLikeToFilmException(final UserDidntSetLikeToFilmException exception) {
-		return new ErrorResponse(exception.getError(), exception.getMessage());
+		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 	}
 }

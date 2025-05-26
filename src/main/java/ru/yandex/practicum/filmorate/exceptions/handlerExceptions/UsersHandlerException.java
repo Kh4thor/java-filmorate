@@ -15,12 +15,12 @@ public class UsersHandlerException {
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	public ErrorResponse handlerUserNotFoundException(final UserNotFoundException exception) {
-		return new ErrorResponse(exception.getError(), exception.getMessage());
+		return new ErrorResponse(exception.geterrorMessage(), exception.getMessage());
 	}
 
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
 	public ErrorResponse handlerUserNotFoundException(final UserAllreadyExistException exception) {
-		return new ErrorResponse(exception.getError(), exception.getMessage());
+		return new ErrorResponse(exception.geterrorMessage(), exception.getMessage());
 	}
 }

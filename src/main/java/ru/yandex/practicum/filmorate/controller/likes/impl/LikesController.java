@@ -27,7 +27,7 @@ public class LikesController implements LikesAppController {
 	 */
 	@Override
 	@PutMapping("/{id}/like/{userId}")
-	public void setLike(long id, long userId) {
+	public void setLike(Long id, Long userId) {
 		likesAppService.setLike(id, userId);
 	}
 
@@ -36,7 +36,7 @@ public class LikesController implements LikesAppController {
 	 */
 	@Override
 	@DeleteMapping("/{id}/like/{userId}")
-	public void removeLike(long id, long userId) {
+	public void removeLike(Long id, Long userId) {
 		likesAppService.removeLike(id, userId);
 	}
 

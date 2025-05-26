@@ -3,21 +3,21 @@ package ru.yandex.practicum.filmorate.exceptions.userExceptions;
 public class UserNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
-	private long userId;
-	private String error;
+	private Long userId;
+	private String errorMessage;
 
-	public UserNotFoundException(long userId, String error) {
+	public UserNotFoundException(Long userId, String errorMessage) {
 		super("Пользователь c id=" + userId + " не найден");
-		this.error = error;
+		this.errorMessage = errorMessage;
 		this.userId = userId;
 	}
 
-	public long getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public String getError() {
-		return error;
+	public String geterrorMessage() {
+		return errorMessage;
 	}
 
 }

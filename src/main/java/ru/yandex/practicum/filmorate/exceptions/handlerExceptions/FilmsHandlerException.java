@@ -15,12 +15,12 @@ public class FilmsHandlerException {
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	public ErrorResponse handlerFilmNotFoundException(final FilmNotFoundException exception) {
-		return new ErrorResponse(exception.getError(), exception.getMessage());
+		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 	}
 
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
 	public ErrorResponse handleFilmAllreadyExistException(final FilmAllreadyExistException exception) {
-		return new ErrorResponse(exception.getError(), exception.getMessage());
+		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 	}
 }

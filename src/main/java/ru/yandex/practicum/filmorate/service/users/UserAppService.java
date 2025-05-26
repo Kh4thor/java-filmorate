@@ -12,7 +12,7 @@ public interface UserAppService<T> {
 	/*
 	 * удалить пользователя
 	 */
-	T deleteUser(long id);
+	T deleteUser(Long id);
 
 	/*
 	 * удалить всех пользователей
@@ -22,7 +22,7 @@ public interface UserAppService<T> {
 	/*
 	 * получить пользователя
 	 */
-	T getUser(long id);
+	T getUser(Long id);
 
 	/*
 	 * получить список всех пользователей

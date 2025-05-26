@@ -67,7 +67,7 @@ public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 	 * проверить хранилище на наличие объекта по id
 	 */
 	@Override
-	public boolean isFilmExist(long id) {
+	public boolean isFilmExist(Long id) {
 		return appStorage.containsKey(id);
 	}
 }

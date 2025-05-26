@@ -15,14 +15,14 @@ public class FriendsHandlerException {
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
 	public ErrorResponse handlerUsersAreAllreadyFriendsException(final UsersAreAllreadyFriendsException exception) {
-		return new ErrorResponse(exception.getError(), exception.getMessage());
+		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 
 	}
 
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
 	public ErrorResponse handlerUsersAreNotFriendsException(final UsersAreNotFriendsException exception) {
-		return new ErrorResponse(exception.getError(), exception.getMessage());
+		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 	}
 
 }

@@ -18,7 +18,7 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 	 * связать пользователей в качестве друзей
 	 */
 	@Override
-	public boolean associateUsersAsFriends(long userOneId, long userTwoId) {
+	public boolean associateUsersAsFriends(Long userOneId, Long userTwoId) {
 		List<Long> friendsIdListOfUserOne = friendsIdMap.get(userOneId);
 		List<Long> friendsIdListOfUserTwo = friendsIdMap.get(userTwoId);
 		friendsIdListOfUserOne.add(userTwoId);
@@ -30,7 +30,7 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 	 * отвязать пользователей в качестве друзей
 	 */
 	@Override
-	public boolean disassociateUserAsFriends(long userOneId, long userTwoId) {
+	public boolean disassociateUserAsFriends(Long userOneId, Long userTwoId) {
 		List<Long> friendsIdListOfUserOne = friendsIdMap.get(userOneId);
 		friendsIdListOfUserOne.remove(userTwoId);
 
@@ -44,7 +44,7 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 	 * проверка пользователей на дружбу
 	 */
 	@Override
-	public boolean isUsersAssociatedAsFriends(long userOneId, long userTwoId) {
+	public boolean isUsersAssociatedAsFriends(Long userOneId, Long userTwoId) {
 		List<Long> friendsIdListOfUserOne = friendsIdMap.get(userOneId);
 		List<Long> friendsIdListOfUserTwo = friendsIdMap.get(userTwoId);
 		if (friendsIdListOfUserOne.contains(userTwoId) && friendsIdListOfUserTwo.contains(userOneId)) {
@@ -57,7 +57,7 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 	 * получить id-список связанных друзей пользователя
 	 */
 	@Override
-	public List<Long> getIdListOfAssociatedFriends(long userId) {
+	public List<Long> getIdListOfAssociatedFriends(Long userId) {
 		return friendsIdMap.get(userId);
 	}
 
@@ -65,7 +65,7 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 	 * удалить у пользователя всех привязанных друзей
 	 */
 	@Override
-	public void removeAllAssociatedFriendsOfUser(long userId) {
+	public void removeAllAssociatedFriendsOfUser(Long userId) {
 		friendsIdMap.remove(userId);
 
 	}
@@ -74,12 +74,12 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 	 * получить id-список общих друзей двух пользователей
 	 */
 	@Override
-	public List<Long> geIdListOfCommonFriends(long userOneId, long userTwoId) {
+	public List<Long> geIdListOfCommonFriends(Long userOneId, Long userTwoId) {
 		List<Long> listIdOfCommonEntities = new ArrayList<>();
 		List<Long> friendsIdListOfUserOne = friendsIdMap.get(userOneId);
 		List<Long> friendsIdListOfUserTwo = friendsIdMap.get(userTwoId);
 
-		for (long friendId : friendsIdListOfUserOne) {
+		for (Long friendId : friendsIdListOfUserOne) {
 			if (friendsIdListOfUserTwo.contains(friendId)) {
 				listIdOfCommonEntities.add(friendId);
 			}
@@ -91,7 +91,7 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 	 * добавить пользователя в хранилище
 	 */
 	@Override
-	public void addUser(long id) {
+	public void addUser(Long id) {
 		friendsIdMap.put(id, new ArrayList<>());
 	}
 
@@ -99,11 +99,11 @@ public class InMemoryFriendsStorage implements FriendsAppStorage {
 	 * удалить пользователя из хранилища
 	 */
 	@Override
-	public void deleteUser(long userId) {
+	public void deleteUser(Long userId) {
 		List<Long> friendsIdListOfUser = friendsIdMap.get(userId);
 
 		// удалить id пользователя из списка друзей других пользователей
-		for (long friendsId : friendsIdListOfUser) {
+		for (Long friendsId : friendsIdListOfUser) {
 			List<Long> friendsIdListOfFriend = friendsIdMap.get(friendsId);
 			friendsIdListOfFriend.remove(userId);
 		}

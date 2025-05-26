@@ -11,12 +11,12 @@ public interface LikesAppController {
 	/*
 	 * поставить лайк фильму
 	 */
-	void setLike(@PathVariable long id, @PathVariable long userId);
+	void setLike(@PathVariable Long id, @PathVariable Long userId);
 
 	/*
 	 * удалить лайк
 	 */
-	void removeLike(@PathVariable long id, @PathVariable long userId);
+	void removeLike(@PathVariable Long id, @PathVariable Long userId);
 
 	/*
 	 * вернуть список из первых count-фильмов

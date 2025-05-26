@@ -38,10 +38,10 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 * проверка на ошибку - фильм уже существует
 	 */
 	@Override
-	public void checkFilmIsExistException(long filmId, String error) {
+	public void checkFilmIsExistException(Long filmId, String errorMessage) {
 		if (filmsAppStorage.isFilmExist(filmId)) {
-			RuntimeException exception = new FilmAllreadyExistException(filmId, error);
-			log.warn(error + " " + exception.getMessage());
+			RuntimeException exception = new FilmAllreadyExistException(filmId, errorMessage);
+			log.warn(errorMessage + " " + exception.getMessage());
 			throw exception;
 		}
 	}
@@ -50,10 +50,10 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 * проверка на ошибку - фильм не найден
 	 */
 	@Override
-	public void checkFilmNotFoundException(long filmId, String error) {
-		if (filmsAppStorage.isFilmExist(filmId) == false) {
-			RuntimeException exception = new FilmNotFoundException(filmId, error);
-			log.warn(error + " " + exception.getMessage());
+	public void checkFilmNotFoundException(Long filmId, String errorMessage) {
+		if (!filmsAppStorage.isFilmExist(filmId)) {
+			RuntimeException exception = new FilmNotFoundException(filmId, errorMessage);
+			log.warn(errorMessage + " " + exception.getMessage());
 			throw exception;
 		}
 	}
@@ -62,10 +62,10 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 * проверка на ошибку - пользователь не найден
 	 */
 	@Override
-	public void checkUserNotFoundException(long userId, String error) {
+	public void checkUserNotFoundException(Long userId, String errorMessage) {
 		if (usersAppStorage.isUserExist(userId) == false) {
-			RuntimeException exception = new UserNotFoundException(userId, error);
-			log.warn(error + " " + exception.getMessage());
+			RuntimeException exception = new UserNotFoundException(userId, errorMessage);
+			log.warn(errorMessage + " " + exception.getMessage());
 			throw exception;
 		}
 	}
@@ -74,10 +74,10 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 * проверка на ошибку - пользователь уже создан
 	 */
 	@Override
-	public void checkUserIsExistException(long userId, String error) {
+	public void checkUserIsExistException(Long userId, String errorMessage) {
 		if (usersAppStorage.isUserExist(userId) == false) {
-			RuntimeException exception = new UserAllreadyExistException(userId, error);
-			log.warn(error + " " + exception.getMessage());
+			RuntimeException exception = new UserAllreadyExistException(userId, errorMessage);
+			log.warn(errorMessage + " " + exception.getMessage());
 			throw exception;
 		}
 	}
@@ -86,10 +86,10 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 * проверка на ошибку - пользователи уже друзья
 	 */
 	@Override
-	public void checkUsersAreFriendsException(long userOneId, long userTwoId, String error) {
+	public void checkUsersAreFriendsException(Long userOneId, Long userTwoId, String errorMessage) {
 		if (friendsAppStorage.isUsersAssociatedAsFriends(userOneId, userTwoId)) {
-			RuntimeException exception = new UsersAreAllreadyFriendsException(userOneId, userTwoId, error);
-			log.warn(error + " " + exception.getMessage());
+			RuntimeException exception = new UsersAreAllreadyFriendsException(userOneId, userTwoId, errorMessage);
+			log.warn(errorMessage + " " + exception.getMessage());
 			throw exception;
 		}
 	}
@@ -98,10 +98,10 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 * проверка на ошибку - пользователи не являются друзьями
 	 */
 	@Override
-	public void checkUsersAreNotFriendsException(long userOneId, long userTwoId, String error) {
+	public void checkUsersAreNotFriendsException(Long userOneId, Long userTwoId, String errorMessage) {
 		if (friendsAppStorage.isUsersAssociatedAsFriends(userOneId, userTwoId) == false) {
-			RuntimeException exception = new UsersAreNotFriendsException(userOneId, userTwoId, error);
-			log.warn(error + " " + exception.getMessage());
+			RuntimeException exception = new UsersAreNotFriendsException(userOneId, userTwoId, errorMessage);
+			log.warn(errorMessage + " " + exception.getMessage());
 			throw exception;
 		}
 	}

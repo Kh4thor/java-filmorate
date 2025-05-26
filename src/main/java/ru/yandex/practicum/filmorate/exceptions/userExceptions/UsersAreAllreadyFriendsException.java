@@ -3,26 +3,26 @@ package ru.yandex.practicum.filmorate.exceptions.userExceptions;
 public class UsersAreAllreadyFriendsException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
-	private long userOneId;
-	private long userTwoId;
-	private String error;
+	private Long userOneId;
+	private Long userTwoId;
+	private String errorMessage;
 
-	public UsersAreAllreadyFriendsException(long userOneId, long userTwoId, String error) {
+	public UsersAreAllreadyFriendsException(Long userOneId, Long userTwoId, String errorMessage) {
 		super("Пользователь с id=" + userOneId + " и пользователь с id=" + userTwoId + " уже друзья");
 		this.userOneId = userOneId;
 		this.userTwoId = userTwoId;
-		this.error = error;
+		this.errorMessage = errorMessage;
 	}
 
-	public long getUserOneId() {
+	public Long getUserOneId() {
 		return userOneId;
 	}
 
-	public long getUserTwoId() {
+	public Long getUserTwoId() {
 		return userTwoId;
 	}
 
-	public String getError() {
-		return error;
+	public String getErrorMessage() {
+		return errorMessage;
 	}
 }

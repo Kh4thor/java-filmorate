@@ -22,7 +22,7 @@ public interface UsersAppStorage<T> {
 	/*
 	 * проверить хранилище на наличие пользователя
 	 */
-	boolean isUserExist(long id);
+	boolean isUserExist(Long id);
 
 	/*
 	 * получить пользователя из хранилища

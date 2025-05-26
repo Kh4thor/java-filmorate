@@ -33,7 +33,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	}
 
 	@Override
-	public boolean isFilmExist(long filmId) {
+	public boolean isFilmExist(Long filmId) {
 		return filmLikesMap.containsKey(filmId);
 	}
 
@@ -41,7 +41,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 * добавиить фильм в хранилище-счетчик
 	 */
 	@Override
-	public boolean addFilm(long filmId) {
+	public boolean addFilm(Long filmId) {
 		List<Long> usersIdList = new ArrayList<>();
 		filmLikesMap.put(filmId, usersIdList);
 		return true;
@@ -51,7 +51,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 * удалить фильм из хранаилища-счетчика
 	 */
 	@Override
-	public boolean deleteFilm(long filmId) {
+	public boolean deleteFilm(Long filmId) {
 		filmLikesMap.remove(filmId);
 		return true;
 	}
@@ -60,7 +60,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 * поставить лайк фильму
 	 */
 	@Override
-	public boolean setLike(long filmId, long userId) {
+	public boolean setLike(Long filmId, Long userId) {
 		List<Long> usersIdLikesList = filmLikesMap.get(filmId);
 		usersIdLikesList.add(userId);
 		sortFilmLikesMap();
@@ -71,7 +71,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 * проверка, ствавил ли пользователь лайк фильму
 	 */
 	@Override
-	public boolean isUserSetLike(long filmId, long userId) {
+	public boolean isUserSetLike(Long filmId, Long userId) {
 		List<Long> usersIdLikesList = filmLikesMap.get(filmId);
 		return usersIdLikesList.contains(userId);
 	}
@@ -80,7 +80,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 * удалить лайк пользователя
 	 */
 	@Override
-	public boolean removeLike(long filmId, long userId) {
+	public boolean removeLike(Long filmId, Long userId) {
 		List<Long> usersIdLikesList = filmLikesMap.get(filmId);
 		usersIdLikesList.remove(userId);
 		return true;
@@ -110,7 +110,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 * обнулить количество лайков фильма
 	 */
 	@Override
-	public boolean resetLikes(long filmId) {
+	public boolean resetLikes(Long filmId) {
 		List<Long> usersIdLikesList = filmLikesMap.get(filmId);
 		usersIdLikesList.clear();
 		return true;

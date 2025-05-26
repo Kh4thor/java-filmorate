@@ -50,7 +50,7 @@ public class UserController implements UsersAppController<User> {
 	 */
 	@DeleteMapping("/{id}")
 	@Override
-	public ResponseEntity<User> delete(long id) {
+	public ResponseEntity<User> delete(Long id) {
 		log.info("Начато удаление пользователя. Получен id={}", id);
 		User u = userAppService.deleteUser(id);
 		if (u == null) {
@@ -78,7 +78,7 @@ public class UserController implements UsersAppController<User> {
 	 */
 	@GetMapping("/{id}")
 	@Override
-	public ResponseEntity<User> get(long id) {
+	public ResponseEntity<User> get(Long id) {
 		log.info("Начат вызов пользователя. Получен id={}", id);
 		if (userAppService.deleteUser(id) == null) {
 			log.warn("Пользователь с id={} в списке не найден", id);

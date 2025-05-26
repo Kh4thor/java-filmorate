@@ -7,32 +7,32 @@ public interface FriendsAppStorage {
 	/*
 	 * добавить пользователя в хранилище
 	 */
-	void addUser(long id);
+	void addUser(Long id);
 
 	/*
 	 * связать пользователей в качестве друзей
 	 */
-	boolean associateUsersAsFriends(long entityOneId, long entityTwoId);
+	boolean associateUsersAsFriends(Long entityOneId, Long entityTwoId);
 
 	/*
 	 * отвязать пользователей в качестве друзей
 	 */
-	boolean disassociateUserAsFriends(long entityOneId, long entityTwoId);
+	boolean disassociateUserAsFriends(Long entityOneId, Long entityTwoId);
 
 	/*
 	 * проверка пользователей на дружбу
 	 */
-	boolean isUsersAssociatedAsFriends(long entityOneId, long entityTwoId);
+	boolean isUsersAssociatedAsFriends(Long entityOneId, Long entityTwoId);
 
 	/*
 	 * удалить у пользователя всех привязанных друзей
 	 */
-	void removeAllAssociatedFriendsOfUser(long userId);
+	void removeAllAssociatedFriendsOfUser(Long userId);
 
 	/*
 	 * удалить пользователя из хранилища
 	 */
-	void deleteUser(long id);
+	void deleteUser(Long id);
 
 	/*
 	 * удалить всех пользователей из хранилища
@@ -42,10 +42,10 @@ public interface FriendsAppStorage {
 	/*
 	 * получить id-список связанных друзей пользователя
 	 */
-	List<Long> getIdListOfAssociatedFriends(long userId);
+	List<Long> getIdListOfAssociatedFriends(Long userId);
 
 	/*
 	 * получить id-список общих друзей двух пользователей
 	 */
-	List<Long> geIdListOfCommonFriends(long entityOneId, long entityTwoId);
+	List<Long> geIdListOfCommonFriends(Long entityOneId, Long entityTwoId);
 }
