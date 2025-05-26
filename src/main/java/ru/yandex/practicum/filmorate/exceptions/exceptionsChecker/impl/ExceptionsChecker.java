@@ -100,7 +100,7 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 */
 	@Override
 	public void checkUsersAreNotFriendsException(Long userOneId, Long userTwoId, String errorMessage) {
-		if (friendsAppStorage.isUsersAssociatedAsFriends(userOneId, userTwoId) == false) {
+		if (!friendsAppStorage.isUsersAssociatedAsFriends(userOneId, userTwoId)) {
 			RuntimeException exception = new UsersAreNotFriendsException(userOneId, userTwoId, errorMessage);
 			log.warn(errorMessage + " " + exception.getMessage());
 			throw exception;
