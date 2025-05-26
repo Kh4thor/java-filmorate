@@ -1,8 +1,8 @@
-package ru.yandex.practicum.filmorate.service;
+package ru.yandex.practicum.filmorate.service.films;
 
 import java.util.List;
 
-public interface AppService<T> {
+public interface FilmsAppService<T> {
 
 	/*
 	 * создать или обновить объект
@@ -12,7 +12,7 @@ public interface AppService<T> {
 	/*
 	 * удалить объект по id
 	 */
-	T delete(long id);
+	T delete(Long id);
 
 	/*
 	 * удалить все объекты
@@ -22,7 +22,7 @@ public interface AppService<T> {
 	/*
 	 * получить объект по id
 	 */
-	T get(long id);
+	T get(Long id);
 
 	/*
 	 * получить список всех объектов

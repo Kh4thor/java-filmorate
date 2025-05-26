@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controller.impl;
+package ru.yandex.practicum.filmorate.controller.films.impl;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.yandex.practicum.filmorate.controller.AppController;
+import ru.yandex.practicum.filmorate.controller.films.FilmsAppController;
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.service.AppService;
+import ru.yandex.practicum.filmorate.service.films.FilmsAppService;
 
 /*
  * Film
@@ -22,11 +22,11 @@ import ru.yandex.practicum.filmorate.service.AppService;
 @Slf4j
 @RestController
 @RequestMapping("/films")
-public class FilmController implements AppController<Film> {
+public class FilmsController implements FilmsAppController<Film> {
 
-	private AppService<Film> appService;
+	private FilmsAppService<Film> appService;
 
-	public FilmController(AppService<Film> filmService) {
+	public FilmsController(FilmsAppService<Film> filmService) {
 		this.appService = filmService;
 	}
 
@@ -35,7 +35,7 @@ public class FilmController implements AppController<Film> {
 	 */
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	@Override
-	public ResponseEntity<Film> createOrUpdate(Film film) {
+	public ResponseEntity<Film> createOrUpdateFilm(Film film) {
 		Film responseBody = appService.createOrUpdate(film);
 		if (responseBody == null) {
 			log.warn("Неверно задан запрос или параметры фильма {}", film);
@@ -50,15 +50,9 @@ public class FilmController implements AppController<Film> {
 	 */
 	@DeleteMapping("/{id}")
 	@Override
-	public ResponseEntity<Film> delete(long id) {
+	public void deleteFilm(Long id) {
 		log.info("Начато удаление фильма. Получен id={}", id);
-		if (appService.delete(id) == null) {
-			log.warn("Фильм с id={} в списке не найден", id);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		} else {
-			log.info("Фильм с id={} удален", id);
-			return ResponseEntity.status(HttpStatus.OK).body(appService.delete(id));
-		}
+		appService.delete(id);
 	}
 
 	/*
@@ -66,7 +60,7 @@ public class FilmController implements AppController<Film> {
 	 */
 	@DeleteMapping()
 	@Override
-	public void deleteAll() {
+	public void deleteAllFilms() {
 		log.info("Начато удаление всех фильмов");
 		appService.deleteAll();
 	}
@@ -76,7 +70,7 @@ public class FilmController implements AppController<Film> {
 	 */
 	@GetMapping("/{id}")
 	@Override
-	public ResponseEntity<Film> get(long id) {
+	public ResponseEntity<Film> getFilm(Long id) {
 		log.info("Начат вызов фильма. Получен id={}", id);
 		if (appService.get(id) == null) {
 			log.warn("Фильм с id={} в списке не найден", id);
@@ -92,7 +86,7 @@ public class FilmController implements AppController<Film> {
 	 */
 	@GetMapping()
 	@Override
-	public List<Film> getAll() {
+	public List<Film> getAllFilms() {
 		log.info("Начато получение всех фильмов");
 		return appService.getAll();
 	}

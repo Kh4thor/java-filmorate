@@ -1,15 +1,15 @@
-package ru.yandex.practicum.filmorate.storage.impl;
+package ru.yandex.practicum.filmorate.storage.films.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.storage.AppStorage;
+import ru.yandex.practicum.filmorate.storage.films.FilmsAppStorage;
 
-@Service
-public class FilmsStorage implements AppStorage<Film> {
+@Component
+public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 
 	// хранилище фильмов
 	private Map<Long, Film> appStorage = new HashMap<>();
@@ -18,7 +18,7 @@ public class FilmsStorage implements AppStorage<Film> {
 	 * добавить фильм в хранилище
 	 */
 	@Override
-	public Film add(Film film) {
+	public Film addFilm(Film film) {
 		appStorage.put(film.getId(), film);
 		return film;
 	}
@@ -32,10 +32,10 @@ public class FilmsStorage implements AppStorage<Film> {
 	}
 
 	/*
-	 * проверить хранилище на наличие ключа id-фильма
+	 * проверить хранилище на наличие объекта
 	 */
 	@Override
-	public boolean isEntityExist(Film film) {
+	public boolean isFilmExist(Film film) {
 		return appStorage.containsKey(film.getId());
 	}
 
@@ -43,7 +43,7 @@ public class FilmsStorage implements AppStorage<Film> {
 	 * получить фильм из хранилища
 	 */
 	@Override
-	public Film get(Long id) {
+	public Film getFilm(Long id) {
 		return appStorage.get(id);
 	}
 
@@ -59,7 +59,15 @@ public class FilmsStorage implements AppStorage<Film> {
 	 * удалить фильм из хранилища
 	 */
 	@Override
-	public Film remove(Long id) {
+	public Film removeFilm(Long id) {
 		return appStorage.remove(id);
+	}
+
+	/*
+	 * проверить хранилище на наличие объекта по id
+	 */
+	@Override
+	public boolean isFilmExist(Long id) {
+		return appStorage.containsKey(id);
 	}
 }

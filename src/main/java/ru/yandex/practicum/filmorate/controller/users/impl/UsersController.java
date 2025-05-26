@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controller.impl;
+package ru.yandex.practicum.filmorate.controller.users.impl;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.yandex.practicum.filmorate.controller.AppController;
+import ru.yandex.practicum.filmorate.controller.users.UsersAppController;
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.service.AppService;
+import ru.yandex.practicum.filmorate.service.users.UserAppService;
 
 /*
  * User
@@ -22,12 +22,12 @@ import ru.yandex.practicum.filmorate.service.AppService;
 @Slf4j
 @RestController
 @RequestMapping("/users")
-public class UserController implements AppController<User> {
+public class UsersController implements UsersAppController<User> {
 
-	private AppService<User> appService;
+	private final UserAppService<User> userAppService;
 
-	public UserController(AppService<User> appService) {
-		this.appService = appService;
+	public UsersController(UserAppService<User> appService) {
+		this.userAppService = appService;
 	}
 
 	/*
@@ -35,8 +35,8 @@ public class UserController implements AppController<User> {
 	 */
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	@Override
-	public ResponseEntity<User> createOrUpdate(User user) {
-		User responseBody = appService.createOrUpdate(user);
+	public ResponseEntity<User> createOrUpdateUser(User user) {
+		User responseBody = userAppService.createOrUpdateUser(user);
 		if (responseBody == null) {
 			log.warn("Неверно задан запрос или параметры пользователя {}", user);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -50,16 +50,9 @@ public class UserController implements AppController<User> {
 	 */
 	@DeleteMapping("/{id}")
 	@Override
-	public ResponseEntity<User> delete(long id) {
-		log.info("Начато удаление фильма. Получен id={}", id);
-		User u = appService.delete(id);
-		if (u == null) {
-			log.warn("Фильм с id={} в списке не найден", id);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		} else {
-			log.info("Фильм с id={} удален", id);
-			return ResponseEntity.status(HttpStatus.OK).body(u);
-		}
+	public void deleteUser(Long id) {
+		log.info("Начато удаление пользователя. Получен id={}", id);
+		userAppService.deleteUser(id);
 	}
 
 	/*
@@ -67,9 +60,9 @@ public class UserController implements AppController<User> {
 	 */
 	@DeleteMapping()
 	@Override
-	public void deleteAll() {
+	public void deleteAllUsers() {
 		log.info("Начато удаление всех пользователей.");
-		appService.deleteAll();
+		userAppService.deleteAllUsers();
 		log.info("Все пользователи удалены.");
 	}
 
@@ -78,14 +71,14 @@ public class UserController implements AppController<User> {
 	 */
 	@GetMapping("/{id}")
 	@Override
-	public ResponseEntity<User> get(long id) {
+	public ResponseEntity<User> getUser(Long id) {
 		log.info("Начат вызов пользователя. Получен id={}", id);
-		if (appService.delete(id) == null) {
+		if (userAppService.deleteUser(id) == null) {
 			log.warn("Пользователь с id={} в списке не найден", id);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		} else {
 			log.info("Пользователь с id={} получен", id);
-			return ResponseEntity.status(HttpStatus.OK).body(appService.get(id));
+			return ResponseEntity.status(HttpStatus.OK).body(userAppService.getUser(id));
 		}
 	}
 
@@ -94,8 +87,8 @@ public class UserController implements AppController<User> {
 	 */
 	@GetMapping
 	@Override
-	public List<User> getAll() {
+	public List<User> getAllUsers() {
 		log.info("Начато получение всех пользователей.");
-		return appService.getAll();
+		return userAppService.getAllUsers();
 	}
 }

@@ -1,13 +1,13 @@
-package ru.yandex.practicum.filmorate.storage;
+package ru.yandex.practicum.filmorate.storage.films;
 
 import java.util.Map;
 
-public interface AppStorage<T> {
+public interface FilmsAppStorage<T> {
 
 	/*
 	 * добавить объект в хранилище
 	 */
-	T add(T t);
+	T addFilm(T t);
 
 	/*
 	 * очистить хранилище
@@ -15,14 +15,19 @@ public interface AppStorage<T> {
 	void clear();
 
 	/*
+	 * проверить хранилище на наличие объекта
+	 */
+	boolean isFilmExist(T t);
+
+	/*
 	 * проверить хранилище на наличие ключа-id объекта
 	 */
-	boolean isEntityExist(T t);
+	boolean isFilmExist(Long id);
 
 	/*
 	 * получить объект из хранилища
 	 */
-	T get(Long id);
+	T getFilm(Long id);
 
 	/*
 	 * получить хранилище
@@ -32,5 +37,5 @@ public interface AppStorage<T> {
 	/*
 	 * удалить объект из хранилища
 	 */
-	T remove(Long id);
+	T removeFilm(Long id);
 }
