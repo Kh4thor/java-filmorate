@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.yandex.practicum.filmorate.exceptions.ErrorResponse;
 import ru.yandex.practicum.filmorate.exceptions.filmsExceptions.FilmAllreadyExistException;
 import ru.yandex.practicum.filmorate.exceptions.filmsExceptions.FilmNotFoundException;
+import ru.yandex.practicum.filmorate.exceptions.likesExceptions.IllegalNumberFilmsCountException;
 
 @RestControllerAdvice
 public class FilmsHandlerException {
@@ -23,10 +24,10 @@ public class FilmsHandlerException {
 	public ErrorResponse handleFilmAllreadyExistException(final FilmAllreadyExistException exception) {
 		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 	}
-	
+
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
-	public ErrorResponse handleIllegalNumberFilmsCountException(final FilmAllreadyExistException exception) {
+	public ErrorResponse handleIllegalNumberFilmsCountException(final IllegalNumberFilmsCountException exception) {
 		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 	}
 }
