@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.controller.users.UsersAppController;
@@ -37,12 +36,7 @@ public class UsersController implements UsersAppController<User> {
 	@Override
 	public ResponseEntity<User> createOrUpdateUser(User user) {
 		User responseBody = userAppService.createOrUpdateUser(user);
-		if (responseBody == null) {
-			log.warn("Неверно задан запрос или параметры пользователя {}", user);
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(responseBody);
-		}
+		return ResponseEntity.status(HttpStatus.OK).body(responseBody);
 	}
 
 	/*
