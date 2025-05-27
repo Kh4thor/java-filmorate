@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.controller.films.FilmsAppController;
@@ -35,14 +34,14 @@ public class FilmsController implements FilmsAppController<Film> {
 	 */
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	@Override
-	public ResponseEntity<Film> createOrUpdateFilm(Film film) {
-		Film responseBody = appService.createOrUpdate(film);
-		if (responseBody == null) {
-			log.warn("Неверно задан запрос или параметры фильма {}", film);
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(responseBody);
-		}
+	public Film createOrUpdateFilm(Film film) {
+		return appService.createOrUpdate(film);
+//		if (responseBody == null) {
+//			log.warn("Неверно задан запрос или параметры фильма {}", film);
+//			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+//		} else {
+//			return ResponseEntity.status(HttpStatus.OK).body(responseBody);
+//		}
 	}
 
 	/*

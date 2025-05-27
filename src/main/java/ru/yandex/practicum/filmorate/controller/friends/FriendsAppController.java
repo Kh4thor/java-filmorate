@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.controller.friends;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import ru.yandex.practicum.filmorate.model.user.User;
@@ -12,12 +11,12 @@ public interface FriendsAppController {
 	/*
 	 * добавить пользователя в друзья
 	 */
-	ResponseEntity<String> addFriend(@PathVariable Long id, @PathVariable Long friendsId);
+	void addFriend(@PathVariable Long id, @PathVariable Long friendsId);
 
 	/*
 	 * удалить пользователя из друзей
 	 */
-	ResponseEntity<String> deleteFriend(@PathVariable Long id, @PathVariable Long friendsId);
+	void deleteFriend(@PathVariable Long id, @PathVariable Long friendsId);
 
 	/*
 	 * получить друзей пользователя

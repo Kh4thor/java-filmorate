@@ -21,6 +21,6 @@ public interface LikesAppController {
 	/*
 	 * вернуть список из первых count-фильмов
 	 */
-	List<Film> getRatedFilms(@PathVariable int count);
+	List<Film> getRatedFilms(Integer count);
 
 }

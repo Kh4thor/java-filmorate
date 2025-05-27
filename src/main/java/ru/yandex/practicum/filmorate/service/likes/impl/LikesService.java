@@ -56,6 +56,9 @@ public class LikesService implements LikesAppService {
 	 */
 	@Override
 	public List<Film> getRatedFilms(int count) {
+		if (count == 0) {
+			count = 10;
+		}
 		String errorMessage = "Невозможно получить список рейтиноговых фильмов";
 		exceptionsChecker.checkIllegalNumberFilmsCountException(count, errorMessage);
 		List<Long> ratedFilmsIdList = likesAppStorage.getIdListOfFilmsIdByRate(count);

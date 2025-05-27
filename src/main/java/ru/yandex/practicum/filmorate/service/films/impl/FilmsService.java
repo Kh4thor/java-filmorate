@@ -40,13 +40,11 @@ public class FilmsService implements FilmsAppService<Film> {
 			Film createdFilm = create(film);
 			log.info("Фильм {} успешно добавлен", createdFilm);
 			return createdFilm;
-		} else if (filmsAppStorage.isFilmExist(film)) {
+		} else {
 			log.info("Начато обновление фильма. Получен объект {}", film);
 			Film updatedFilm = update(film);
 			log.info("Фильм {} успешно обновлен", updatedFilm);
 			return updatedFilm;
-		} else {
-			return null;
 		}
 	}
 
@@ -84,7 +82,11 @@ public class FilmsService implements FilmsAppService<Film> {
 	 */
 	@Override
 	public List<Film> getAll() {
-		return filmsAppStorage.getRepository().values().stream().toList();
+		return filmsAppStorage
+				.getRepository()
+				.values()
+				.stream()
+				.toList();
 	}
 
 	/*

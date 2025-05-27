@@ -73,21 +73,26 @@ public class FriendService implements FriendsAppService {
 	 */
 	@Override
 	public List<User> getAllFriendsOfUser(Long userId) {
+		String errorMessage = "Невозможно получить список друзей пользователя";
+		exceptionsChecker.checkUserNotFoundException(userId, errorMessage);
 		List<Long> friendsIdList = friendsAppStorage.getIdListOfAssociatedFriends(userId);
 
-		return friendsIdList.stream().map(id -> usersAppStorage.getUser(id)) // для каждого id из списка friendsIdList
-																				// вытаскиваем пользователя из
-																				// userStorage
+		return friendsIdList
+				.stream()
+				.map(id -> usersAppStorage.getUser(id)) // для каждого id из списка friendsIdList вытаскиваем пользователя из userStorage
 				.toList();
 	}
 
 	@Override
 	public List<User> getCommonFriendsOfUsers(Long userOneId, Long userTwoId) throws UsersAreNotFriendsException {
+		String errorMessage = "Невозможно получить список друзей пользователя";
+		exceptionsChecker.checkUserNotFoundException(userOneId, errorMessage);
+		exceptionsChecker.checkUserNotFoundException(userTwoId, errorMessage);
+		exceptionsChecker.checkUsersAreNotFriendsException(userOneId, userTwoId, errorMessage);
 		List<Long> commonFriendsIdList = friendsAppStorage.geIdListOfCommonFriends(userOneId, userTwoId);
 
-		return commonFriendsIdList.stream().map(id -> usersAppStorage.getUser(id)) // для каждого id из списка
-																					// friendsIdList вытаскиваем
-																					// пользоватедя из userStorage
+		return commonFriendsIdList
+				.stream().map(id -> usersAppStorage.getUser(id)) // для каждого id из списка friendsIdList вытаскиваем пользоватедя из userStorage
 				.toList();
 	}
 }

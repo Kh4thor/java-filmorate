@@ -91,13 +91,8 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 */
 	@Override
 	public List<Long> getIdListOfFilmsIdByRate(int countOfFilms) {
-		if (countOfFilms == 0) {
-			countOfFilms = 10;
-		}
 		LinkedList<Long> idListOfFilmsIdByRate = new LinkedList<>();
-
 		filmLikesMap.values().stream().flatMap(List::stream).limit(countOfFilms).forEach(idListOfFilmsIdByRate::add);
-
 		return idListOfFilmsIdByRate;
 	}
 

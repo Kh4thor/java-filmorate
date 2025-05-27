@@ -2,6 +2,8 @@ package ru.yandex.practicum.filmorate.service.likes;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import ru.yandex.practicum.filmorate.model.film.Film;
 
 public interface LikesAppService {
@@ -19,6 +21,6 @@ public interface LikesAppService {
 	/*
 	 * вернуть список из первых count-фильмов по количеству лайков
 	 */
-	List<Film> getRatedFilms(int count);
+	List<Film> getRatedFilms(@RequestParam("count") int count);
 
 }

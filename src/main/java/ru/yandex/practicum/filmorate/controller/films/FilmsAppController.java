@@ -7,13 +7,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.validation.Valid;
+import ru.yandex.practicum.filmorate.model.film.Film;
 
 public interface FilmsAppController<T> {
 
 	/*
 	 * создать или обновить объект
 	 */
-	ResponseEntity<T> createOrUpdateFilm(@Valid @RequestBody T t);
+	Film createOrUpdateFilm(@Valid @RequestBody T t);
 
 	/*
 	 * удалить объект по id

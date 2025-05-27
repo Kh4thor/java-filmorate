@@ -2,9 +2,7 @@ package ru.yandex.practicum.filmorate.service.users.impl;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.ExceptionsAppChecker;
@@ -41,13 +39,11 @@ public class UserService implements UserAppService<User> {
 			User createdUser = create(user);
 			log.info("Пользователь {} успешно добавлен", createdUser);
 			return createdUser;
-		} else if (usersAppStorage.isUserExist(user)) {
+		} else {
 			log.info("Начато обновление пользователя. Получен объект {}", user);
 			User updatedUser = update(user);
 			log.info("Пользователь {} успешно обновлен", updatedUser);
 			return updatedUser;
-		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -84,7 +80,11 @@ public class UserService implements UserAppService<User> {
 	 */
 	@Override
 	public List<User> getAllUsers() {
-		return usersAppStorage.getRepository().values().stream().toList();
+		return usersAppStorage
+				.getRepository()
+				.values()
+				.stream()
+				.toList();
 	}
 
 	/*
