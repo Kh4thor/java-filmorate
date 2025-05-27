@@ -1,17 +1,17 @@
-package ru.yandex.practicum.filmorate.storage.impl;
+package ru.yandex.practicum.filmorate.storage.users.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.storage.AppStorage;
+import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 
 @Slf4j
-@Service
-public class UsersStorage implements AppStorage<User> {
+@Component
+public class InMemoryUsersStorage implements UsersAppStorage<User> {
 
 	// хранилище пользователей
 	private Map<Long, User> appStorage = new HashMap<>();
@@ -20,7 +20,7 @@ public class UsersStorage implements AppStorage<User> {
 	 * добавить пользователя в хранилище
 	 */
 	@Override
-	public User add(User user) {
+	public User addUser(User user) {
 		appStorage.put(user.getId(), user);
 		return user;
 	}
@@ -34,18 +34,10 @@ public class UsersStorage implements AppStorage<User> {
 	}
 
 	/*
-	 * проверить хранилище на наличие ключа id-пользователя
-	 */
-	@Override
-	public boolean isEntityExist(User user) {
-		return appStorage.containsKey(user.getId());
-	}
-
-	/*
 	 * получить пользователя из хранилища
 	 */
 	@Override
-	public User get(Long id) {
+	public User getUser(Long id) {
 		if (appStorage.containsKey(id)) {
 			return appStorage.get(id);
 		} else {
@@ -66,7 +58,7 @@ public class UsersStorage implements AppStorage<User> {
 	 * удалить пользователя из хранилища
 	 */
 	@Override
-	public User remove(Long id) {
+	public User removeUser(Long id) {
 		if (appStorage.containsKey(id)) {
 			User deletedUser = appStorage.remove(id);
 			log.warn("Пользователь с id={} удален", id);
@@ -75,5 +67,21 @@ public class UsersStorage implements AppStorage<User> {
 			log.warn("Пользователь с id={} не найден", id);
 			return null;
 		}
+	}
+
+	/*
+	 * проверить хранилище на наличие пользователя
+	 */
+	@Override
+	public boolean isUserExist(User user) {
+		return isUserExist(user.getId());
+	}
+
+	/*
+	 * проверить хранилище на наличие пользователя
+	 */
+	@Override
+	public boolean isUserExist(Long id) {
+		return appStorage.containsKey(id);
 	}
 }
