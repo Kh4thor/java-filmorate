@@ -9,6 +9,8 @@ import ru.yandex.practicum.filmorate.exceptions.ErrorResponse;
 import ru.yandex.practicum.filmorate.exceptions.filmsExceptions.FilmAllreadyExistException;
 import ru.yandex.practicum.filmorate.exceptions.filmsExceptions.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.likesExceptions.IllegalNumberFilmsCountException;
+import ru.yandex.practicum.filmorate.exceptions.likesExceptions.UserAllreadySetLikeToFilmException;
+import ru.yandex.practicum.filmorate.exceptions.likesExceptions.UserDidntSetLikeToFilmException;
 
 @RestControllerAdvice
 public class FilmsHandlerException {
@@ -28,6 +30,18 @@ public class FilmsHandlerException {
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
 	public ErrorResponse handleIllegalNumberFilmsCountException(final IllegalNumberFilmsCountException exception) {
+		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
+	}
+
+	@ExceptionHandler
+	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+	public ErrorResponse handleUserAllreadySetLikeToFilmException(final UserAllreadySetLikeToFilmException exception) {
+		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
+	}
+
+	@ExceptionHandler
+	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+	public ErrorResponse handleUserDidntSetLikeToFilmException(final UserDidntSetLikeToFilmException exception) {
 		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 	}
 }

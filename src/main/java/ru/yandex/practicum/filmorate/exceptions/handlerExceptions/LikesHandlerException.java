@@ -13,13 +13,13 @@ import ru.yandex.practicum.filmorate.exceptions.likesExceptions.UserDidntSetLike
 public class LikesHandlerException {
 
 	@ExceptionHandler
-	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+	@ResponseStatus(value = HttpStatus.OK)
 	public ErrorResponse handlerUserAllreadySetLikeToFilmException(final UserAllreadySetLikeToFilmException exception) {
 		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 	}
 
 	@ExceptionHandler
-	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+	@ResponseStatus(value = HttpStatus.OK)
 	public ErrorResponse handlerUserDidntSetLikeToFilmException(final UserDidntSetLikeToFilmException exception) {
 		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 	}

@@ -28,7 +28,7 @@ public interface UsersAppController<T> {
 	/*
 	 * получить объект по id
 	 */
-	ResponseEntity<T> getUser(@PathVariable Long id);
+	T getUser(@PathVariable Long id);
 
 	/*
 	 * получить список всех объектов

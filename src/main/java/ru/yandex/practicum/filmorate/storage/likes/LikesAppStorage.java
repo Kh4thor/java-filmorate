@@ -2,12 +2,14 @@ package ru.yandex.practicum.filmorate.storage.likes;
 
 import java.util.List;
 
+import ru.yandex.practicum.filmorate.model.film.Film;
+
 public interface LikesAppStorage {
 
 	/*
 	 * добавиить фильм в хранилище-счетчик
 	 */
-	boolean addFilm(Long filmId);
+	boolean addFilm(Film film);
 
 	/*
 	 * поставить лайк фильму

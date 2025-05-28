@@ -35,6 +35,7 @@ public class LikesService implements LikesAppService {
 		String errorMessage = "Невозможно поставить лайк фильму";
 		exceptionsChecker.checkFilmNotFoundException(filmId, errorMessage);
 		exceptionsChecker.checkUserNotFoundException(userId, errorMessage);
+		exceptionsChecker.checkUserAllreadySetLikeToFilmException(filmId, userId, errorMessage);
 		likesAppStorage.setLike(filmId, userId);
 		log.info("Пользователь id=" + userId + " поставил лайк фильму id=" + filmId);
 	}
@@ -47,6 +48,7 @@ public class LikesService implements LikesAppService {
 		String errorMessage = "Невозможно убрать лайк у фильма";
 		exceptionsChecker.checkFilmNotFoundException(filmId, errorMessage);
 		exceptionsChecker.checkUserNotFoundException(userId, errorMessage);
+		exceptionsChecker.checkUserDidntSetLikeToFilmException(filmId, userId, errorMessage);
 		likesAppStorage.removeLike(filmId, userId);
 		log.info("Пользователь id=" + userId + " удалил лайк у фильма id=" + filmId);
 	}
@@ -55,19 +57,25 @@ public class LikesService implements LikesAppService {
 	 * вернуть список из первых count-фильмов по количеству лайков
 	 */
 	@Override
-	public List<Film> getRatedFilms(int count) {
-		if (count == 0) {
-			count = 10;
-		}
+	public List<Film> getRatedFilms(Integer count) {
 		String errorMessage = "Невозможно получить список рейтиноговых фильмов";
 		exceptionsChecker.checkIllegalNumberFilmsCountException(count, errorMessage);
+
+		// список id-рейтинговых фильмов из хранилища лайков, ограниченный по длине count
 		List<Long> ratedFilmsIdList = likesAppStorage.getIdListOfFilmsIdByRate(count);
+
+		// хранилище фильмов
 		Map<Long, Film> filmsRepository = filmsAppStorage.getRepository();
-		List<Film> ratedFilmsList = ratedFilmsIdList.stream().map(id -> filmsRepository.get(id)).toList();
+
+		// получить по списку id-рейтинговых фильмов сами фильмы из хранилища фильмов
+		List<Film> ratedFilmsList = ratedFilmsIdList
+				.stream()
+				.map(id -> filmsRepository.get(id))
+				.toList();
+
 		if (ratedFilmsList.isEmpty()) {
 			log.info("Список рейтинговых фильмов пуст");
 		} else {
-
 			log.info("Выведен список из " + ratedFilmsList.size() + " рейтинговых фильмов");
 		}
 		return ratedFilmsList;

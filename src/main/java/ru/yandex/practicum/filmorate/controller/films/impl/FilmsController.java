@@ -2,8 +2,6 @@ package ru.yandex.practicum.filmorate.controller.films.impl;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +21,10 @@ import ru.yandex.practicum.filmorate.service.films.FilmsAppService;
 @RequestMapping("/films")
 public class FilmsController implements FilmsAppController<Film> {
 
-	private FilmsAppService<Film> appService;
+	private FilmsAppService<Film> filmAppService;
 
-	public FilmsController(FilmsAppService<Film> filmService) {
-		this.appService = filmService;
+	public FilmsController(FilmsAppService<Film> filmAppService) {
+		this.filmAppService = filmAppService;
 	}
 
 	/*
@@ -35,13 +33,7 @@ public class FilmsController implements FilmsAppController<Film> {
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	@Override
 	public Film createOrUpdateFilm(Film film) {
-		return appService.createOrUpdate(film);
-//		if (responseBody == null) {
-//			log.warn("Неверно задан запрос или параметры фильма {}", film);
-//			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-//		} else {
-//			return ResponseEntity.status(HttpStatus.OK).body(responseBody);
-//		}
+		return filmAppService.createOrUpdateFilm(film);
 	}
 
 	/*
@@ -51,7 +43,7 @@ public class FilmsController implements FilmsAppController<Film> {
 	@Override
 	public void deleteFilm(Long id) {
 		log.info("Начато удаление фильма. Получен id={}", id);
-		appService.delete(id);
+		filmAppService.deleteFilm(id);
 	}
 
 	/*
@@ -61,7 +53,7 @@ public class FilmsController implements FilmsAppController<Film> {
 	@Override
 	public void deleteAllFilms() {
 		log.info("Начато удаление всех фильмов");
-		appService.deleteAll();
+		filmAppService.deleteAllFilms();
 	}
 
 	/*
@@ -69,15 +61,9 @@ public class FilmsController implements FilmsAppController<Film> {
 	 */
 	@GetMapping("/{id}")
 	@Override
-	public ResponseEntity<Film> getFilm(Long id) {
+	public Film getFilm(Long id) {
 		log.info("Начат вызов фильма. Получен id={}", id);
-		if (appService.get(id) == null) {
-			log.warn("Фильм с id={} в списке не найден", id);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		} else {
-			log.info("Фильм с id={} получен", id);
-			return ResponseEntity.status(HttpStatus.OK).body(appService.get(id));
-		}
+		return filmAppService.getFilm(id);
 	}
 
 	/*
@@ -87,6 +73,6 @@ public class FilmsController implements FilmsAppController<Film> {
 	@Override
 	public List<Film> getAllFilms() {
 		log.info("Начато получение всех фильмов");
-		return appService.getAll();
+		return filmAppService.getAllFilms();
 	}
 }

@@ -9,6 +9,8 @@ import ru.yandex.practicum.filmorate.exceptions.filmsExceptions.FilmNotFoundExce
 import ru.yandex.practicum.filmorate.exceptions.friendsExceptions.UsersAreAllreadyFriendsException;
 import ru.yandex.practicum.filmorate.exceptions.friendsExceptions.UsersAreNotFriendsException;
 import ru.yandex.practicum.filmorate.exceptions.likesExceptions.IllegalNumberFilmsCountException;
+import ru.yandex.practicum.filmorate.exceptions.likesExceptions.UserAllreadySetLikeToFilmException;
+import ru.yandex.practicum.filmorate.exceptions.likesExceptions.UserDidntSetLikeToFilmException;
 import ru.yandex.practicum.filmorate.exceptions.usersExceptions.UserAllreadyExistException;
 import ru.yandex.practicum.filmorate.exceptions.usersExceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.film.Film;
@@ -119,4 +121,27 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 		}
 	}
 
+	/*
+	 * проверка на ошибку - пользователь уже ставил лайк фильму
+	 */
+	@Override
+	public void checkUserAllreadySetLikeToFilmException(Long filmId, Long userId, String errorMessage) {
+		if (likesAppStorage.isUserSetLike(filmId, userId)) {
+			RuntimeException exception = new UserAllreadySetLikeToFilmException(filmId, userId, errorMessage);
+			log.warn(errorMessage + " " + exception.getMessage());
+			throw exception;
+		}
+	}
+
+	/*
+	 * проверка на ошибку - пользователь не ставил лайк фильму
+	 */
+	@Override
+	public void checkUserDidntSetLikeToFilmException(Long filmId, Long userId, String errorMessage) {
+		if (!likesAppStorage.isUserSetLike(filmId, userId)) {
+			RuntimeException exception = new UserDidntSetLikeToFilmException(filmId, userId, errorMessage);
+			log.warn(errorMessage + " " + exception.getMessage());
+			throw exception;
+		}
+	}
 }

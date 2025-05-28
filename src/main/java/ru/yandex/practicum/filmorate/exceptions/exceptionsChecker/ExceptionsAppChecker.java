@@ -37,4 +37,14 @@ public interface ExceptionsAppChecker {
 	 */
 	void checkIllegalNumberFilmsCountException(int countFilms, String errorMessage);
 
+	/*
+	 * проверка на ошибку - пользователь уже ставил лайк фильму
+	 */
+	void checkUserAllreadySetLikeToFilmException(Long filmId, Long userId, String errorMessage);
+
+	/*
+	 * проверка на ошибку - пользователь уже ставил лайк фильму
+	 */
+	void checkUserDidntSetLikeToFilmException(Long filmId, Long userId, String errorMessage);
+
 }

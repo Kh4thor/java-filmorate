@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.controller.films;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -29,7 +28,7 @@ public interface FilmsAppController<T> {
 	/*
 	 * получить объект по id
 	 */
-	ResponseEntity<T> getFilm(@PathVariable Long id);
+	T getFilm(@PathVariable Long id);
 
 	/*
 	 * получить список всех объектов

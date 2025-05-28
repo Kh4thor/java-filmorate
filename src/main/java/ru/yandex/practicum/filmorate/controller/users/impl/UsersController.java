@@ -65,15 +65,9 @@ public class UsersController implements UsersAppController<User> {
 	 */
 	@GetMapping("/{id}")
 	@Override
-	public ResponseEntity<User> getUser(Long id) {
+	public User getUser(Long id) {
 		log.info("Начат вызов пользователя. Получен id={}", id);
-		if (userAppService.deleteUser(id) == null) {
-			log.warn("Пользователь с id={} в списке не найден", id);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		} else {
-			log.info("Пользователь с id={} получен", id);
-			return ResponseEntity.status(HttpStatus.OK).body(userAppService.getUser(id));
-		}
+		return userAppService.getUser(id);
 	}
 
 	/*

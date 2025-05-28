@@ -3,14 +3,14 @@ package ru.yandex.practicum.filmorate.exceptions.likesExceptions;
 public class UserAllreadySetLikeToFilmException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
-	private Long userId;
 	private Long filmId;
+	private Long userId;
 	private String errorMessage;
 
-	public UserAllreadySetLikeToFilmException(Long userId, Long filmId, String errorMessage) {
+	public UserAllreadySetLikeToFilmException(Long filmId, Long userId, String errorMessage) {
 		super("Пользователь id=" + userId + " уже ставил лайк фильму id=" + filmId);
-		this.userId = userId;
 		this.filmId = filmId;
+		this.userId = userId;
 		this.errorMessage = errorMessage;
 	}
 
@@ -25,5 +25,4 @@ public class UserAllreadySetLikeToFilmException extends RuntimeException {
 	public Long getFilmId() {
 		return filmId;
 	}
-
 }

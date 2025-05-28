@@ -1,16 +1,16 @@
 package ru.yandex.practicum.filmorate.storage.likes.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import ru.yandex.practicum.filmorate.model.film.Film;
 import ru.yandex.practicum.filmorate.storage.likes.LikesAppStorage;
 
 @Component
@@ -22,6 +22,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	// key - id-фильма;
 	// value - список id-пользователей, поставивших лайк;
 	// value.size() - количества лайков у фильма;
+
 	private Map<Long, List<Long>> filmLikesMap = new LinkedHashMap<>();
 
 	/*
@@ -41,9 +42,8 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 * добавиить фильм в хранилище-счетчик
 	 */
 	@Override
-	public boolean addFilm(Long filmId) {
-		List<Long> usersIdList = new ArrayList<>();
-		filmLikesMap.put(filmId, usersIdList);
+	public boolean addFilm(Film film) {
+		filmLikesMap.put(film.getId(), new ArrayList<>());
 		return true;
 	}
 
@@ -83,6 +83,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	public boolean removeLike(Long filmId, Long userId) {
 		List<Long> usersIdLikesList = filmLikesMap.get(filmId);
 		usersIdLikesList.remove(userId);
+		sortFilmLikesMap();
 		return true;
 	}
 
@@ -91,9 +92,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 	 */
 	@Override
 	public List<Long> getIdListOfFilmsIdByRate(int countOfFilms) {
-		LinkedList<Long> idListOfFilmsIdByRate = new LinkedList<>();
-		filmLikesMap.values().stream().flatMap(List::stream).limit(countOfFilms).forEach(idListOfFilmsIdByRate::add);
-		return idListOfFilmsIdByRate;
+		return new LinkedList<>(filmLikesMap.keySet());
 	}
 
 	/*
@@ -106,23 +105,11 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 		return true;
 	}
 
-	/*
-	 * сортировка хранилища-счетчика лайков фильмов по количеству лайков
-	 */
 	private void sortFilmLikesMap() {
-		List<Map.Entry<Long, List<Long>>> entries = new ArrayList<>(filmLikesMap.entrySet());
-
-		// сортировка фильмов по количеству лайков у фильма (value.size())
-		Collections.sort(entries, new Comparator<Map.Entry<Long, List<Long>>>() {
-			@Override
-			public int compare(Map.Entry<Long, List<Long>> a, Map.Entry<Long, List<Long>> b) {
-				return Integer.compare(a.getValue().size(), b.getValue().size());
-			}
-		});
-
-		// перезапись хранилища-счетчика с новым порядком
-		for (Entry<Long, List<Long>> entry : entries) {
-			filmLikesMap.put(entry.getKey(), entry.getValue());
-		}
+		filmLikesMap = filmLikesMap
+				.entrySet()
+				.stream()
+			    .sorted(Comparator.comparingInt((Map.Entry<Long, List<Long>> entry) -> entry.getValue().size()).reversed())
+			    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1,LinkedHashMap::new));
 	}
 }

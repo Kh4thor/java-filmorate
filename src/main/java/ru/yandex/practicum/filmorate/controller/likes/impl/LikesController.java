@@ -41,12 +41,11 @@ public class LikesController implements LikesAppController {
 	}
 
 	/*
-	 * вернуть список из первых count-фильмов
+	 * вернуть ограниченный по count список рейтиноговых фильмов
 	 */
 	@Override
 	@GetMapping("/popular")
 	public List<Film> getRatedFilms(Integer count) {
 		return likesAppService.getRatedFilms(count);
 	}
-
 }

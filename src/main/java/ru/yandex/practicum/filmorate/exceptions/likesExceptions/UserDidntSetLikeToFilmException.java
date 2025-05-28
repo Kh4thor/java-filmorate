@@ -3,14 +3,14 @@ package ru.yandex.practicum.filmorate.exceptions.likesExceptions;
 public class UserDidntSetLikeToFilmException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
-	private Long userId;
 	private Long filmId;
+	private Long userId;
 	private String errorMessage;
 
-	public UserDidntSetLikeToFilmException(Long userId, Long filmId, String errorMessage) {
+	public UserDidntSetLikeToFilmException(Long filmId, Long userId, String errorMessage) {
 		super("Пользователь с id=" + userId + " не ставил лайк фильму с id=" + filmId);
-		this.userId = userId;
 		this.filmId = filmId;
+		this.userId = userId;
 		this.errorMessage = errorMessage;
 	}
 

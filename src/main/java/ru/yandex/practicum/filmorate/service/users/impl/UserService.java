@@ -72,6 +72,8 @@ public class UserService implements UserAppService<User> {
 	 */
 	@Override
 	public User getUser(Long userId) {
+		String errorMessage = "Невозможно получить пользователя";
+		exceptionsAppChecker.checkUserNotFoundException(userId, errorMessage);
 		return usersAppStorage.getUser(userId);
 	}
 

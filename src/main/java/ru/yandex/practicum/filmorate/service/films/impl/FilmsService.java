@@ -34,7 +34,7 @@ public class FilmsService implements FilmsAppService<Film> {
 	 * создать или обновить фильм
 	 */
 	@Override
-	public Film createOrUpdate(Film film) {
+	public Film createOrUpdateFilm(Film film) {
 		if (film.getId() == null || film.getId() == 0) {
 			log.info("Начато создание фильма. Получен объект {}", film);
 			Film createdFilm = create(film);
@@ -52,20 +52,19 @@ public class FilmsService implements FilmsAppService<Film> {
 	 * удалить фильм по id
 	 */
 	@Override
-	public Film delete(Long filmId) {
+	public Film deleteFilm(Long filmId) {
 		String errorMessage = "Невозможно удалить фильм.";
 		exceptionsAppChecker.checkFilmNotFoundException(filmId, errorMessage);
 		likesAppStorage.deleteFilm(filmId);
 		log.info("Фильм с id=" + filmId + " удален");
 		return filmsAppStorage.removeFilm(filmId);
-
 	}
 
 	/*
 	 * удалить все фильмы
 	 */
 	@Override
-	public void deleteAll() {
+	public void deleteAllFilms() {
 		filmsAppStorage.clear();
 	}
 
@@ -73,15 +72,18 @@ public class FilmsService implements FilmsAppService<Film> {
 	 * получить фильм по id
 	 */
 	@Override
-	public Film get(Long id) {
-		return filmsAppStorage.getFilm(id);
+	public Film getFilm(Long filmId) {
+		String errorMessage = "Невозможно получить фильм";
+		exceptionsAppChecker.checkUserNotFoundException(filmId, errorMessage);
+		exceptionsAppChecker.checkFilmNotFoundException(filmId, null);
+		return filmsAppStorage.getFilm(filmId);
 	}
 
 	/*
 	 * получить список всех фильмов
 	 */
 	@Override
-	public List<Film> getAll() {
+	public List<Film> getAllFilms() {
 		return filmsAppStorage
 				.getRepository()
 				.values()
@@ -113,7 +115,7 @@ public class FilmsService implements FilmsAppService<Film> {
 		String errorMessage = "Невозможно создать фильм";
 		film.setId(generateId());
 		exceptionsAppChecker.checkFilmIsExistException(film.getId(), errorMessage);
-		likesAppStorage.addFilm(film.getId());
+		likesAppStorage.addFilm(film);
 		return filmsAppStorage.addFilm(film);
 	}
 
@@ -123,7 +125,6 @@ public class FilmsService implements FilmsAppService<Film> {
 	private Film update(Film film) {
 		String errorMessage = "Невозможно обновить фильм";
 		exceptionsAppChecker.checkFilmNotFoundException(film.getId(), errorMessage);
-		likesAppStorage.addFilm(film.getId());
 		return filmsAppStorage.addFilm(film);
 	}
 }

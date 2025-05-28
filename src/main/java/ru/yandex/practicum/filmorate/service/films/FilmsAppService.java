@@ -7,25 +7,25 @@ public interface FilmsAppService<T> {
 	/*
 	 * создать или обновить объект
 	 */
-	T createOrUpdate(T t);
+	T createOrUpdateFilm(T t);
 
 	/*
 	 * удалить объект по id
 	 */
-	T delete(Long id);
+	T deleteFilm(Long id);
 
 	/*
 	 * удалить все объекты
 	 */
-	void deleteAll();
+	void deleteAllFilms();
 
 	/*
 	 * получить объект по id
 	 */
-	T get(Long id);
+	T getFilm(Long id);
 
 	/*
 	 * получить список всех объектов
 	 */
-	List<T> getAll();
+	List<T> getAllFilms();
 }
