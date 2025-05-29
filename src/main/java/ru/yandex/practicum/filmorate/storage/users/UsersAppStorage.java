@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.users;
 
-import java.util.Map;
+import java.util.List;
 
 public interface UsersAppStorage<T> {
 
@@ -30,12 +30,12 @@ public interface UsersAppStorage<T> {
 	T getUser(Long id);
 
 	/*
-	 * получить хранилище
-	 */
-	Map<Long, T> getRepository();
-
-	/*
 	 * удалить пользователя из хранилища
 	 */
 	T removeUser(Long id);
+
+	/*
+	 * получить список всех пользователей
+	 */
+	List<T> getAllUsers();
 }

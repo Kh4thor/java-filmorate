@@ -109,7 +109,7 @@ public class InMemoryLikesStorage implements LikesAppStorage {
 		filmLikesMap = filmLikesMap
 				.entrySet()
 				.stream()
-			    .sorted(Comparator.comparingInt((Map.Entry<Long, List<Long>> entry) -> entry.getValue().size()).reversed())
-			    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1,LinkedHashMap::new));
+				.sorted(Comparator.comparingInt((Map.Entry<Long, List<Long>> entry) -> entry.getValue().size()).reversed())
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 	}
 }

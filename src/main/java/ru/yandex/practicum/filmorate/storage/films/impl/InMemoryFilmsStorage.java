@@ -48,7 +48,6 @@ public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 		return filmsStorageMap.get(id);
 	}
 
-
 	/*
 	 * удалить фильм из хранилища
 	 */
@@ -64,24 +63,24 @@ public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 	public boolean isFilmExist(Long id) {
 		return filmsStorageMap.containsKey(id);
 	}
-	
+
 	/*
 	 * вернуть спискок фильмов по рейтингу
 	 */
 	@Override
 	public List<Film> getRatedFilms(List<Long> ratedFilmsIdList) {
-		// получить по списку id-рейтинговых фильмов сами фильмы из хранилища фильмов
-				return ratedFilmsIdList
-						.stream()
-						.map(id -> filmsStorageMap.get(id))
-						.toList();
+		// получить по id-списку рейтинговых фильмов сами фильмы из хранилища фильмов
+		return ratedFilmsIdList
+				.stream()
+				.map(id -> filmsStorageMap.get(id))
+				.toList();
 	}
-	
+
 	/*
 	 * получить список всех фильмов
 	 */
 	@Override
-	public List<Film> getAllFilms () {
+	public List<Film> getAllFilms() {
 		return filmsStorageMap
 				.values()
 				.stream()

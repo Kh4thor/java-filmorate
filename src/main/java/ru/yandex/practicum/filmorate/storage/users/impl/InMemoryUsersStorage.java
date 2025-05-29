@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.storage.users.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
@@ -47,14 +48,6 @@ public class InMemoryUsersStorage implements UsersAppStorage<User> {
 	}
 
 	/*
-	 * получить хранилище пользователей
-	 */
-	@Override
-	public Map<Long, User> getRepository() {
-		return new HashMap<>(usersStorageMap);
-	}
-
-	/*
 	 * удалить пользователя из хранилища
 	 */
 	@Override
@@ -83,5 +76,16 @@ public class InMemoryUsersStorage implements UsersAppStorage<User> {
 	@Override
 	public boolean isUserExist(Long id) {
 		return usersStorageMap.containsKey(id);
+	}
+
+	/*
+	 * получить всех пользователей
+	 */
+	@Override
+	public List<User> getAllUsers() {
+		return usersStorageMap
+				.values()
+				.stream()
+				.toList();
 	}
 }

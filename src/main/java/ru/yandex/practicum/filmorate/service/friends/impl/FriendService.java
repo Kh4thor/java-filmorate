@@ -79,7 +79,8 @@ public class FriendService implements FriendsAppService {
 
 		return friendsIdList
 				.stream()
-				.map(id -> usersAppStorage.getUser(id)) // для каждого id из списка friendsIdList вытаскиваем пользователя из userStorage
+				// для каждого id из списка friendsIdList вытаскиваем пользователя из userStorage
+				.map(id -> usersAppStorage.getUser(id)) 
 				.toList();
 	}
 
@@ -92,7 +93,9 @@ public class FriendService implements FriendsAppService {
 		List<Long> commonFriendsIdList = friendsAppStorage.geIdListOfCommonFriends(userOneId, userTwoId);
 
 		return commonFriendsIdList
-				.stream().map(id -> usersAppStorage.getUser(id)) // для каждого id из списка friendsIdList вытаскиваем пользоватедя из userStorage
+				.stream()
+				// для каждого id из списка friendsIdList вытаскиваем пользоватедя из userStorage
+				.map(id -> usersAppStorage.getUser(id)) 
 				.toList();
 	}
 }
