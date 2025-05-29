@@ -21,7 +21,7 @@ import ru.yandex.practicum.filmorate.service.films.FilmsAppService;
 @RequestMapping("/films")
 public class FilmsController implements FilmsAppController<Film> {
 
-	private FilmsAppService<Film> filmAppService;
+	private final FilmsAppService<Film> filmAppService;
 
 	public FilmsController(FilmsAppService<Film> filmAppService) {
 		this.filmAppService = filmAppService;

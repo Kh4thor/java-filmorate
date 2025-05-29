@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.service.likes.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -61,18 +60,10 @@ public class LikesService implements LikesAppService {
 		String errorMessage = "Невозможно получить список рейтиноговых фильмов";
 		exceptionsChecker.checkIllegalNumberFilmsCountException(count, errorMessage);
 
-		// список id-рейтинговых фильмов из хранилища лайков, ограниченный по длине count
+		// id-cписок рейтинговых фильмов из хранилища лайков, ограниченный по длине count
 		List<Long> ratedFilmsIdList = likesAppStorage.getIdListOfFilmsIdByRate(count);
-
-		// хранилище фильмов
-		Map<Long, Film> filmsRepository = filmsAppStorage.getRepository();
-
-		// получить по списку id-рейтинговых фильмов сами фильмы из хранилища фильмов
-		List<Film> ratedFilmsList = ratedFilmsIdList
-				.stream()
-				.map(id -> filmsRepository.get(id))
-				.toList();
-
+		// список рейтиноговых фильмов из хранилища фильмов по id-
+		List<Film> ratedFilmsList = filmsAppStorage.getRatedFilms(ratedFilmsIdList);
 		if (ratedFilmsList.isEmpty()) {
 			log.info("Список рейтинговых фильмов пуст");
 		} else {

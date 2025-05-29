@@ -18,9 +18,9 @@ public class UserService implements UserAppService<User> {
 
 	private Long id = 0L;
 
-	UsersAppStorage<User> usersAppStorage;
-	FriendsAppStorage friendsAppStorage;
-	ExceptionsAppChecker exceptionsAppChecker;
+	private final UsersAppStorage<User> usersAppStorage;
+	private final FriendsAppStorage friendsAppStorage;
+	private final ExceptionsAppChecker exceptionsAppChecker;
 
 	public UserService(UsersAppStorage<User> usersAppStorage, FriendsAppStorage friendsAppStorage,
 			InMemoryFilmsStorage inMemoryFilmsStorage, ExceptionsAppChecker exceptionsChecker) {

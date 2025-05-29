@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.storage.films.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
@@ -12,14 +13,14 @@ import ru.yandex.practicum.filmorate.storage.films.FilmsAppStorage;
 public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 
 	// хранилище фильмов
-	private Map<Long, Film> appStorage = new HashMap<>();
+	private Map<Long, Film> filmsStorageMap = new HashMap<>();
 
 	/*
 	 * добавить фильм в хранилище
 	 */
 	@Override
 	public Film addFilm(Film film) {
-		appStorage.put(film.getId(), film);
+		filmsStorageMap.put(film.getId(), film);
 		return film;
 	}
 
@@ -28,7 +29,7 @@ public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 	 */
 	@Override
 	public void clear() {
-		appStorage.clear();
+		filmsStorageMap.clear();
 	}
 
 	/*
@@ -36,7 +37,7 @@ public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 	 */
 	@Override
 	public boolean isFilmExist(Film film) {
-		return appStorage.containsKey(film.getId());
+		return filmsStorageMap.containsKey(film.getId());
 	}
 
 	/*
@@ -44,23 +45,16 @@ public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 	 */
 	@Override
 	public Film getFilm(Long id) {
-		return appStorage.get(id);
+		return filmsStorageMap.get(id);
 	}
 
-	/*
-	 * получить хранилище фильмов
-	 */
-	@Override
-	public Map<Long, Film> getRepository() {
-		return new HashMap<>(appStorage);
-	}
 
 	/*
 	 * удалить фильм из хранилища
 	 */
 	@Override
 	public Film removeFilm(Long id) {
-		return appStorage.remove(id);
+		return filmsStorageMap.remove(id);
 	}
 
 	/*
@@ -68,6 +62,29 @@ public class InMemoryFilmsStorage implements FilmsAppStorage<Film> {
 	 */
 	@Override
 	public boolean isFilmExist(Long id) {
-		return appStorage.containsKey(id);
+		return filmsStorageMap.containsKey(id);
+	}
+	
+	/*
+	 * вернуть спискок фильмов по рейтингу
+	 */
+	@Override
+	public List<Film> getRatedFilms(List<Long> ratedFilmsIdList) {
+		// получить по списку id-рейтинговых фильмов сами фильмы из хранилища фильмов
+				return ratedFilmsIdList
+						.stream()
+						.map(id -> filmsStorageMap.get(id))
+						.toList();
+	}
+	
+	/*
+	 * получить список всех фильмов
+	 */
+	@Override
+	public List<Film> getAllFilms () {
+		return filmsStorageMap
+				.values()
+				.stream()
+				.toList();
 	}
 }

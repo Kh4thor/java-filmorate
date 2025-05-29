@@ -7,11 +7,9 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.ExceptionsAppChecker;
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.service.films.FilmsAppService;
 import ru.yandex.practicum.filmorate.storage.films.FilmsAppStorage;
 import ru.yandex.practicum.filmorate.storage.likes.LikesAppStorage;
-import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 
 @Slf4j
 @Service
@@ -24,7 +22,7 @@ public class FilmsService implements FilmsAppService<Film> {
 	private final ExceptionsAppChecker exceptionsAppChecker;
 
 	public FilmsService(FilmsAppStorage<Film> filmsAppStorage, LikesAppStorage likesAppStorage,
-			UsersAppStorage<User> usersAppStorage, ExceptionsAppChecker exceptionsChecker) {
+			ExceptionsAppChecker exceptionsChecker) {
 		this.filmsAppStorage = filmsAppStorage;
 		this.likesAppStorage = likesAppStorage;
 		this.exceptionsAppChecker = exceptionsChecker;
@@ -84,21 +82,7 @@ public class FilmsService implements FilmsAppService<Film> {
 	 */
 	@Override
 	public List<Film> getAllFilms() {
-		return filmsAppStorage
-				.getRepository()
-				.values()
-				.stream()
-				.toList();
-	}
-
-	/*
-	 * поставить лайк фильму
-	 */
-	public void setLikeToFilm(Long userId, Long filmId) {
-		String errorMessage = "Невозможно поставить лайк фильму";
-		exceptionsAppChecker.checkFilmNotFoundException(filmId, errorMessage);
-		exceptionsAppChecker.checkUserNotFoundException(userId, errorMessage);
-		likesAppStorage.setLike(filmId, userId);
+		return filmsAppStorage.getAllFilms();
 	}
 
 	/*

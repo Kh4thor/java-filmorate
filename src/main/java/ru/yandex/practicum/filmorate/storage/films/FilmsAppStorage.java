@@ -1,6 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.films;
 
-import java.util.Map;
+import java.util.List;
 
 public interface FilmsAppStorage<T> {
 
@@ -30,12 +30,17 @@ public interface FilmsAppStorage<T> {
 	T getFilm(Long id);
 
 	/*
-	 * получить хранилище
-	 */
-	Map<Long, T> getRepository();
-
-	/*
 	 * удалить объект из хранилища
 	 */
 	T removeFilm(Long id);
+
+	/*
+	 * вернуть спискок фильмов по рейтингу
+	 */
+	List<T> getRatedFilms(List<Long> ratedFilmsIdList);
+
+	/*
+	 * получить список всех фильмов
+	 */
+	List<T> getAllFilms();
 }

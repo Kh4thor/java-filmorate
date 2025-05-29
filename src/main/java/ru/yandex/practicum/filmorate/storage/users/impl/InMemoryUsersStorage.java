@@ -14,14 +14,14 @@ import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 public class InMemoryUsersStorage implements UsersAppStorage<User> {
 
 	// хранилище пользователей
-	private Map<Long, User> appStorage = new HashMap<>();
+	private Map<Long, User> usersStorageMap = new HashMap<>();
 
 	/*
 	 * добавить пользователя в хранилище
 	 */
 	@Override
 	public User addUser(User user) {
-		appStorage.put(user.getId(), user);
+		usersStorageMap.put(user.getId(), user);
 		return user;
 	}
 
@@ -30,7 +30,7 @@ public class InMemoryUsersStorage implements UsersAppStorage<User> {
 	 */
 	@Override
 	public void clear() {
-		appStorage.clear();
+		usersStorageMap.clear();
 	}
 
 	/*
@@ -38,8 +38,8 @@ public class InMemoryUsersStorage implements UsersAppStorage<User> {
 	 */
 	@Override
 	public User getUser(Long id) {
-		if (appStorage.containsKey(id)) {
-			return appStorage.get(id);
+		if (usersStorageMap.containsKey(id)) {
+			return usersStorageMap.get(id);
 		} else {
 			log.warn("Пользователь с id={} не найден", id);
 			return null;
@@ -51,7 +51,7 @@ public class InMemoryUsersStorage implements UsersAppStorage<User> {
 	 */
 	@Override
 	public Map<Long, User> getRepository() {
-		return new HashMap<>(appStorage);
+		return new HashMap<>(usersStorageMap);
 	}
 
 	/*
@@ -59,8 +59,8 @@ public class InMemoryUsersStorage implements UsersAppStorage<User> {
 	 */
 	@Override
 	public User removeUser(Long id) {
-		if (appStorage.containsKey(id)) {
-			User deletedUser = appStorage.remove(id);
+		if (usersStorageMap.containsKey(id)) {
+			User deletedUser = usersStorageMap.remove(id);
 			log.warn("Пользователь с id={} удален", id);
 			return deletedUser;
 		} else {
@@ -82,6 +82,6 @@ public class InMemoryUsersStorage implements UsersAppStorage<User> {
 	 */
 	@Override
 	public boolean isUserExist(Long id) {
-		return appStorage.containsKey(id);
+		return usersStorageMap.containsKey(id);
 	}
 }
