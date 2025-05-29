@@ -74,4 +74,5 @@ public class User {
 	public User clone() throws CloneNotSupportedException {
 		return (User) super.clone();
 	}
+
 }
