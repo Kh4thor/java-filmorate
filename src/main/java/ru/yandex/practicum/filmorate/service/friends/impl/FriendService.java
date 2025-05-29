@@ -79,7 +79,7 @@ public class FriendService implements FriendsAppService {
 
 		return friendsIdList
 				.stream()
-				.map(id -> usersAppStorage.getUser(id)) 
+				.map(id -> usersAppStorage.getUser(id))
 				.toList();
 	}
 
@@ -93,7 +93,7 @@ public class FriendService implements FriendsAppService {
 
 		return commonFriendsIdList
 				.stream()
-				.map(id -> usersAppStorage.getUser(id)) 
+				.map(id -> usersAppStorage.getUser(id))
 				.toList();
 	}
 }
