@@ -46,9 +46,13 @@ public class Film implements Cloneable {
 	@NotNull(message = "Поле duration не может быть null")
 	private Long duration;
 
+	private FilmGenre genre;
+	
+	private FilmMPA mpa;
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(description, duration, name, releaseDate);
+		return Objects.hash(description, duration, genre, id, name, releaseDate);
 	}
 
 	@Override
@@ -60,19 +64,27 @@ public class Film implements Cloneable {
 			return false;
 		}
 		Film other = (Film) obj;
-		return Objects.equals(description, other.description) && Objects.equals(duration, other.duration)
-				&& Objects.equals(name, other.name) && Objects.equals(releaseDate, other.releaseDate);
+		return Objects.equals(description, other.description)
+				&& Objects.equals(duration, other.duration)
+				&& Objects.equals(name, other.name)
+				&& Objects.equals(releaseDate, other.releaseDate)
+				&& genre == other.genre
+				&& mpa == other.mpa;
 	}
 
 	@Override
 	public String toString() {
-		return "Film [id=" + id + ", name=" + name + ", description=" + description + ", releaseDate=" + releaseDate
-				+ ", duration=" + duration + "]";
+		return "Film [id=" + id +", "
+				+ "name=" + name + ", "
+				+ "description=" + description + ", "
+				+ "releaseDate=" + releaseDate + ", "
+				+ "duration=" + duration + ", "
+				+ "genre=" + genre + ", "
+				+ "mpa= " + mpa +"]";
 	}
 
 	@Override
 	public Film clone() throws CloneNotSupportedException {
 		return (Film) super.clone();
 	}
-
 }
