@@ -15,16 +15,6 @@ public interface UsersAppStorage<T> {
 	void clear();
 
 	/*
-	 * проверить хранилище на наличие пользователя
-	 */
-	boolean isUserExist(T t);
-
-	/*
-	 * проверить хранилище на наличие пользователя
-	 */
-	boolean isUserExist(Long id);
-
-	/*
 	 * получить пользователя из хранилища
 	 */
 	T getUser(Long id);

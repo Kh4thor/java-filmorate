@@ -8,14 +8,16 @@ import ru.yandex.practicum.filmorate.model.user.User;
 @Getter
 @Setter
 @AllArgsConstructor
-public class FriendshipDAO {
+public class Friendship {
 
 	private User userOne;
 	private User userTwo;
 	private FriendshipStatus friendshipStatus;
 
-	public void addRequest(User userOne, User userTwo) {
-
+	public void createFriendship(User userOne, User userTwo) {
+		this.userOne = userOne;
+		this.userTwo = userTwo;
+		this.friendshipStatus = FriendshipStatus.NOT_FRIENDS;
 	}
 
 }

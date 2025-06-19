@@ -4,14 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.storage.users.UsersAppStorage;
 
 @Slf4j
-@Component
+//@Component
 public class InMemoryUsersStorage implements UsersAppStorage<User> {
 
 	// хранилище пользователей
@@ -62,30 +60,19 @@ public class InMemoryUsersStorage implements UsersAppStorage<User> {
 		}
 	}
 
-	/*
-	 * проверить хранилище на наличие пользователя
-	 */
-	@Override
-	public boolean isUserExist(User user) {
-		return isUserExist(user.getId());
-	}
-
-	/*
-	 * проверить хранилище на наличие пользователя
-	 */
-	@Override
-	public boolean isUserExist(Long id) {
-		return usersStorageMap.containsKey(id);
-	}
+//	/*
+//	 * проверить хранилище на наличие пользователя
+//	 */
+//	@Override
+//	public boolean isUserExist(Long id) {
+//		return usersStorageMap.containsKey(id);
+//	}
 
 	/*
 	 * получить всех пользователей
 	 */
 	@Override
 	public List<User> getAllUsers() {
-		return usersStorageMap
-				.values()
-				.stream()
-				.toList();
+		return usersStorageMap.values().stream().toList();
 	}
 }

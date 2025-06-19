@@ -66,7 +66,8 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 */
 	@Override
 	public void checkUserNotFoundException(Long userId, String errorMessage) {
-		if (!usersAppStorage.isUserExist(userId)) {
+		System.out.println(usersAppStorage.getUser(userId));
+		if (usersAppStorage.getUser(userId) == null) {
 			RuntimeException exception = new UserNotFoundException(userId, errorMessage);
 			log.warn(errorMessage + " " + exception.getMessage());
 			throw exception;
@@ -78,7 +79,7 @@ public class ExceptionsChecker implements ExceptionsAppChecker {
 	 */
 	@Override
 	public void checkUserIsExistException(Long userId, String errorMessage) {
-		if (usersAppStorage.isUserExist(userId)) {
+		if (usersAppStorage.getUser(userId) != null) {
 			RuntimeException exception = new UserAllreadyExistException(userId, errorMessage);
 			log.warn(errorMessage + " " + exception.getMessage());
 			throw exception;
