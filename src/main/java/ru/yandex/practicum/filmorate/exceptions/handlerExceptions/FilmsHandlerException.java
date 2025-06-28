@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import ru.yandex.practicum.filmorate.exceptions.ErrorResponse;
-import ru.yandex.practicum.filmorate.exceptions.filmsExceptions.FilmAllreadyExistException;
-import ru.yandex.practicum.filmorate.exceptions.filmsExceptions.FilmNotFoundException;
-import ru.yandex.practicum.filmorate.exceptions.likesExceptions.IllegalNumberFilmsCountException;
-import ru.yandex.practicum.filmorate.exceptions.likesExceptions.UserAllreadySetLikeToFilmException;
-import ru.yandex.practicum.filmorate.exceptions.likesExceptions.UserDidntSetLikeToFilmException;
+import ru.yandex.practicum.filmorate.exceptions.filmExceptions.FilmAllreadyExistException;
+import ru.yandex.practicum.filmorate.exceptions.filmExceptions.FilmNotFoundException;
+import ru.yandex.practicum.filmorate.exceptions.likeExceptions.IllegalNumberFilmsCountException;
+import ru.yandex.practicum.filmorate.exceptions.likeExceptions.UserAllreadySetLikeToFilmException;
+import ru.yandex.practicum.filmorate.exceptions.likeExceptions.UserDidntSetLikeToFilmException;
 
 @RestControllerAdvice
 public class FilmsHandlerException {

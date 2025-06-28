@@ -46,45 +46,39 @@ public class Film implements Cloneable {
 	@NotNull(message = "Поле duration не может быть null")
 	private Long duration;
 
-	private FilmGenre genre;
-	
-	private FilmMPA mpa;
+	// жанр фильм
+	private String genre;
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(description, duration, genre, id, name, releaseDate);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if ((obj == null) || (getClass() != obj.getClass())) {
-			return false;
-		}
-		Film other = (Film) obj;
-		return Objects.equals(description, other.description)
-				&& Objects.equals(duration, other.duration)
-				&& Objects.equals(name, other.name)
-				&& Objects.equals(releaseDate, other.releaseDate)
-				&& genre == other.genre
-				&& mpa == other.mpa;
-	}
-
-	@Override
-	public String toString() {
-		return "Film [id=" + id +", "
-				+ "name=" + name + ", "
-				+ "description=" + description + ", "
-				+ "releaseDate=" + releaseDate + ", "
-				+ "duration=" + duration + ", "
-				+ "genre=" + genre + ", "
-				+ "mpa= " + mpa +"]";
-	}
+	// рейтинг фильма
+	private String mpa;
 
 	@Override
 	public Film clone() throws CloneNotSupportedException {
 		return (Film) super.clone();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(description, duration, genre, id, mpa, name, releaseDate);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Film other = (Film) obj;
+		return Objects.equals(description, other.description) && Objects.equals(duration, other.duration)
+				&& Objects.equals(genre, other.genre) && Objects.equals(id, other.id) && Objects.equals(mpa, other.mpa)
+				&& Objects.equals(name, other.name) && Objects.equals(releaseDate, other.releaseDate);
+	}
+
+	@Override
+	public String toString() {
+		return "Film [id=" + id + ", " + "name=" + name + ", " + "description=" + description + ", " + "releaseDate="
+				+ releaseDate + ", " + "duration=" + duration + ", " + "genre=" + genre + ", " + "mpa= " + mpa + "]";
 	}
 }
