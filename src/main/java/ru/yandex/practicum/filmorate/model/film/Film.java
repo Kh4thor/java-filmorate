@@ -23,7 +23,8 @@ import lombok.Setter;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-//@NullCheckMpaAndGenreValidation
+@MpaValidator
+@GenreValidator
 public class Film implements Cloneable {
 
 	// id фильма

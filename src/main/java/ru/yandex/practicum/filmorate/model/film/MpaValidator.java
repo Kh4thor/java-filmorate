@@ -10,12 +10,12 @@ import jakarta.validation.Payload;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = NullCheckMpaAndGenreValidator.class)
-public @interface NullCheckMpaAndGenreValidation {
+@Constraint(validatedBy = MpaValidation.class)
+public @interface MpaValidator {
 
 	Class<?>[] groups() default {};
 
-	String message() default "Поле не может быть null";
+	String message() default "Значение mpa должно быть в диапазоне 0-6";
 
 	Class<? extends Payload>[] payload() default {};
 }

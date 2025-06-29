@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.model.film;
 
 public class Mpa {
+
 	private int id;
 
 	public Mpa() {
