@@ -72,8 +72,7 @@ public class FilmService implements FilmAppService<Film> {
 	@Override
 	public Film getFilm(Long filmId) {
 		String errorMessage = "Невозможно получить фильм";
-		exceptionsAppChecker.checkUserNotFoundException(filmId, errorMessage);
-		exceptionsAppChecker.checkFilmNotFoundException(filmId, null);
+		exceptionsAppChecker.checkFilmNotFoundException(filmId, errorMessage);
 		return filmAppStorage.getFilm(filmId);
 	}
 

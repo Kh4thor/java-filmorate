@@ -11,20 +11,18 @@ public class DbLikeStorage implements LikeAppStorage {
 
 	JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
-	/*
-	 * НЕ РЕАЛИЗОВАНО
-	 */
 	@Override
 	public boolean addFilm(Film film) {
-		String sql = "INSERT INTO film_likes (film_id, user_id, like) VALUES(?, ?, ?)";
-		return true;
+		String sql = "INSERT INTO film_likes (film_id, user_id, like_status) VALUES(?, ?, ?)";
+		jdbcTemplate.update(sql);
+		return isFilmExist(film.getId());
 	}
 
 	@Override
 	public boolean setLike(Long filmId, Long userId) {
-		String sql = "INSERT INTO film_likes (film_id, user_id, like) VALUES(?, ?, ?)";
-		jdbcTemplate.update(sql, filmId, userId, 1);
-		return true;
+		String sql = "UPDATE film_likes SET likes=? WHERE film_id=?, user_id=?";
+		jdbcTemplate.update(sql, 1, filmId, userId);
+		return isUserSetLike(filmId, userId);
 	}
 
 	@Override
@@ -38,15 +36,12 @@ public class DbLikeStorage implements LikeAppStorage {
 	public boolean removeLike(Long filmId, Long userId) {
 		String sql = "UPDATE film_likes SET like_status=? WHERE film_id=? AND user_id=?";
 		jdbcTemplate.update(sql, 0, filmId, userId);
-		return true;
+		return isUserSetLike(filmId, userId);
 	}
 
-	/*
-	 * НЕ РЕАЛИЗОВАНО
-	 */
 	@Override
 	public List<Long> getIdListOfFilmsIdByRate(int countOfFilms) {
-		String sql = "SELECT film_id FROM film_likes GROUP BY film_id ORDER BY COUNT(film_id) LIMIT=?";
+		String sql = "SELECT film_id FROM film_likes GROUP BY film_id ORDER BY COUNT(film_id) DESC LIMIT=?";
 		return jdbcTemplate.queryForList(sql, Long.class, countOfFilms);
 	}
 
@@ -66,14 +61,8 @@ public class DbLikeStorage implements LikeAppStorage {
 
 	@Override
 	public boolean isFilmExist(Long filmId) {
-		String sql = "SELECT film_id WHERE film_id=?";
-		List<Long> filmIdList = jdbcTemplate.queryForList(sql, Long.class);
-
-		if (filmIdList.isEmpty()) {
-			return false;
-		} else {
-			return true;
-		}
+		String sql = "SELECT EXISTS (SELECT id FROM films_likes WHERE id=?)";
+		return jdbcTemplate.queryForObject(sql, Boolean.class);
 	}
 
 	@Override

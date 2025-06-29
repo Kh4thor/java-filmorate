@@ -35,7 +35,7 @@ public interface FilmAppStorage<T> {
 	T removeFilm(Long filmId);
 
 	/*
-	 * вернуть спискок фильмов по рейтингу
+	 * получить спискок фильмов по рейтингу
 	 */
 	List<T> getRatedFilms(List<Long> ratedFilmsIdList);
 

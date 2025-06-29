@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.model.film;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.validation.constraints.NotBlank;
@@ -22,6 +23,7 @@ import lombok.Setter;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
+//@NullCheckMpaAndGenreValidation
 public class Film implements Cloneable {
 
 	// id фильма
@@ -47,10 +49,10 @@ public class Film implements Cloneable {
 	private Long duration;
 
 	// жанр фильм
-	private String genre;
+	private List<Genre> genres;
 
 	// рейтинг фильма
-	private String mpa;
+	private Mpa mpa;
 
 	@Override
 	public Film clone() throws CloneNotSupportedException {
@@ -59,7 +61,7 @@ public class Film implements Cloneable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(description, duration, genre, id, mpa, name, releaseDate);
+		return Objects.hash(description, duration, genres, id, mpa, name, releaseDate);
 	}
 
 	@Override
@@ -72,13 +74,15 @@ public class Film implements Cloneable {
 			return false;
 		Film other = (Film) obj;
 		return Objects.equals(description, other.description) && Objects.equals(duration, other.duration)
-				&& Objects.equals(genre, other.genre) && Objects.equals(id, other.id) && Objects.equals(mpa, other.mpa)
-				&& Objects.equals(name, other.name) && Objects.equals(releaseDate, other.releaseDate);
+				&& Objects.equals(genres, other.genres) && Objects.equals(id, other.id)
+				&& Objects.equals(mpa, other.mpa) && Objects.equals(name, other.name)
+				&& Objects.equals(releaseDate, other.releaseDate);
 	}
 
 	@Override
 	public String toString() {
 		return "Film [id=" + id + ", " + "name=" + name + ", " + "description=" + description + ", " + "releaseDate="
-				+ releaseDate + ", " + "duration=" + duration + ", " + "genre=" + genre + ", " + "mpa= " + mpa + "]";
+				+ releaseDate + ", " + "duration=" + duration + ", " + "genres=" + genres + ", " + "mpa= " + mpa + "]";
 	}
+
 }
