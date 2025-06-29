@@ -10,7 +10,7 @@ import jakarta.validation.Payload;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = MpaValidation.class)
+@Constraint(validatedBy = GenreValidation.class)
 public @interface GenreValidator {
 
 	Class<?>[] groups() default {};

@@ -98,6 +98,8 @@ public class FilmService implements FilmAppService<Film> {
 		String errorMessage = "Невозможно создать фильм";
 		film.setId(generateId());
 		exceptionsAppChecker.checkFilmIsExistException(film.getId(), errorMessage);
+		exceptionsAppChecker.checkGenreIsOutOfRangeException(film.getGenres(), errorMessage);
+		exceptionsAppChecker.checkMpaRangeValueException(film.getMpa().getId(), errorMessage);
 		likeAppStorage.addFilm(film);
 		return filmAppStorage.addFilm(film);
 	}
@@ -108,6 +110,8 @@ public class FilmService implements FilmAppService<Film> {
 	private Film update(Film film) {
 		String errorMessage = "Невозможно обновить фильм";
 		exceptionsAppChecker.checkFilmNotFoundException(film.getId(), errorMessage);
+		exceptionsAppChecker.checkGenreIsOutOfRangeException(film.getGenres(), errorMessage);
+		exceptionsAppChecker.checkMpaRangeValueException(film.getMpa().getId(), errorMessage);
 		return filmAppStorage.updateFilm(film);
 	}
 }

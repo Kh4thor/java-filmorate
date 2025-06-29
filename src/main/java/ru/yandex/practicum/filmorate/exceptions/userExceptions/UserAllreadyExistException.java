@@ -16,7 +16,7 @@ public class UserAllreadyExistException extends RuntimeException {
 		return userId;
 	}
 
-	public String geterrorMessage() {
+	public String getErrorMessage() {
 		return errorMessage;
 	}
 

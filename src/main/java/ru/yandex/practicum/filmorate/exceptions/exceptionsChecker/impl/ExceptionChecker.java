@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
@@ -8,12 +10,15 @@ import ru.yandex.practicum.filmorate.exceptions.filmExceptions.FilmAllreadyExist
 import ru.yandex.practicum.filmorate.exceptions.filmExceptions.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.friendExceptions.UsersAreAllreadyFriendsException;
 import ru.yandex.practicum.filmorate.exceptions.friendExceptions.UsersAreNotFriendsException;
+import ru.yandex.practicum.filmorate.exceptions.genreExceptions.GenreIsOutOfRangeException;
 import ru.yandex.practicum.filmorate.exceptions.likeExceptions.IllegalNumberFilmsCountException;
 import ru.yandex.practicum.filmorate.exceptions.likeExceptions.UserAllreadySetLikeToFilmException;
 import ru.yandex.practicum.filmorate.exceptions.likeExceptions.UserDidntSetLikeToFilmException;
+import ru.yandex.practicum.filmorate.exceptions.mpaExceptions.MpaIsOutOfRangeException;
 import ru.yandex.practicum.filmorate.exceptions.userExceptions.UserAllreadyExistException;
 import ru.yandex.practicum.filmorate.exceptions.userExceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.film.Film;
+import ru.yandex.practicum.filmorate.model.film.Genre;
 import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.storage.film.FilmAppStorage;
 import ru.yandex.practicum.filmorate.storage.friend.FriendAppStorage;
@@ -142,6 +147,27 @@ public class ExceptionChecker implements ExceptionAppChecker {
 			RuntimeException exception = new UserDidntSetLikeToFilmException(filmId, userId, errorMessage);
 			log.warn(errorMessage + " " + exception.getMessage());
 			throw exception;
+		}
+	}
+
+	@Override
+	public void checkMpaRangeValueException(Integer mpaId, String errorMessage) {
+		if (mpaId < 1 || mpaId > 5) {
+			RuntimeException exception = new MpaIsOutOfRangeException(mpaId, errorMessage);
+			log.warn(errorMessage + " " + exception.getMessage());
+			throw exception;
+		}
+	}
+
+	@Override
+	public void checkGenreIsOutOfRangeException(List<Genre> genres, String errorMessage) {
+		for (int i = 0; i < genres.size(); i++) {
+			int genreId = genres.get(i).getId();
+			if (genreId < 1 || genreId > 6) {
+				RuntimeException exception = new GenreIsOutOfRangeException(genreId, errorMessage);
+				log.warn(errorMessage + " " + exception.getMessage());
+				throw exception;
+			}
 		}
 	}
 }

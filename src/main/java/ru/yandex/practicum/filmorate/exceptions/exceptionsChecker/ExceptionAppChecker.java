@@ -1,5 +1,9 @@
 package ru.yandex.practicum.filmorate.exceptions.exceptionsChecker;
 
+import java.util.List;
+
+import ru.yandex.practicum.filmorate.model.film.Genre;
+
 public interface ExceptionAppChecker {
 
 	/*
@@ -46,5 +50,15 @@ public interface ExceptionAppChecker {
 	 * проверка на ошибку - пользователь уже ставил лайк фильму
 	 */
 	void checkUserDidntSetLikeToFilmException(Long filmId, Long userId, String errorMessage);
+
+	/*
+	 * проверка на ошибку - значение mpaId не в диапазоне 1-5 включительно
+	 */
+	void checkMpaRangeValueException(Integer mpaId, String errorMessage);
+
+	/*
+	 * проверка на ошибку - значение genreId не в диапазоне 1-6 включительно
+	 */
+	void checkGenreIsOutOfRangeException(List<Genre> genres, String errorMessage);
 
 }

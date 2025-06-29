@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -23,8 +24,8 @@ import lombok.Setter;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-@MpaValidator
-@GenreValidator
+//@MpaValidator
+//@GenreValidator
 public class Film implements Cloneable {
 
 	// id фильма
@@ -50,9 +51,11 @@ public class Film implements Cloneable {
 	private Long duration;
 
 	// жанр фильм
+	@Nullable
 	private List<Genre> genres;
 
 	// рейтинг фильма
+	@Nullable
 	private Mpa mpa;
 
 	@Override

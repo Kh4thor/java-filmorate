@@ -21,6 +21,6 @@ public class UsersHandlerException {
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
 	public ErrorResponse handlerUserNotFoundException(final UserAllreadyExistException exception) {
-		return new ErrorResponse(exception.geterrorMessage(), exception.getMessage());
+		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 	}
 }
