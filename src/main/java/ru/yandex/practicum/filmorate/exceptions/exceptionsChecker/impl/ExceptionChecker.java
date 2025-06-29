@@ -10,11 +10,11 @@ import ru.yandex.practicum.filmorate.exceptions.filmExceptions.FilmAllreadyExist
 import ru.yandex.practicum.filmorate.exceptions.filmExceptions.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.friendExceptions.UsersAreAllreadyFriendsException;
 import ru.yandex.practicum.filmorate.exceptions.friendExceptions.UsersAreNotFriendsException;
-import ru.yandex.practicum.filmorate.exceptions.genreExceptions.GenreIsOutOfRangeException;
+import ru.yandex.practicum.filmorate.exceptions.genreExceptions.GenreValueIsOutOfRangeException;
 import ru.yandex.practicum.filmorate.exceptions.likeExceptions.IllegalNumberFilmsCountException;
 import ru.yandex.practicum.filmorate.exceptions.likeExceptions.UserAllreadySetLikeToFilmException;
 import ru.yandex.practicum.filmorate.exceptions.likeExceptions.UserDidntSetLikeToFilmException;
-import ru.yandex.practicum.filmorate.exceptions.mpaExceptions.MpaIsOutOfRangeException;
+import ru.yandex.practicum.filmorate.exceptions.mpaExceptions.MpaValueIsOutOfRangeException;
 import ru.yandex.practicum.filmorate.exceptions.userExceptions.UserAllreadyExistException;
 import ru.yandex.practicum.filmorate.exceptions.userExceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.film.Film;
@@ -151,23 +151,28 @@ public class ExceptionChecker implements ExceptionAppChecker {
 	}
 
 	@Override
-	public void checkMpaRangeValueException(Integer mpaId, String errorMessage) {
+	public void checkMpaValueIsOutOfRangeException(Integer mpaId, String errorMessage) {
 		if (mpaId < 1 || mpaId > 5) {
-			RuntimeException exception = new MpaIsOutOfRangeException(mpaId, errorMessage);
+			RuntimeException exception = new MpaValueIsOutOfRangeException(mpaId, errorMessage);
 			log.warn(errorMessage + " " + exception.getMessage());
 			throw exception;
 		}
 	}
 
 	@Override
-	public void checkGenreIsOutOfRangeException(List<Genre> genres, String errorMessage) {
+	public void checkGenreValueIsOutOfRangeException(List<Genre> genres, String errorMessage) {
 		for (int i = 0; i < genres.size(); i++) {
 			int genreId = genres.get(i).getId();
-			if (genreId < 1 || genreId > 6) {
-				RuntimeException exception = new GenreIsOutOfRangeException(genreId, errorMessage);
-				log.warn(errorMessage + " " + exception.getMessage());
-				throw exception;
-			}
+			checkGenreValueIsOutOfRangeException(genreId, errorMessage);
+		}
+	}
+
+	@Override
+	public void checkGenreValueIsOutOfRangeException(Integer genreId, String errorMessage) {
+		if (genreId < 1 || genreId > 6) {
+			RuntimeException exception = new GenreValueIsOutOfRangeException(genreId, errorMessage);
+			log.warn(errorMessage + " " + exception.getMessage());
+			throw exception;
 		}
 	}
 }

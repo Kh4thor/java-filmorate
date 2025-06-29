@@ -23618,3 +23618,7 @@ DROP TABLE IF EXISTS genres [90107-232]
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+2025-06-30 01:02:19.508269+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "GERES" не найдена
+Table "GERES" not found; SQL statement:
+SELECT * FROM geres [42102-232]

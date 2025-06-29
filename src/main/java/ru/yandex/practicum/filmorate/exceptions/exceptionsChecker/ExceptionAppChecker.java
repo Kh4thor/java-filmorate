@@ -54,11 +54,16 @@ public interface ExceptionAppChecker {
 	/*
 	 * проверка на ошибку - значение mpaId не в диапазоне 1-5 включительно
 	 */
-	void checkMpaRangeValueException(Integer mpaId, String errorMessage);
+	void checkMpaValueIsOutOfRangeException(Integer mpaId, String errorMessage);
 
 	/*
 	 * проверка на ошибку - значение genreId не в диапазоне 1-6 включительно
 	 */
-	void checkGenreIsOutOfRangeException(List<Genre> genres, String errorMessage);
+	void checkGenreValueIsOutOfRangeException(List<Genre> genres, String errorMessage);
+
+	/*
+	 * проверка на ошибку - значение genreId не в диапазоне 1-6 включительно
+	 */
+	void checkGenreValueIsOutOfRangeException(Integer genreId, String errorMessage);
 
 }
