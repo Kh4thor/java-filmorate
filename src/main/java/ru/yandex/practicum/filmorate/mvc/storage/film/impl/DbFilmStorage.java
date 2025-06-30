@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import jakarta.transaction.Transactional;
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.model.film.Genre;
-import ru.yandex.practicum.filmorate.model.film.Mpa;
+import ru.yandex.practicum.filmorate.model.genre.Genre;
+import ru.yandex.practicum.filmorate.model.mpa.Mpa;
 import ru.yandex.practicum.filmorate.mvc.storage.film.FilmAppStorage;
 import ru.yandex.practicum.filmorate.utills.mappers.FilmRowMapper;
 

@@ -18,7 +18,7 @@ import ru.yandex.practicum.filmorate.exceptions.mpaExceptions.MpaValueIsOutOfRan
 import ru.yandex.practicum.filmorate.exceptions.userExceptions.UserAllreadyExistException;
 import ru.yandex.practicum.filmorate.exceptions.userExceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.model.film.Genre;
+import ru.yandex.practicum.filmorate.model.genre.Genre;
 import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.mvc.storage.film.FilmAppStorage;
 import ru.yandex.practicum.filmorate.mvc.storage.friend.FriendAppStorage;

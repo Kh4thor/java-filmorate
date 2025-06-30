@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.ExceptionAppChecker;
-import ru.yandex.practicum.filmorate.model.film.Genre;
+import ru.yandex.practicum.filmorate.model.genre.Genre;
 import ru.yandex.practicum.filmorate.mvc.service.genre.GenreAppService;
 import ru.yandex.practicum.filmorate.mvc.storage.genre.GenreAppStorage;
 

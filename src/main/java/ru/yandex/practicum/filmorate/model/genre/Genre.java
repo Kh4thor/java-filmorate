@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model.film;
+package ru.yandex.practicum.filmorate.model.genre;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model.film;
+package ru.yandex.practicum.filmorate.model.mpa;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,8 +10,8 @@ import jakarta.validation.Payload;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = GenreValidation.class)
-public @interface GenreValidator {
+@Constraint(validatedBy = MpaValidation.class)
+public @interface MpaValidator {
 
 	Class<?>[] groups() default {};
 

@@ -1,7 +1,8 @@
-package ru.yandex.practicum.filmorate.model.film;
+package ru.yandex.practicum.filmorate.model.mpa;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import ru.yandex.practicum.filmorate.model.film.Film;
 
 class MpaValidation implements ConstraintValidator<MpaValidator, Film> {
 

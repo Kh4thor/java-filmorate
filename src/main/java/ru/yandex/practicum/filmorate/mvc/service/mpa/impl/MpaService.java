@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.ExceptionAppChecker;
-import ru.yandex.practicum.filmorate.model.film.Mpa;
+import ru.yandex.practicum.filmorate.model.mpa.Mpa;
 import ru.yandex.practicum.filmorate.mvc.service.mpa.MpaAppService;
 import ru.yandex.practicum.filmorate.mvc.storage.mpa.MpaAppStorage;
 

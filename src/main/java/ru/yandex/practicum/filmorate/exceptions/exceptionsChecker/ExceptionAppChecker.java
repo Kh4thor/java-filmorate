@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.exceptions.exceptionsChecker;
 
 import java.util.List;
 
-import ru.yandex.practicum.filmorate.model.film.Genre;
+import ru.yandex.practicum.filmorate.model.genre.Genre;
 
 public interface ExceptionAppChecker {
 
