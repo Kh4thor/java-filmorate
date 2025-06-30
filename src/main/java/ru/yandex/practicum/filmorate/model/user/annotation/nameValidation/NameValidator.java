@@ -1,11 +1,12 @@
-package ru.yandex.practicum.filmorate.model.user;
+package ru.yandex.practicum.filmorate.model.user.annotation.nameValidation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.extern.slf4j.Slf4j;
+import ru.yandex.practicum.filmorate.model.user.User;
 
 @Slf4j
-class NameValidator implements ConstraintValidator<Name, User> {
+class NameValidator implements ConstraintValidator<NameValidation, User> {
 
 	@Override
 	public boolean isValid(User value, ConstraintValidatorContext context) {

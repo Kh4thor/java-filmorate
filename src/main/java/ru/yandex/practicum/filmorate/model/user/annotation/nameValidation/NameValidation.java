@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model.mpa;
+package ru.yandex.practicum.filmorate.model.user.annotation.nameValidation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,12 +10,14 @@ import jakarta.validation.Payload;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = MpaValidation.class)
-public @interface MpaValidator {
+@Constraint(validatedBy = NameValidator.class)
+public @interface NameValidation {
 
 	Class<?>[] groups() default {};
 
-	String message() default "Значение mpa должно быть в диапазоне 0-6";
+	String message()
+
+	default "{NameValidation.message}";
 
 	Class<? extends Payload>[] payload() default {};
 }

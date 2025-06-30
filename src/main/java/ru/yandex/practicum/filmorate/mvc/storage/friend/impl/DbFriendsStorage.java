@@ -11,52 +11,47 @@ import ru.yandex.practicum.filmorate.mvc.storage.friend.FriendAppStorage;
 
 @Repository
 @Component
-public class DbFriendsSrorage implements FriendAppStorage {
+public class DbFriendsStorage implements FriendAppStorage {
 
 	private final JdbcTemplate jdbcTemplate;
 
-	public DbFriendsSrorage(JdbcTemplate jdbcTemplate) {
+	public DbFriendsStorage(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Override
-	public void addUser(Long id) {
-//		String sql = "INSERT INT";
+	public void addUser(Long userOneid) {
 	}
 
 	@Override
 	public boolean associateUsersAsFriends(Long userOneId, Long userTwoId) {
-		String sql = "UPDATE friends SET user_two_status=? WHERE (user_one_id=? AND user_two_id=?)";
-		jdbcTemplate.update(sql, true, userOneId, userTwoId);
-		jdbcTemplate.update(sql, true, userTwoId, userOneId);
+		String sql = "MERGE INTO friends (user_one_id, user_two_id, user_two_status) KEY (user_one_id, user_two_id) VALUES (?, ?, ?)";
+		jdbcTemplate.update(sql, userOneId, userTwoId, true);
 		return isUsersAssociatedAsFriends(userOneId, userTwoId);
 	}
 
 	@Override
 	public boolean disassociateUserAsFriends(Long userOneId, Long userTwoId) {
-		String sql = "UPDATE friends SET user_two_status=? WHERE (user_one_id=? AND user_two_id=?)";
-		jdbcTemplate.update(sql, false, userOneId, userTwoId);
-		jdbcTemplate.update(sql, false, userTwoId, userOneId);
+		String sql = "MERGE INTO friends (user_one_id, user_two_id, user_two_status) KEY (user_one_id, user_two_id) VALUES (?, ?, ?)";
+		jdbcTemplate.update(sql, userOneId, userTwoId, false);
 		return !isUsersAssociatedAsFriends(userOneId, userTwoId);
 	}
 
 	@Override
 	public boolean isUsersAssociatedAsFriends(Long userOneId, Long userTwoId) {
-		String sqlUserOneStaus = "SELECT EXISTS (SELECT user_two_status FROM friends WHERE user_one_id=?)";
-		boolean userOneStatus = jdbcTemplate.queryForObject(sqlUserOneStaus, Boolean.class, userOneId);
-		boolean userTwoStatus = jdbcTemplate.queryForObject(sqlUserOneStaus, Boolean.class, userTwoId);
-		return (userOneStatus && userTwoStatus);
+		String sql = "SELECT EXISTS (SELECT user_two_status FROM friends WHERE (user_one_id=? AND user_two_id=?))";
+		return jdbcTemplate.queryForObject(sql, Boolean.class, userOneId, userTwoId);
 	}
 
 	@Override
 	public void removeAllAssociatedFriendsOfUser(Long userOneId) {
-		String sql = "UPDATE friends (user_two_status) VALUES(?) WHERE user_one_id=?";
+		String sql = "UPDATE friends SET user_two_status=? WHERE user_one_id=?";
 		jdbcTemplate.update(sql, false, userOneId);
 	}
 
 	@Override
 	public void deleteUser(Long userId) {
-		String sql = "DELETE FROM friends WHERE user_one_id=? AND user_two_id=?";
+		String sql = "DELETE FROM friends WHERE user_one_id=? OR user_two_id=?";
 		jdbcTemplate.update(sql, userId, userId);
 	}
 
@@ -67,8 +62,8 @@ public class DbFriendsSrorage implements FriendAppStorage {
 
 	@Override
 	public List<Long> getIdListOfAssociatedFriends(Long userId) {
-		String sql = "SELECT user_two_id FROM friends WHERE user_one_id=?";
-		return jdbcTemplate.queryForList(sql, Long.class, userId);
+		String sql = "SELECT user_two_id FROM friends WHERE user_one_id=? AND user_two_status=?";
+		return jdbcTemplate.queryForList(sql, Long.class, userId, true);
 	}
 
 	@Override

@@ -21,9 +21,9 @@ public class FilmService implements FilmAppService<Film> {
 	private final LikeAppStorage likeAppStorage;
 	private final ExceptionAppChecker exceptionsAppChecker;
 
-	public FilmService(FilmAppStorage<Film> filmsAppStorage, LikeAppStorage likeAppStorage,
+	public FilmService(FilmAppStorage<Film> filmAppStorage, LikeAppStorage likeAppStorage,
 			ExceptionAppChecker exceptionsChecker) {
-		this.filmAppStorage = filmsAppStorage;
+		this.filmAppStorage = filmAppStorage;
 		this.likeAppStorage = likeAppStorage;
 		this.exceptionsAppChecker = exceptionsChecker;
 	}
@@ -99,9 +99,12 @@ public class FilmService implements FilmAppService<Film> {
 		film.setId(generateId());
 		exceptionsAppChecker.checkFilmIsExistException(film.getId(), errorMessage);
 		exceptionsAppChecker.checkGenreValueIsOutOfRangeException(film.getGenres(), errorMessage);
-		exceptionsAppChecker.checkMpaValueIsOutOfRangeException(film.getMpa().getId(), errorMessage);
+		if (film.getMpa() != null) {
+			exceptionsAppChecker.checkMpaValueIsOutOfRangeException(film.getMpa().getId(), errorMessage);
+		}
+		Film createdFilm = filmAppStorage.addFilm(film);
 		likeAppStorage.addFilm(film);
-		return filmAppStorage.addFilm(film);
+		return createdFilm;
 	}
 
 	/*

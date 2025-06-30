@@ -2,10 +2,8 @@ package ru.yandex.practicum.filmorate.mvc.storage.film.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import jakarta.transaction.Transactional;
@@ -13,16 +11,18 @@ import ru.yandex.practicum.filmorate.model.film.Film;
 import ru.yandex.practicum.filmorate.model.genre.Genre;
 import ru.yandex.practicum.filmorate.model.mpa.Mpa;
 import ru.yandex.practicum.filmorate.mvc.storage.film.FilmAppStorage;
+import ru.yandex.practicum.filmorate.mvc.storage.mpa.MpaAppStorage;
 import ru.yandex.practicum.filmorate.utills.mappers.FilmRowMapper;
 
 @Repository
-@Component
 public class DbFilmStorage implements FilmAppStorage<Film> {
 
 	private final JdbcTemplate jdbcTemplate;
+	private final MpaAppStorage mpaAppStorage;
 
-	public DbFilmStorage(JdbcTemplate jdbcTemplate) {
+	public DbFilmStorage(JdbcTemplate jdbcTemplate, MpaAppStorage mpaAppStorage) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.mpaAppStorage = mpaAppStorage;
 	}
 
 	/*
@@ -31,17 +31,22 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	@Override
 	public Film addFilm(Film film) {
 		// добавление фильма в таблицу films
+
+		Integer mpaId = null;
 		String sqlFilm = "INSERT INTO films (id, name, description, release, duration, mpa) VALUES (?, ?, ?, ?, ?, ?)";
+		if (film.getMpa() != null) {
+			mpaId = film.getMpa().getId();
+		}
 		jdbcTemplate.update(sqlFilm, film.getId(), film.getName(), film.getDescription(), film.getReleaseDate(),
-				film.getDuration(), film.getMpa().getId());
-		addGenres(film);
+				film.getDuration(), mpaId);
+		addGenresOfFilm(film);
 		return getFilm(film.getId());
 	}
 
 	/*
 	 * добавление жанров фильма в промежуточную таблицу films_genres
 	 */
-	private void addGenres(Film film) {
+	private void addGenresOfFilm(Film film) {
 		String sqlGenre = "INSERT INTO films_genres (film_id, genre_id) VALUES (?,?)";
 		List<Genre> genreIdList = film.getGenres();
 		// заполнение таблицы films_genres для каждого значения id-жанра
@@ -56,8 +61,15 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	 */
 	@Override
 	public Film updateFilm(Film film) {
-		removeFilm(film.getId());
-		return addFilm(film);
+		String sql = "UPDATE films SET name=?, description=?, release=?, duration=?, mpa=? WHERE id=?";
+		Integer mpaId = null;
+		if (film.getMpa() != null) {
+			mpaId = film.getMpa().getId();
+		}
+		jdbcTemplate.update(sql, film.getName(), film.getDescription(), film.getReleaseDate(), film.getDuration(),
+				mpaId, film.getId());
+
+		return getFilm(film.getId());
 	}
 
 	/*
@@ -100,13 +112,15 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 			genre.setName(nameGenre);
 			genreList.add(genre);
 		}
-
-		int mpaId = film.getMpa().getId();
-		String sqlNameMpa = "SELECT name FROM mpa WHERE id=?";
-		// присвоить имя для mpa по id-mpa
-		String nameMpa = jdbcTemplate.queryForObject(sqlNameMpa, String.class, mpaId);
-		Mpa mpa = film.getMpa();
-		mpa.setName(nameMpa);
+		// присвоить mpa для фильма
+		if (film.getMpa() != null) {
+			Integer mpaId = film.getMpa().getId();
+			// присвоить имя для mpa по id-mpa
+			Mpa mpa = mpaAppStorage.getMpa(mpaId);
+			film.setMpa(mpa);
+		} else {
+			film.setMpa(null);
+		}
 		// добоваление полученного id-списка жанров к полученному фильму
 		film.setGenres(genreList);
 		return film;
@@ -123,7 +137,7 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 		String sqlGenre = "DELETE FROM films_genres WHERE film_id=? ";
 		jdbcTemplate.update(sqlGenre, filmId);
 		// удалить фильм из таблицы films
-		String sqlFilm = "DELETE FROM films WHERE id=? ";
+		String sqlFilm = "DELETE FROM films WHERE film_id=? ";
 		jdbcTemplate.update(sqlFilm, filmId);
 		return film;
 	}
@@ -133,9 +147,13 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	 */
 	@Override
 	public List<Film> getRatedFilms(List<Long> ratedFilmsIdList) {
-		String sql = "SELECT * FROM films WHERE id IN ("
-				+ ratedFilmsIdList.stream().map(id -> "?").collect(Collectors.joining(",")) + ")";
-		return jdbcTemplate.query(sql, new FilmRowMapper(), ratedFilmsIdList.toArray());
+		List<Film> filmList = new ArrayList<>();
+		for (int i = 0; i < ratedFilmsIdList.size(); i++) {
+			Long filmId = ratedFilmsIdList.get(i);
+			Film film = getFilm(filmId);
+			filmList.add(film);
+		}
+		return filmList;
 	}
 
 	/*

@@ -34,8 +34,7 @@ public class FriendService implements FriendAppService {
 		exceptionsChecker.checkUsersAreFriendsException(userOneId, userTwoId, errorMessage);
 		exceptionsChecker.checkUserNotFoundException(userOneId, errorMessage);
 		exceptionsChecker.checkUserNotFoundException(userTwoId, errorMessage);
-		friendAppStorage.associateUsersAsFriends(userOneId, userTwoId);
-		return true;
+		return friendAppStorage.associateUsersAsFriends(userOneId, userTwoId);
 	}
 
 	/*
@@ -54,8 +53,7 @@ public class FriendService implements FriendAppService {
 		String errorMessage = "Невозможно удалить пользователя из друзей";
 		exceptionsChecker.checkUserNotFoundException(userOneId, errorMessage);
 		exceptionsChecker.checkUserNotFoundException(userTwoId, errorMessage);
-		friendAppStorage.disassociateUserAsFriends(userOneId, userTwoId);
-		return true;
+		return friendAppStorage.disassociateUserAsFriends(userOneId, userTwoId);
 	}
 
 	/*
@@ -76,7 +74,9 @@ public class FriendService implements FriendAppService {
 		String errorMessage = "Невозможно получить список друзей пользователя";
 		exceptionsChecker.checkUserNotFoundException(userId, errorMessage);
 		List<Long> friendsIdList = friendAppStorage.getIdListOfAssociatedFriends(userId);
-
+//		if (friendsIdList.isEmpty() || friendsIdList == null) {
+//			return new ArrayList<>();
+//		}
 		return friendsIdList.stream().map(id -> userAppStorage.getUser(id)).toList();
 	}
 

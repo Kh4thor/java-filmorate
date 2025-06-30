@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model.genre;
+package ru.yandex.practicum.filmorate.model.film.annotation.genreValidation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import ru.yandex.practicum.filmorate.model.film.Film;
+import ru.yandex.practicum.filmorate.model.genre.Genre;
 
 class GenreValidation implements ConstraintValidator<GenreValidator, Film> {
 

@@ -4,13 +4,10 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.model.film.Film;
 import ru.yandex.practicum.filmorate.mvc.controller.film.FilmAppController;
@@ -35,7 +32,7 @@ public class FilmsController implements FilmAppController<Film> {
 	 */
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
 	@Override
-	public Film createOrUpdateFilm(@Valid @RequestBody Film film) {
+	public Film createOrUpdateFilm(Film film) {
 		return filmAppService.createOrUpdateFilm(film);
 	}
 
@@ -44,7 +41,7 @@ public class FilmsController implements FilmAppController<Film> {
 	 */
 	@DeleteMapping("/{id}")
 	@Override
-	public void deleteFilm(@PathVariable Long id) {
+	public void deleteFilm(Long id) {
 		log.info("Начато удаление фильма. Получен id={}", id);
 		filmAppService.deleteFilm(id);
 	}

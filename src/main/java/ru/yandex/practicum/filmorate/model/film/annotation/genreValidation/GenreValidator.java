@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model.user;
+package ru.yandex.practicum.filmorate.model.film.annotation.genreValidation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,14 +10,12 @@ import jakarta.validation.Payload;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = NameValidator.class)
-public @interface Name {
+@Constraint(validatedBy = GenreValidation.class)
+public @interface GenreValidator {
 
 	Class<?>[] groups() default {};
 
-	String message()
-
-	default "{NameValidation.message}";
+	String message() default "Значение mpa должно быть в диапазоне 0-6";
 
 	Class<? extends Payload>[] payload() default {};
 }

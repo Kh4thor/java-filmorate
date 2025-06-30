@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.mvc.storage.user.impl;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import ru.yandex.practicum.filmorate.model.user.User;
@@ -11,7 +10,6 @@ import ru.yandex.practicum.filmorate.mvc.storage.user.UserAppStorage;
 import ru.yandex.practicum.filmorate.utills.mappers.UserRowMapper;
 
 @Repository
-@Component
 public class DbUserStorage implements UserAppStorage<User> {
 
 	private final JdbcTemplate jdbcTemplate;

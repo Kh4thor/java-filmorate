@@ -13,60 +13,62 @@ import ru.yandex.practicum.filmorate.mvc.storage.like.LikeAppStorage;
 @Component
 public class DbLikeStorage implements LikeAppStorage {
 
-	JdbcTemplate jdbcTemplate = new JdbcTemplate();
+	private final JdbcTemplate jdbcTemplate;
+
+	public DbLikeStorage(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 	@Override
 	public boolean addFilm(Film film) {
-		String sql = "INSERT INTO films_likes (film_id, user_id, like_status) VALUES(?, ?, ?)";
-		jdbcTemplate.update(sql);
-		return isFilmExist(film.getId());
+		return true;
 	}
 
 	@Override
 	public boolean setLike(Long filmId, Long userId) {
-		String sql = "UPDATE films_likes SET likes=? WHERE film_id=?, user_id=?";
-		jdbcTemplate.update(sql, 1, filmId, userId);
+		String sql = "MERGE INTO films_likes (film_id, user_id, like_status) KEY (film_id, user_id) VALUES (?, ?, ?)";
+		jdbcTemplate.update(sql, filmId, userId, true);
 		return isUserSetLike(filmId, userId);
 	}
 
 	@Override
 	public boolean isUserSetLike(Long filmId, Long userId) {
-		String sql = "SELECT like_status FROM films_likes WHERE film_id=? AND user_id=?";
-		int likeValue = jdbcTemplate.queryForObject(sql, Integer.class, filmId, userId);
-		return likeValue == 1;
+		String sql = "SELECT EXISTS (SELECT 1 FROM films_likes WHERE (film_id=? AND user_id=?))";
+		return jdbcTemplate.queryForObject(sql, Boolean.class, filmId, userId);
 	}
 
 	@Override
 	public boolean removeLike(Long filmId, Long userId) {
 		String sql = "UPDATE films_likes SET like_status=? WHERE film_id=? AND user_id=?";
-		jdbcTemplate.update(sql, 0, filmId, userId);
-		return isUserSetLike(filmId, userId);
+		jdbcTemplate.update(sql, false, filmId, userId);
+		return !isUserSetLike(filmId, userId);
 	}
 
 	@Override
 	public List<Long> getIdListOfFilmsIdByRate(int countOfFilms) {
-		String sql = "SELECT film_id FROM films_likes GROUP BY film_id ORDER BY COUNT(film_id) DESC LIMIT=?";
-		return jdbcTemplate.queryForList(sql, Long.class, countOfFilms);
+		String sql = "SELECT film_id FROM films_likes GROUP BY film_id ORDER BY COUNT(film_id) DESC LIMIT "
+				+ countOfFilms;
+		return jdbcTemplate.queryForList(sql, Long.class);
 	}
 
 	@Override
 	public boolean resetLikes(Long filmId) {
 		String sql = "UPDATE films_likes SET like_status=?";
-		jdbcTemplate.update(sql);
+		jdbcTemplate.update(sql, false);
 		return true;
 	}
 
 	@Override
 	public boolean deleteFilm(Long filmId) {
 		String sql = "DELETE FROM films_likes WHERE film_id=?";
-		jdbcTemplate.update(sql);
+		jdbcTemplate.update(sql, filmId);
 		return true;
 	}
 
 	@Override
 	public boolean isFilmExist(Long filmId) {
-		String sql = "SELECT EXISTS (SELECT id FROM films_likes WHERE id=?)";
-		return jdbcTemplate.queryForObject(sql, Boolean.class);
+		String sql = "SELECT EXISTS (SELECT 1 FROM films_likes WHERE film_id=?)";
+		return jdbcTemplate.queryForObject(sql, Boolean.class, filmId);
 	}
 
 	@Override

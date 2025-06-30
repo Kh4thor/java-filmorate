@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model.genre;
+package ru.yandex.practicum.filmorate.model.film.annotation.releaseDate;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,14 +8,14 @@ import java.lang.annotation.Target;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-@Target(ElementType.TYPE)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = GenreValidation.class)
-public @interface GenreValidator {
+@Constraint(validatedBy = ReleaseDateValidator.class)
+public @interface ReleaseDateValidation {
 
 	Class<?>[] groups() default {};
 
-	String message() default "Значение mpa должно быть в диапазоне 0-6";
+	String message() default "Дата релиза не может быть раньше 28 декабря 1895 года";
 
 	Class<? extends Payload>[] payload() default {};
 }
