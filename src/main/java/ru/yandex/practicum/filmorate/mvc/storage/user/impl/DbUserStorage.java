@@ -1,16 +1,14 @@
 package ru.yandex.practicum.filmorate.mvc.storage.user.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.mvc.storage.user.UserAppStorage;
+import ru.yandex.practicum.filmorate.utills.mappers.UserRowMapper;
 
 @Repository
 @Component
@@ -50,7 +48,7 @@ public class DbUserStorage implements UserAppStorage<User> {
 	@Override
 	public User getUser(Long userId) {
 		String sql = "SELECT * FROM users WHERE id=?";
-		return jdbcTemplate.queryForObject(sql, new UserMapper(), userId);
+		return jdbcTemplate.queryForObject(sql, new UserRowMapper(), userId);
 	}
 
 	@Override
@@ -64,20 +62,6 @@ public class DbUserStorage implements UserAppStorage<User> {
 	@Override
 	public List<User> getAllUsers() {
 		String sql = "SELECT * FROM users";
-		return jdbcTemplate.query(sql, new UserMapper());
-	}
-
-	static class UserMapper implements RowMapper<User> {
-
-		@Override
-		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-			User user = new User();
-			user.setId(rs.getLong("id"));
-			user.setName(rs.getString("name"));
-			user.setLogin(rs.getString("login"));
-			user.setEmail(rs.getString("email"));
-			user.setBirthday(rs.getDate("birthday").toLocalDate());
-			return user;
-		}
+		return jdbcTemplate.query(sql, new UserRowMapper());
 	}
 }

@@ -1,13 +1,10 @@
 package ru.yandex.practicum.filmorate.mvc.storage.film.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +13,7 @@ import ru.yandex.practicum.filmorate.model.film.Film;
 import ru.yandex.practicum.filmorate.model.film.Genre;
 import ru.yandex.practicum.filmorate.model.film.Mpa;
 import ru.yandex.practicum.filmorate.mvc.storage.film.FilmAppStorage;
+import ru.yandex.practicum.filmorate.utills.mappers.FilmRowMapper;
 
 @Repository
 @Component
@@ -87,7 +85,7 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	public Film getFilm(Long filmId) {
 		// получение фильма без поля genres
 		String sqlFilm = "SELECT * FROM films WHERE id=? GROUP BY id";
-		Film film = jdbcTemplate.queryForObject(sqlFilm, new FilmMapper(), filmId);
+		Film film = jdbcTemplate.queryForObject(sqlFilm, new FilmRowMapper(), filmId);
 		// получение id-списка жанров полученного фильма
 		String sqlGenreList = "SELECT genre_id FROM films_genres WHERE film_id=?";
 		List<Genre> genreList = new ArrayList<>();
@@ -137,7 +135,7 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	public List<Film> getRatedFilms(List<Long> ratedFilmsIdList) {
 		String sql = "SELECT * FROM films WHERE id IN ("
 				+ ratedFilmsIdList.stream().map(id -> "?").collect(Collectors.joining(",")) + ")";
-		return jdbcTemplate.query(sql, new FilmMapper(), ratedFilmsIdList.toArray());
+		return jdbcTemplate.query(sql, new FilmRowMapper(), ratedFilmsIdList.toArray());
 	}
 
 	/*
@@ -156,21 +154,5 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 			filmList.add(film);
 		}
 		return filmList;
-	}
-
-	public static class FilmMapper implements RowMapper<Film> {
-
-		@Override
-		public Film mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-			Film film = new Film();
-			film.setId(rs.getLong("id"));
-			film.setName(rs.getString("name"));
-			film.setDescription(rs.getString("description"));
-			film.setReleaseDate(rs.getDate("release").toLocalDate());
-			film.setDuration(rs.getLong("duration"));
-			film.setMpa(new Mpa(rs.getInt("mpa")));
-			return film;
-		}
 	}
 }
