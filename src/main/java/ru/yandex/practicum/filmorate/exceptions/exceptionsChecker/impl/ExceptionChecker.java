@@ -20,10 +20,10 @@ import ru.yandex.practicum.filmorate.exceptions.userExceptions.UserNotFoundExcep
 import ru.yandex.practicum.filmorate.model.film.Film;
 import ru.yandex.practicum.filmorate.model.film.Genre;
 import ru.yandex.practicum.filmorate.model.user.User;
-import ru.yandex.practicum.filmorate.storage.film.FilmAppStorage;
-import ru.yandex.practicum.filmorate.storage.friend.FriendAppStorage;
-import ru.yandex.practicum.filmorate.storage.like.LikeAppStorage;
-import ru.yandex.practicum.filmorate.storage.user.UserAppStorage;
+import ru.yandex.practicum.filmorate.mvc.storage.film.FilmAppStorage;
+import ru.yandex.practicum.filmorate.mvc.storage.friend.FriendAppStorage;
+import ru.yandex.practicum.filmorate.mvc.storage.like.LikeAppStorage;
+import ru.yandex.practicum.filmorate.mvc.storage.user.UserAppStorage;
 
 @Slf4j
 @Component
@@ -161,8 +161,8 @@ public class ExceptionChecker implements ExceptionAppChecker {
 
 	@Override
 	public void checkGenreValueIsOutOfRangeException(List<Genre> genres, String errorMessage) {
-		for (int i = 0; i < genres.size(); i++) {
-			int genreId = genres.get(i).getId();
+		for (Genre genre : genres) {
+			int genreId = genre.getId();
 			checkGenreValueIsOutOfRangeException(genreId, errorMessage);
 		}
 	}

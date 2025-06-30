@@ -24,8 +24,8 @@ import lombok.Setter;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-//@MpaValidator
-//@GenreValidator
+@MpaValidator
+@GenreValidator
 public class Film implements Cloneable {
 
 	// id фильма
@@ -70,12 +70,12 @@ public class Film implements Cloneable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		Film other = (Film) obj;
 		return Objects.equals(description, other.description) && Objects.equals(duration, other.duration)
 				&& Objects.equals(genres, other.genres) && Objects.equals(id, other.id)

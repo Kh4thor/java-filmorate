@@ -10,7 +10,7 @@ public class Genre {
 	private String name;
 
 	public Genre() {
-	};
+	}
 
 	public Genre(int id) {
 		this.id = id;

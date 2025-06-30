@@ -8,7 +8,7 @@ class MpaValidation implements ConstraintValidator<MpaValidator, Film> {
 	@Override
 	public boolean isValid(Film film, ConstraintValidatorContext context) {
 		if (film.getMpa() == null) {
-			film.setMpa(null);
+			film.setMpa(new Mpa());
 		}
 		return true;
 	}

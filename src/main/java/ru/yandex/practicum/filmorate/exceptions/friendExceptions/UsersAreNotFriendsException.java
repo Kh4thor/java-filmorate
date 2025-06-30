@@ -12,6 +12,7 @@ public class UsersAreNotFriendsException extends RuntimeException {
 		super("Пользователи id=" + userOneId + " и id=" + userTwoId + " не являются друзьями");
 		this.userOneId = userOneId;
 		this.userTwoId = userTwoId;
+		this.errorMessage = errorMessage;
 	}
 
 	public Long getUserOneId() {
