@@ -3,15 +3,13 @@ package ru.yandex.practicum.filmorate.mvc.storage.mpa.impl;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import ru.yandex.practicum.filmorate.model.mpa.Mpa;
 import ru.yandex.practicum.filmorate.mvc.storage.mpa.MpaAppStorage;
 import ru.yandex.practicum.filmorate.utills.mappers.MpaRowMapper;
 
-@Repository
-@Component
+@Repository("dbMpaStorage")
 public class DbMpaStorage implements MpaAppStorage {
 
 	private final JdbcTemplate jdbcTemplate;

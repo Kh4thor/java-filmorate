@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,13 +30,15 @@ import ru.yandex.practicum.filmorate.mvc.storage.user.UserAppStorage;
 @Component
 public class ExceptionChecker implements ExceptionAppChecker {
 
-	LikeAppStorage likeAppStorage;
-	FriendAppStorage friendAppStorage;
-	UserAppStorage<User> userAppStorage;
-	FilmAppStorage<Film> filmAppStorage;
+	private final LikeAppStorage likeAppStorage;
+	private final FriendAppStorage friendAppStorage;
+	private final UserAppStorage<User> userAppStorage;
+	private final FilmAppStorage<Film> filmAppStorage;
 
-	ExceptionChecker(UserAppStorage<User> usersAppStorage, FriendAppStorage friendAppStorage,
-			FilmAppStorage<Film> filmsAppStorage, LikeAppStorage likeAppStorage) {
+	public ExceptionChecker(@Qualifier("dbUserStorage") UserAppStorage<User> usersAppStorage,
+			@Qualifier("dbFriendStorage") FriendAppStorage friendAppStorage,
+			@Qualifier("dbFilmStorage") FilmAppStorage<Film> filmsAppStorage,
+			@Qualifier("dbLikeStorage") LikeAppStorage likeAppStorage) {
 		this.userAppStorage = usersAppStorage;
 		this.friendAppStorage = friendAppStorage;
 		this.filmAppStorage = filmsAppStorage;

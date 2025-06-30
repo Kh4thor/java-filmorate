@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.mvc.service.friend.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.impl.ExceptionChecker;
@@ -18,8 +19,8 @@ public class FriendService implements FriendAppService {
 	private final FriendAppStorage friendAppStorage;
 	private final ExceptionChecker exceptionsChecker;
 
-	public FriendService(UserAppStorage<User> usersAppStorage, FriendAppStorage friendAppStorage,
-			ExceptionChecker exceptionsChecker) {
+	public FriendService(@Qualifier("dbUserStorage") UserAppStorage<User> usersAppStorage,
+			@Qualifier("dbFriendStorage") FriendAppStorage friendAppStorage, ExceptionChecker exceptionsChecker) {
 		this.friendAppStorage = friendAppStorage;
 		this.userAppStorage = usersAppStorage;
 		this.exceptionsChecker = exceptionsChecker;

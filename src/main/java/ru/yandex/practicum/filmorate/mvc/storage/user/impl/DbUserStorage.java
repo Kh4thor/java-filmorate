@@ -9,7 +9,7 @@ import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.mvc.storage.user.UserAppStorage;
 import ru.yandex.practicum.filmorate.utills.mappers.UserRowMapper;
 
-@Repository
+@Repository("dbUserStorage")
 public class DbUserStorage implements UserAppStorage<User> {
 
 	private final JdbcTemplate jdbcTemplate;

@@ -3,14 +3,12 @@ package ru.yandex.practicum.filmorate.mvc.storage.like.impl;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import ru.yandex.practicum.filmorate.model.film.Film;
 import ru.yandex.practicum.filmorate.mvc.storage.like.LikeAppStorage;
 
-@Repository
-@Component
+@Repository("dbLikeStorage")
 public class DbLikeStorage implements LikeAppStorage {
 
 	private final JdbcTemplate jdbcTemplate;

@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.mvc.service.user.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +22,8 @@ public class UserService implements UserAppService<User> {
 	private final FriendAppStorage friendAppStorage;
 	private final ExceptionAppChecker exceptionsAppChecker;
 
-	public UserService(UserAppStorage<User> usersAppStorage, FriendAppStorage friendAppStorage,
-			ExceptionAppChecker exceptionsChecker) {
+	public UserService(@Qualifier("dbUserStorage") UserAppStorage<User> usersAppStorage,
+			@Qualifier("dbFriendStorage") FriendAppStorage friendAppStorage, ExceptionAppChecker exceptionsChecker) {
 		this.userAppStorage = usersAppStorage;
 		this.friendAppStorage = friendAppStorage;
 		this.exceptionsAppChecker = exceptionsChecker;

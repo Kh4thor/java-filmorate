@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.mvc.service.film.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +22,8 @@ public class FilmService implements FilmAppService<Film> {
 	private final LikeAppStorage likeAppStorage;
 	private final ExceptionAppChecker exceptionsAppChecker;
 
-	public FilmService(FilmAppStorage<Film> filmAppStorage, LikeAppStorage likeAppStorage,
-			ExceptionAppChecker exceptionsChecker) {
+	public FilmService(@Qualifier("dbFilmStorage") FilmAppStorage<Film> filmAppStorage,
+			@Qualifier("dbLikeStorage") LikeAppStorage likeAppStorage, ExceptionAppChecker exceptionsChecker) {
 		this.filmAppStorage = filmAppStorage;
 		this.likeAppStorage = likeAppStorage;
 		this.exceptionsAppChecker = exceptionsChecker;

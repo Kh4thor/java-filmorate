@@ -14,7 +14,7 @@ import ru.yandex.practicum.filmorate.mvc.storage.film.FilmAppStorage;
 import ru.yandex.practicum.filmorate.mvc.storage.mpa.MpaAppStorage;
 import ru.yandex.practicum.filmorate.utills.mappers.FilmRowMapper;
 
-@Repository
+@Repository("dbFilmStorage")
 public class DbFilmStorage implements FilmAppStorage<Film> {
 
 	private final JdbcTemplate jdbcTemplate;

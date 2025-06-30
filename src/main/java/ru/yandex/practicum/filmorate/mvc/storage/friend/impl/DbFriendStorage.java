@@ -4,18 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import ru.yandex.practicum.filmorate.mvc.storage.friend.FriendAppStorage;
 
-@Repository
-@Component
-public class DbFriendsStorage implements FriendAppStorage {
+@Repository("dbFriendStorage")
+public class DbFriendStorage implements FriendAppStorage {
 
 	private final JdbcTemplate jdbcTemplate;
 
-	public DbFriendsStorage(JdbcTemplate jdbcTemplate) {
+	public DbFriendStorage(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 

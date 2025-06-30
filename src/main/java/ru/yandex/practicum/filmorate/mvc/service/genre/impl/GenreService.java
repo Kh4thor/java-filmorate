@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.mvc.service.genre.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.ExceptionAppChecker;
@@ -15,7 +16,8 @@ public class GenreService implements GenreAppService<Genre> {
 	private final GenreAppStorage<Genre> genreAppStorage;
 	private final ExceptionAppChecker exceptionsAppChecker;
 
-	public GenreService(ExceptionAppChecker exceptionsAppChecker, GenreAppStorage<Genre> genreAppStorage) {
+	public GenreService(ExceptionAppChecker exceptionsAppChecker,
+			@Qualifier("dbGenreStorage") GenreAppStorage<Genre> genreAppStorage) {
 		this.genreAppStorage = genreAppStorage;
 		this.exceptionsAppChecker = exceptionsAppChecker;
 	}
