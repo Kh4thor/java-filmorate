@@ -1,46 +1,48 @@
+```mermaid
 erDiagram
     USERS {
-        integer id PK
+        int id PK
         varchar name
         varchar login
         varchar email
         date birthday
     }
     MPA {
-        integer id PK
+        int id PK
         varchar name
         varchar description
     }
     GENRES {
-        integer id PK
+        int id PK
         varchar name
     }
     FILMS {
-        integer id PK
+        int id PK
         varchar name
         varchar description
         date release
-        integer duration
-        integer mpa FK
+        int duration
+        int mpa FK
     }
     FILMS_GENRES {
-        integer film_id FK
-        integer genre_id FK
+        int film_id FK
+        int genre_id FK
     }
     FRIENDS {
-        integer user_one_id FK
-        integer user_two_id FK
+        int user_one_id FK
+        int user_two_id FK
         boolean user_two_status
     }
     FILMS_LIKES {
-        integer film_id FK
-        integer user_id FK
+        int film_id FK
+        int user_id FK
         boolean like_status
     }
 
-    USERS ||--o{ FRIENDS : "UserOne-UserTwo"
-    USERS ||--o{ FILMS_LIKES : "Likes"
-    USERS ||--o{ FILMS_LIKES : "Liked by"
-    FILMS ||--o{ FILMS_GENRES : "Has Genres"
-    GENRES ||--o{ FILMS_GENRES : "Genres of"
-    MPA ||--o{ FILMS : "Rating"
+    USERS ||--o{ FRIENDS : ""
+    USERS ||--o{ FILMS_LIKES : ""
+    FILMS ||--o{ FILMS_GENRES : ""
+    GENRES ||--o{ FILMS_GENRES : ""
+    MPA ||--o{ FILMS : ""
+    USERS ||--o{ FILMS_LIKES : ""
+```
