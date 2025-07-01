@@ -1,48 +1,51 @@
-```mermaid
-erDiagram
-    USERS {
-        int id PK
-        varchar name
-        varchar login
-        varchar email
-        date birthday
-    }
-    MPA {
-        int id PK
-        varchar name
-        varchar description
-    }
-    GENRES {
-        int id PK
-        varchar name
-    }
-    FILMS {
-        int id PK
-        varchar name
-        varchar description
-        date release
-        int duration
-        int mpa FK
-    }
-    FILMS_GENRES {
-        int film_id FK
-        int genre_id FK
-    }
-    FRIENDS {
-        int user_one_id FK
-        int user_two_id FK
-        boolean user_two_status
-    }
-    FILMS_LIKES {
-        int film_id FK
-        int user_id FK
-        boolean like_status
-    }
+# Диаграмма базы данных для кинофильмов
 
-    USERS ||--o{ FRIENDS : ""
-    USERS ||--o{ FILMS_LIKES : ""
-    FILMS ||--o{ FILMS_GENRES : ""
-    GENRES ||--o{ FILMS_GENRES : ""
-    MPA ||--o{ FILMS : ""
-    USERS ||--o{ FILMS_LIKES : ""
-```
+## Сущности и связи
+
+### users
+- id (PK)
+- name
+- login
+- email
+- birthday
+
+### mpa
+- id (PK)
+- name
+- description
+
+### genres
+- id (PK)
+- name
+
+### films
+- id (PK)
+- name
+- description
+- release
+- duration
+- mpa (FK -> mpa.id)
+
+### films_genres (связующая таблица для Many-to-Many между films и genres)
+- film_id (FK -> films.id)
+- genre_id (FK -> genres.id)
+
+### friends
+- user_one_id (FK -> users.id)
+- user_two_id (FK -> users.id)
+- user_two_status (BOOLEAN)
+
+### films_likes
+- film_id (FK -> films.id)
+- user_id (FK -> users.id)
+- like_status (BOOLEAN)
+
+## Общее описание
+
+- Таблица **users** хранит информацию о пользователях.
+- Таблица **mpa** содержит рейтингные категории фильмов.
+- Таблица **genres** — жанры фильмов.
+- Таблица **films** — фильмы, связаны с MPA и жанрами.
+- Таблица **films_genres** — реализует MANY-TO-MANY связь между фильмами и жанрами.
+- Таблица **friends** — отображает дружеские связи между пользователями с учетом статуса.
+- Таблица **films_likes** — хранит лайки и дизлайки пользователей для фильмов.
