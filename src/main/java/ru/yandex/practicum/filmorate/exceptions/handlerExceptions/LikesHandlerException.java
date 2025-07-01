@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import ru.yandex.practicum.filmorate.exceptions.ErrorResponse;
-import ru.yandex.practicum.filmorate.exceptions.likesExceptions.UserAllreadySetLikeToFilmException;
-import ru.yandex.practicum.filmorate.exceptions.likesExceptions.UserDidntSetLikeToFilmException;
+import ru.yandex.practicum.filmorate.exceptions.likeExceptions.UserAllreadySetLikeToFilmException;
+import ru.yandex.practicum.filmorate.exceptions.likeExceptions.UserDidntSetLikeToFilmException;
 
 @RestControllerAdvice
 public class LikesHandlerException {
