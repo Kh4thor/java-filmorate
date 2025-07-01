@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import ru.yandex.practicum.filmorate.model.user.annotation.nameValidation.NameValidation;
 
 @Getter
 @Setter
@@ -21,7 +22,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @RestController
-@Name(message = "Имя не было задано. В качестве имени используется логин.")
+@NameValidation(message = "Имя не было задано. В качестве имени используется логин.")
 public class User {
 
 	// id пользователя
