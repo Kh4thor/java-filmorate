@@ -18,8 +18,6 @@ import org.springframework.util.ResourceUtils;
 @SpringBootTest
 public class FilmControllerMocMvcTest {
 
-	
-	
 	public static final String PATH = "/films";
 	public static final String RESOURCE = "films/";
 
