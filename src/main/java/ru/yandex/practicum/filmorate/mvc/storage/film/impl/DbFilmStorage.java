@@ -28,20 +28,26 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 		// добавление фильма в таблицу films
 
 		Integer mpaId = null;
-		String addFilmSql = "INSERT INTO films (id, name, description, release, duration, mpa) VALUES (?, ?, ?, ?, ?, ?)";
+		String addFilmSql = "INSERT INTO films (name, description, release, duration, mpa) VALUES (?, ?, ?, ?, ?)";
 		if (film.getMpa() != null) {
 			mpaId = film.getMpa().getId();
 		}
-		jdbcTemplate.update(addFilmSql, film.getId(), film.getName(), film.getDescription(), film.getReleaseDate(),
+		jdbcTemplate.update(addFilmSql, film.getName(), film.getDescription(), film.getReleaseDate(),
 				film.getDuration(), mpaId);
+		String filmIdSql = "SELECT MAX(id) FROM films";
+		Long filmId = jdbcTemplate.queryForObject(filmIdSql, Long.class);
+		film.setId(filmId);
 		addGenresOfFilm(film);
-		return getFilm(film.getId());
+		return getFilm(filmId);
 	}
 
 	/*
 	 * добавление жанров фильма в промежуточную таблицу films_genres
 	 */
 	private void addGenresOfFilm(Film film) {
+		String deleteFilmsGenresSql = "DELETE FROM films_genres WHERE film_id=?";
+		jdbcTemplate.update(deleteFilmsGenresSql, film.getId());
+
 		String addGenreSql = "INSERT INTO films_genres (film_id, genre_id) VALUES (?,?)";
 		List<Genre> genreIdList = film.getGenres();
 		// заполнение таблицы films_genres для каждого значения id-жанра
@@ -65,11 +71,7 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 		jdbcTemplate.update(updateFilmSql, film.getName(), film.getDescription(), film.getReleaseDate(),
 				film.getDuration(), mpaId, film.getId());
 
-		// Обновляем жанры: очищаем старые и вставляем новые
-		String deleteGenresSql = "DELETE FROM films_genres WHERE film_id=?";
-		jdbcTemplate.update(deleteGenresSql, film.getId());
-
-		String insertGenreSql = "INSERT INTO films_genres (film_id, genre_id) VALUES (?, ?)";
+		String insertGenreSql = "MERGE INTO films_genres KEY(film_id, genre_id) VALUES (?, ?)";
 		for (Genre genre : film.getGenres()) {
 			jdbcTemplate.update(insertGenreSql, film.getId(), genre.getId());
 		}
@@ -100,22 +102,20 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	 */
 	@Override
 	public Film getFilm(Long filmId) {
-		String getFilmSql = "SELECT "
-						+ "    f.id AS id, "
-						+ "    f.name AS name, "
-						+ "    f.description AS description, "
-						+ "    f.release AS release, "
-						+ "    f.duration AS duration, "
-						+ "    m.id AS mpaId, "
-						+ "    m.name AS mpaName, "
-						+ "    STRING_AGG('{ \"id\": ' || g.id || ', \"name\": \"' || g.name || '\" }', ', ') AS genres_json "
-						+ "FROM "
-						+ "    films AS f "
-						+ "LEFT JOIN mpa AS m ON m.id = f.mpa "
-						+ "LEFT JOIN films_genres AS fg ON f.id = fg.film_id "
-						+ "LEFT JOIN genres AS g ON fg.genre_id = g.id "
-						+ "WHERE f.id = ? "
-						+ "GROUP BY f.id, f.name, f.description, f.release, f.duration, m.id, m.name;";
+		String getFilmSql = "SELECT f.id AS id,"
+								+ " f.name AS name,"
+								+ " f.description AS description,"
+								+ " f.release AS release,"
+								+ " f.duration AS duration,"
+								+ " m.id AS mpaId,"
+								+ " m.name AS mpaName,"
+								+ " STRING_AGG('{ \"id\": ' || g.id || ', \"name\": \"' || g.name || '\" }', ', ') AS genres_json "
+							+ "FROM films AS f "
+							+ "LEFT JOIN mpa AS m ON m.id = f.mpa "
+							+ "LEFT JOIN films_genres AS fg ON f.id = fg.film_id "
+							+ "LEFT JOIN genres AS g ON fg.genre_id = g.id "
+							+ "WHERE f.id = ? "
+							+ "GROUP BY f.id, f.name, f.description, f.release, f.duration, m.id, m.name";
 		return jdbcTemplate.queryForObject(getFilmSql, new FilmRowMapper(), filmId);
 	}
 
@@ -126,11 +126,11 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	public Film removeFilm(Long filmId) {
 		Film film = getFilm(filmId);
 		// удалить фильм из таблицы films_genres
-		String sqlGenre = "DELETE FROM films_genres WHERE film_id=? ";
-		jdbcTemplate.update(sqlGenre, filmId);
+		String deleteGenreSql = "DELETE FROM films_genres WHERE film_id=? ";
+		jdbcTemplate.update(deleteGenreSql, filmId);
 		// удалить фильм из таблицы films
-		String sqlFilm = "DELETE FROM films WHERE film_id=? ";
-		jdbcTemplate.update(sqlFilm, filmId);
+		String deleteFilmSql = "DELETE FROM films WHERE film_id=? ";
+		jdbcTemplate.update(deleteFilmSql, filmId);
 		return film;
 	}
 

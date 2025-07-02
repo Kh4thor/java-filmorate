@@ -16,8 +16,6 @@ import ru.yandex.practicum.filmorate.mvc.storage.like.LikeAppStorage;
 @Service
 public class FilmService implements FilmAppService<Film> {
 
-	private Long id = 0L;
-
 	private final FilmAppStorage<Film> filmAppStorage;
 	private final LikeAppStorage likeAppStorage;
 	private final ExceptionAppChecker exceptionsAppChecker;
@@ -86,18 +84,10 @@ public class FilmService implements FilmAppService<Film> {
 	}
 
 	/*
-	 * генератор id для нового фильма
-	 */
-	private Long generateId() {
-		return ++id;
-	}
-
-	/*
 	 * создать фильм
 	 */
 	private Film create(Film film) {
 		String errorMessage = "Невозможно создать фильм";
-		film.setId(generateId());
 		exceptionsAppChecker.checkFilmIsExistException(film.getId(), errorMessage);
 		exceptionsAppChecker.checkGenreValueIsOutOfRangeException(film.getGenres(), errorMessage);
 		exceptionsAppChecker.checkGenreNotFoundException(film.getGenres(), errorMessage);

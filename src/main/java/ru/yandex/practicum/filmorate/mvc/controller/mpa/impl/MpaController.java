@@ -25,12 +25,14 @@ public class MpaController implements MpaAppController {
 	@Override
 	@GetMapping("/{mpaId}")
 	public Mpa getMpa(int mpaId) {
+		log.info("Начат процесс вызова рейтинга фильма id=" + mpaId);
 		return mpaAppService.getMpa(mpaId);
 	}
 
 	@Override
 	@GetMapping
 	public List<Mpa> getAllMpa() {
+		log.info("Начат процесс вызова списка всех рейтингов фильма");
 		return mpaAppService.getAllMpa();
 	}
 }

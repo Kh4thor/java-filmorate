@@ -25,7 +25,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE films (
-    id INTEGER PRIMARY KEY,
+    id  IDENTITY PRIMARY KEY,
     name VARCHAR(50),
     description VARCHAR(255),
     release DATE,
