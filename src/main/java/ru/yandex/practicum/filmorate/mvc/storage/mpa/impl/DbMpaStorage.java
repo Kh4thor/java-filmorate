@@ -29,4 +29,12 @@ public class DbMpaStorage implements MpaAppStorage {
 		String sql = "SELECT * FROM mpa";
 		return jdbcTemplate.query(sql, new MpaRowMapper());
 	}
+
+	@Override
+	public boolean isMpaExist(int mpaId) {
+		String sql = "SELECT EXISTS (SELECT id FROM mpa WHERE id=?)";
+		return jdbcTemplate.queryForObject(sql, Boolean.class, mpaId);
+
+	}
+
 }

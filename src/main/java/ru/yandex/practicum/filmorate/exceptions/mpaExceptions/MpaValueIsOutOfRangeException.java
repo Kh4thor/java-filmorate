@@ -8,7 +8,7 @@ public class MpaValueIsOutOfRangeException extends IllegalArgumentException {
 	private int mpaId;
 
 	public MpaValueIsOutOfRangeException(int mpaId, String errorMessage) {
-		super("Значение id-рейтинга=" + mpaId + ". Допустимый диапазон от 1 до 5 включительно.");
+		super("Значение id-рейтинга должно быть больше нуля. Заданное значение id=" + mpaId);
 		this.mpaId = mpaId;
 		this.errorMessage = errorMessage;
 	}

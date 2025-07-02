@@ -14,11 +14,11 @@ import ru.yandex.practicum.filmorate.mvc.service.genre.GenreAppService;
 @Slf4j
 @RestController
 @RequestMapping("/genres")
-public class GenreController implements GenreAppController<Genre> {
+public class GenreController implements GenreAppController {
 
-	private final GenreAppService<Genre> genreAppService;
+	private final GenreAppService genreAppService;
 
-	public GenreController(GenreAppService<Genre> genreAppService) {
+	public GenreController(GenreAppService genreAppService) {
 		this.genreAppService = genreAppService;
 	}
 

@@ -2,16 +2,18 @@ package ru.yandex.practicum.filmorate.mvc.service.genre;
 
 import java.util.List;
 
-public interface GenreAppService<T> {
+import ru.yandex.practicum.filmorate.model.genre.Genre;
+
+public interface GenreAppService {
 
 	/*
 	 * получить жанр по id
 	 */
-	T getGenre(int mpaId);
+	Genre getGenre(int mpaId);
 
 	/*
 	 * получить список всех жанров
 	 */
-	List<T> getAllGenres();
+	List<Genre> getAllGenres();
 
 }

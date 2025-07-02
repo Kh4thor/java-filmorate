@@ -2,14 +2,21 @@ package ru.yandex.practicum.filmorate.mvc.storage.genre;
 
 import java.util.List;
 
-public interface GenreAppStorage<T> {
+import ru.yandex.practicum.filmorate.model.genre.Genre;
+
+public interface GenreAppStorage {
 	/*
 	 * получить жанр по id
 	 */
-	T getGenre(int genreId);
+	Genre getGenre(int genreId);
 
 	/*
 	 * получить список всех жанров
 	 */
-	List<T> getAllGenres();
+	List<Genre> getAllGenres();
+
+	/*
+	 * проверить наличие жанра в базе
+	 */
+	boolean isGenreExist(int genreId);
 }

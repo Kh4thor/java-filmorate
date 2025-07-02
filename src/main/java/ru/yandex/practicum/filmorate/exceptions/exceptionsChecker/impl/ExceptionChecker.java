@@ -9,12 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.ExceptionAppChecker;
 import ru.yandex.practicum.filmorate.exceptions.filmExceptions.FilmAllreadyExistException;
 import ru.yandex.practicum.filmorate.exceptions.filmExceptions.FilmNotFoundException;
+import ru.yandex.practicum.filmorate.exceptions.friendExceptions.GenreIdNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.friendExceptions.UsersAreAllreadyFriendsException;
 import ru.yandex.practicum.filmorate.exceptions.friendExceptions.UsersAreNotFriendsException;
 import ru.yandex.practicum.filmorate.exceptions.genreExceptions.GenreValueIsOutOfRangeException;
 import ru.yandex.practicum.filmorate.exceptions.likeExceptions.IllegalNumberFilmsCountException;
 import ru.yandex.practicum.filmorate.exceptions.likeExceptions.UserAllreadySetLikeToFilmException;
 import ru.yandex.practicum.filmorate.exceptions.likeExceptions.UserDidntSetLikeToFilmException;
+import ru.yandex.practicum.filmorate.exceptions.mpaExceptions.MpaNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.mpaExceptions.MpaValueIsOutOfRangeException;
 import ru.yandex.practicum.filmorate.exceptions.userExceptions.UserAllreadyExistException;
 import ru.yandex.practicum.filmorate.exceptions.userExceptions.UserNotFoundException;
@@ -23,7 +25,9 @@ import ru.yandex.practicum.filmorate.model.genre.Genre;
 import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.mvc.storage.film.FilmAppStorage;
 import ru.yandex.practicum.filmorate.mvc.storage.friend.FriendAppStorage;
+import ru.yandex.practicum.filmorate.mvc.storage.genre.GenreAppStorage;
 import ru.yandex.practicum.filmorate.mvc.storage.like.LikeAppStorage;
+import ru.yandex.practicum.filmorate.mvc.storage.mpa.MpaAppStorage;
 import ru.yandex.practicum.filmorate.mvc.storage.user.UserAppStorage;
 
 @Slf4j
@@ -34,15 +38,21 @@ public class ExceptionChecker implements ExceptionAppChecker {
 	private final FriendAppStorage friendAppStorage;
 	private final UserAppStorage<User> userAppStorage;
 	private final FilmAppStorage<Film> filmAppStorage;
+	private final MpaAppStorage mpaAppStorage;
+	private final GenreAppStorage genreAppStorage;
 
 	public ExceptionChecker(@Qualifier("dbUserStorage") UserAppStorage<User> usersAppStorage,
 			@Qualifier("dbFriendStorage") FriendAppStorage friendAppStorage,
 			@Qualifier("dbFilmStorage") FilmAppStorage<Film> filmsAppStorage,
+			@Qualifier("dbMpaStorage") MpaAppStorage mpaAppStorage,
+			@Qualifier("dbGenreStorage") GenreAppStorage genreAppStorage,
 			@Qualifier("dbLikeStorage") LikeAppStorage likeAppStorage) {
 		this.userAppStorage = usersAppStorage;
 		this.friendAppStorage = friendAppStorage;
 		this.filmAppStorage = filmsAppStorage;
 		this.likeAppStorage = likeAppStorage;
+		this.mpaAppStorage = mpaAppStorage;
+		this.genreAppStorage = genreAppStorage;
 	}
 
 	/*
@@ -155,7 +165,7 @@ public class ExceptionChecker implements ExceptionAppChecker {
 
 	@Override
 	public void checkMpaValueIsOutOfRangeException(Integer mpaId, String errorMessage) {
-		if (mpaId < 1 || mpaId > 5) {
+		if (mpaId < 1) {
 			RuntimeException exception = new MpaValueIsOutOfRangeException(mpaId, errorMessage);
 			log.warn(errorMessage + " " + exception.getMessage());
 			throw exception;
@@ -172,10 +182,36 @@ public class ExceptionChecker implements ExceptionAppChecker {
 
 	@Override
 	public void checkGenreValueIsOutOfRangeException(Integer genreId, String errorMessage) {
-		if (genreId < 1 || genreId > 6) {
+		if (genreId < 1) {
 			RuntimeException exception = new GenreValueIsOutOfRangeException(genreId, errorMessage);
 			log.warn(errorMessage + " " + exception.getMessage());
 			throw exception;
 		}
 	}
+
+	@Override
+	public void checkGenreNotFoundException(Integer genreId, String errorMessage) {
+		if (!genreAppStorage.isGenreExist(genreId)) {
+			RuntimeException exception = new GenreIdNotFoundException(genreId, errorMessage);
+			log.warn(errorMessage + " " + exception.getMessage());
+			throw exception;
+		}
+	}
+
+	@Override
+	public void checkGenreNotFoundException(List<Genre> genres, String errorMessage) {
+		for (Genre genre : genres) {
+			checkGenreNotFoundException(genre.getId(), errorMessage);
+		}
+	}
+
+	@Override
+	public void checkMpaNotFoundException(int mpaId, String errorMessage) {
+		if (!mpaAppStorage.isMpaExist(mpaId)) {
+			RuntimeException exception = new MpaNotFoundException(mpaId, errorMessage);
+			log.warn(errorMessage + " " + exception.getMessage());
+			throw exception;
+		}
+	}
+
 }

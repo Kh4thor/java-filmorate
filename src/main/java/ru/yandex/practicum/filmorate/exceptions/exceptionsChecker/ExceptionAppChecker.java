@@ -66,4 +66,18 @@ public interface ExceptionAppChecker {
 	 */
 	void checkGenreValueIsOutOfRangeException(Integer genreId, String errorMessage);
 
+	/*
+	 * проверка на ошибку - рейтинг не найден в базе
+	 */
+	void checkMpaNotFoundException(int mpaId, String errorMessage);
+
+	/*
+	 * проверка на ошибку - жанр не найден в базе
+	 */
+	void checkGenreNotFoundException(List<Genre> genres, String errorMessage);
+
+	/*
+	 * проверка на ошибку - жанр не найден в базе
+	 */
+	void checkGenreNotFoundException(Integer genreId, String errorMessage);
 }

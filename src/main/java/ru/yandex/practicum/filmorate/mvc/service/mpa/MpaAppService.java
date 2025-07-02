@@ -2,16 +2,23 @@ package ru.yandex.practicum.filmorate.mvc.service.mpa;
 
 import java.util.List;
 
-public interface MpaAppService<T> {
+import ru.yandex.practicum.filmorate.model.mpa.Mpa;
+
+public interface MpaAppService {
 
 	/*
 	 * получить mpa по id
 	 */
-	T getMpa(int mpaId);
+	Mpa getMpa(int mpaId);
 
 	/*
 	 * получить список всех mpa
 	 */
-	List<T> getAllMpa();
+	List<Mpa> getAllMpa();
+
+	/*
+	 * проверить налдичие mpa в базе
+	 */
+	boolean isMpaExist(int mpaId);
 
 }

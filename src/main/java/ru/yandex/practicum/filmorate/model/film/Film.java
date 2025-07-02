@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import ru.yandex.practicum.filmorate.model.film.annotation.genreValidation.GenreValidator;
+import ru.yandex.practicum.filmorate.model.film.annotation.mpaValidation.MpaValidator;
 import ru.yandex.practicum.filmorate.model.film.annotation.releaseDate.ReleaseDateValidation;
 import ru.yandex.practicum.filmorate.model.genre.Genre;
 import ru.yandex.practicum.filmorate.model.mpa.Mpa;
@@ -28,7 +29,7 @@ import ru.yandex.practicum.filmorate.model.mpa.Mpa;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-//@MpaValidator
+@MpaValidator
 @GenreValidator
 public class Film implements Cloneable {
 

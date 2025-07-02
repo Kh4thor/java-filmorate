@@ -100,8 +100,10 @@ public class FilmService implements FilmAppService<Film> {
 		film.setId(generateId());
 		exceptionsAppChecker.checkFilmIsExistException(film.getId(), errorMessage);
 		exceptionsAppChecker.checkGenreValueIsOutOfRangeException(film.getGenres(), errorMessage);
+		exceptionsAppChecker.checkGenreNotFoundException(film.getGenres(), errorMessage);
 		if (film.getMpa() != null) {
 			exceptionsAppChecker.checkMpaValueIsOutOfRangeException(film.getMpa().getId(), errorMessage);
+			exceptionsAppChecker.checkMpaNotFoundException(film.getMpa().getId(), errorMessage);
 		}
 		Film createdFilm = filmAppStorage.addFilm(film);
 		likeAppStorage.addFilm(film);
@@ -116,6 +118,10 @@ public class FilmService implements FilmAppService<Film> {
 		exceptionsAppChecker.checkFilmNotFoundException(film.getId(), errorMessage);
 		exceptionsAppChecker.checkGenreValueIsOutOfRangeException(film.getGenres(), errorMessage);
 		exceptionsAppChecker.checkMpaValueIsOutOfRangeException(film.getMpa().getId(), errorMessage);
+		if (film.getMpa() != null) {
+			exceptionsAppChecker.checkMpaValueIsOutOfRangeException(film.getMpa().getId(), errorMessage);
+			exceptionsAppChecker.checkMpaNotFoundException(film.getMpa().getId(), errorMessage);
+		}
 		return filmAppStorage.updateFilm(film);
 	}
 }

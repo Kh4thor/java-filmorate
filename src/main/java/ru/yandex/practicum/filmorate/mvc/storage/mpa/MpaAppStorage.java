@@ -15,4 +15,9 @@ public interface MpaAppStorage {
 	 * получить список всех mpa
 	 */
 	List<Mpa> getAllMpa();
+
+	/*
+	 * проверить наличие mpa в базе
+	 */
+	boolean isMpaExist(int mpaId);
 }

@@ -8,7 +8,7 @@ public class GenreValueIsOutOfRangeException extends IllegalArgumentException {
 	private int genreId;
 
 	public GenreValueIsOutOfRangeException(int genreId, String errorMessage) {
-		super("Значение id-жанра=" + genreId + ". Допустимый диапазон от 1 до 6 включительно.");
+		super("Значение id-жанра должно быть больше нуля. Заданное значение id=:" + genreId);
 		this.genreId = genreId;
 		this.errorMessage = errorMessage;
 	}

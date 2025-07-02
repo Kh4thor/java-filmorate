@@ -11,7 +11,7 @@ import ru.yandex.practicum.filmorate.mvc.service.mpa.MpaAppService;
 import ru.yandex.practicum.filmorate.mvc.storage.mpa.MpaAppStorage;
 
 @Service
-public class MpaService implements MpaAppService<Mpa> {
+public class MpaService implements MpaAppService {
 
 	private final MpaAppStorage mpaAppStorage;
 	private final ExceptionAppChecker exceptionsAppChecker;
@@ -25,6 +25,7 @@ public class MpaService implements MpaAppService<Mpa> {
 	@Override
 	public Mpa getMpa(int mpaId) {
 		String errorMessage = "Невозможно получить рейтинг фильма";
+		exceptionsAppChecker.checkMpaNotFoundException(mpaId, errorMessage);
 		exceptionsAppChecker.checkMpaValueIsOutOfRangeException(mpaId, errorMessage);
 		return mpaAppStorage.getMpa(mpaId);
 	}
@@ -32,5 +33,10 @@ public class MpaService implements MpaAppService<Mpa> {
 	@Override
 	public List<Mpa> getAllMpa() {
 		return mpaAppStorage.getAllMpa();
+	}
+
+	@Override
+	public boolean isMpaExist(int mpaId) {
+		return mpaAppStorage.isMpaExist(mpaId);
 	}
 }

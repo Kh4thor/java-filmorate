@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import ru.yandex.practicum.filmorate.model.mpa.Mpa;
 
-public interface MpaAppController<T> {
+public interface MpaAppController {
 
 	/*
 	 * получить mpa по id
@@ -16,5 +16,5 @@ public interface MpaAppController<T> {
 	/*
 	 * получить список всех mpa
 	 */
-	List<T> getAllMpa();
+	List<Mpa> getAllMpa();
 }

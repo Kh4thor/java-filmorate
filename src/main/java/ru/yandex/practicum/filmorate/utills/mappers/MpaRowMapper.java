@@ -4,9 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import ru.yandex.practicum.filmorate.model.mpa.Mpa;
 
+@Component
 public class MpaRowMapper implements RowMapper<Mpa> {
 
 	@Override

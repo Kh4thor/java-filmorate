@@ -14,11 +14,11 @@ import ru.yandex.practicum.filmorate.mvc.service.mpa.MpaAppService;
 @Slf4j
 @RestController
 @RequestMapping("/mpa")
-public class MpaController implements MpaAppController<Mpa> {
+public class MpaController implements MpaAppController {
 
-	private final MpaAppService<Mpa> mpaAppService;
+	private final MpaAppService mpaAppService;
 
-	public MpaController(MpaAppService<Mpa> mpaAppService) {
+	public MpaController(MpaAppService mpaAppService) {
 		this.mpaAppService = mpaAppService;
 	}
 

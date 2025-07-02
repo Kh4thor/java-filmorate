@@ -4,15 +4,17 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.PathVariable;
 
-public interface GenreAppController<T> {
+import ru.yandex.practicum.filmorate.model.genre.Genre;
+
+public interface GenreAppController {
 
 	/*
 	 * получить жанр по id
 	 */
-	T getGenre(@PathVariable int mpaId);
+	Genre getGenre(@PathVariable int mpaId);
 
 	/*
 	 * получить список всех жанров
 	 */
-	List<T> getAllGenres();
+	List<Genre> getAllGenres();
 }

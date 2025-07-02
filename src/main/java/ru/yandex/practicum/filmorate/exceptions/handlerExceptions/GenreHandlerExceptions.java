@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import ru.yandex.practicum.filmorate.exceptions.ErrorResponse;
+import ru.yandex.practicum.filmorate.exceptions.friendExceptions.GenreIdNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.genreExceptions.GenreValueIsOutOfRangeException;
 
 @RestControllerAdvice
@@ -14,6 +15,12 @@ public class GenreHandlerExceptions {
 	@ExceptionHandler
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	public ErrorResponse handlerGenreValueIsOutOfRangeException(final GenreValueIsOutOfRangeException exception) {
+		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
+	}
+
+	@ExceptionHandler
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public ErrorResponse handlerGenreIdNotFoundException(final GenreIdNotFoundException exception) {
 		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 	}
 

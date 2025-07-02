@@ -8,20 +8,16 @@ import org.springframework.stereotype.Repository;
 
 import ru.yandex.practicum.filmorate.model.film.Film;
 import ru.yandex.practicum.filmorate.model.genre.Genre;
-import ru.yandex.practicum.filmorate.model.mpa.Mpa;
 import ru.yandex.practicum.filmorate.mvc.storage.film.FilmAppStorage;
-import ru.yandex.practicum.filmorate.mvc.storage.mpa.MpaAppStorage;
 import ru.yandex.practicum.filmorate.utills.mappers.FilmRowMapper;
 
 @Repository("dbFilmStorage")
 public class DbFilmStorage implements FilmAppStorage<Film> {
 
 	private final JdbcTemplate jdbcTemplate;
-	private final MpaAppStorage mpaAppStorage;
 
-	public DbFilmStorage(JdbcTemplate jdbcTemplate, MpaAppStorage mpaAppStorage) {
+	public DbFilmStorage(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
-		this.mpaAppStorage = mpaAppStorage;
 	}
 
 	/*
@@ -32,11 +28,11 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 		// добавление фильма в таблицу films
 
 		Integer mpaId = null;
-		String sqlFilm = "INSERT INTO films (id, name, description, release, duration, mpa) VALUES (?, ?, ?, ?, ?, ?)";
+		String addFilmSql = "INSERT INTO films (id, name, description, release, duration, mpa) VALUES (?, ?, ?, ?, ?, ?)";
 		if (film.getMpa() != null) {
 			mpaId = film.getMpa().getId();
 		}
-		jdbcTemplate.update(sqlFilm, film.getId(), film.getName(), film.getDescription(), film.getReleaseDate(),
+		jdbcTemplate.update(addFilmSql, film.getId(), film.getName(), film.getDescription(), film.getReleaseDate(),
 				film.getDuration(), mpaId);
 		addGenresOfFilm(film);
 		return getFilm(film.getId());
@@ -46,12 +42,12 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	 * добавление жанров фильма в промежуточную таблицу films_genres
 	 */
 	private void addGenresOfFilm(Film film) {
-		String sqlGenre = "INSERT INTO films_genres (film_id, genre_id) VALUES (?,?)";
+		String addGenreSql = "INSERT INTO films_genres (film_id, genre_id) VALUES (?,?)";
 		List<Genre> genreIdList = film.getGenres();
 		// заполнение таблицы films_genres для каждого значения id-жанра
 		for (Genre element : genreIdList) {
 			int genreId = element.getId();
-			jdbcTemplate.update(sqlGenre, film.getId(), genreId);
+			jdbcTemplate.update(addGenreSql, film.getId(), genreId);
 		}
 	}
 
@@ -60,13 +56,23 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	 */
 	@Override
 	public Film updateFilm(Film film) {
-		String sql = "UPDATE films SET name=?, description=?, release=?, duration=?, mpa=? WHERE id=?";
+		// Обновляем основные данные о фильме
+		String updateFilmSql = "UPDATE films SET name=?, description=?, release=?, duration=?, mpa=? WHERE id=?";
 		Integer mpaId = null;
 		if (film.getMpa() != null) {
 			mpaId = film.getMpa().getId();
 		}
-		jdbcTemplate.update(sql, film.getName(), film.getDescription(), film.getReleaseDate(), film.getDuration(),
-				mpaId, film.getId());
+		jdbcTemplate.update(updateFilmSql, film.getName(), film.getDescription(), film.getReleaseDate(),
+				film.getDuration(), mpaId, film.getId());
+
+		// Обновляем жанры: очищаем старые и вставляем новые
+		String deleteGenresSql = "DELETE FROM films_genres WHERE film_id=?";
+		jdbcTemplate.update(deleteGenresSql, film.getId());
+
+		String insertGenreSql = "INSERT INTO films_genres (film_id, genre_id) VALUES (?, ?)";
+		for (Genre genre : film.getGenres()) {
+			jdbcTemplate.update(insertGenreSql, film.getId(), genre.getId());
+		}
 
 		return getFilm(film.getId());
 	}
@@ -84,8 +90,8 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	 */
 	@Override
 	public boolean isFilmExist(Long filmId) {
-		String sql = "SELECT id FROM films WHERE id=? ";
-		List<Long> filmIdList = jdbcTemplate.queryForList(sql, Long.class, filmId);
+		String isFilmExistSql = "SELECT id FROM films WHERE id=? ";
+		List<Long> filmIdList = jdbcTemplate.queryForList(isFilmExistSql, Long.class, filmId);
 		return !filmIdList.isEmpty();
 	}
 
@@ -94,35 +100,23 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	 */
 	@Override
 	public Film getFilm(Long filmId) {
-		// получение фильма без поля genres
-		String sqlFilm = "SELECT * FROM films WHERE id=? GROUP BY id";
-		Film film = jdbcTemplate.queryForObject(sqlFilm, new FilmRowMapper(), filmId);
-		// получение id-списка жанров полученного фильма
-		String sqlGenreList = "SELECT genre_id FROM films_genres WHERE film_id=?";
-		List<Genre> genreList = new ArrayList<>();
-		List<Integer> genreIdList = jdbcTemplate.queryForList(sqlGenreList, Integer.class, filmId);
-		// заполнение списка жанров <Genre> genres значениями из таблицы
-		for (int i = 0; i < genreIdList.size(); i++) {
-			int genreId = genreIdList.get(i);
-			// присвоить имя для genre по id-genre
-			String sqlNameGenre = "SELECT name FROM genres WHERE id=?";
-			String nameGenre = jdbcTemplate.queryForObject(sqlNameGenre, String.class, genreId);
-			Genre genre = new Genre(genreId);
-			genre.setName(nameGenre);
-			genreList.add(genre);
-		}
-		// присвоить mpa для фильма
-		if (film.getMpa() != null) {
-			Integer mpaId = film.getMpa().getId();
-			// присвоить имя для mpa по id-mpa
-			Mpa mpa = mpaAppStorage.getMpa(mpaId);
-			film.setMpa(mpa);
-		} else {
-			film.setMpa(null);
-		}
-		// добоваление полученного id-списка жанров к полученному фильму
-		film.setGenres(genreList);
-		return film;
+		String getFilmSql = "SELECT "
+						+ "    f.id AS id, "
+						+ "    f.name AS name, "
+						+ "    f.description AS description, "
+						+ "    f.release AS release, "
+						+ "    f.duration AS duration, "
+						+ "    m.id AS mpaId, "
+						+ "    m.name AS mpaName, "
+						+ "    STRING_AGG('{ \"id\": ' || g.id || ', \"name\": \"' || g.name || '\" }', ', ') AS genres_json "
+						+ "FROM "
+						+ "    films AS f "
+						+ "LEFT JOIN mpa AS m ON m.id = f.mpa "
+						+ "LEFT JOIN films_genres AS fg ON f.id = fg.film_id "
+						+ "LEFT JOIN genres AS g ON fg.genre_id = g.id "
+						+ "WHERE f.id = ? "
+						+ "GROUP BY f.id, f.name, f.description, f.release, f.duration, m.id, m.name;";
+		return jdbcTemplate.queryForObject(getFilmSql, new FilmRowMapper(), filmId);
 	}
 
 	/*

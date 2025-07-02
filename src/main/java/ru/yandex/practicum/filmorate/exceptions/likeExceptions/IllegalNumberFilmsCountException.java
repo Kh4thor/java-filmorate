@@ -8,7 +8,7 @@ public class IllegalNumberFilmsCountException extends IllegalArgumentException {
 	private String errorMessage;
 
 	public IllegalNumberFilmsCountException(int filmsCount, String errorMessage) {
-		super("Значение количества фильмов должно быть больше нуля.");
+		super("Значение количества фильмов должно быть больше нуля. Заданное значение: " + filmsCount);
 		this.filmsCount = filmsCount;
 		this.errorMessage = errorMessage;
 	}
