@@ -1,0 +1,117 @@
+package ru.yandex.practicum.filmorate.mvc.service.film.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import lombok.extern.slf4j.Slf4j;
+import ru.yandex.practicum.filmorate.exceptions.exceptionsChecker.ExceptionAppChecker;
+import ru.yandex.practicum.filmorate.model.film.Film;
+import ru.yandex.practicum.filmorate.mvc.service.film.FilmAppService;
+import ru.yandex.practicum.filmorate.mvc.storage.film.FilmAppStorage;
+import ru.yandex.practicum.filmorate.mvc.storage.like.LikeAppStorage;
+
+@Slf4j
+@Service
+public class FilmService implements FilmAppService<Film> {
+
+	private final FilmAppStorage<Film> filmAppStorage;
+	private final LikeAppStorage likeAppStorage;
+	private final ExceptionAppChecker exceptionsAppChecker;
+
+	public FilmService(@Qualifier("dbFilmStorage") FilmAppStorage<Film> filmAppStorage,
+			@Qualifier("dbLikeStorage") LikeAppStorage likeAppStorage, ExceptionAppChecker exceptionsChecker) {
+		this.filmAppStorage = filmAppStorage;
+		this.likeAppStorage = likeAppStorage;
+		this.exceptionsAppChecker = exceptionsChecker;
+	}
+
+	/*
+	 * создать или обновить фильм
+	 */
+	@Override
+	public Film createOrUpdateFilm(Film film) {
+		if (film.getId() == null || film.getId() == 0) {
+			log.info("Начато создание фильма. Получен объект {}", film);
+			Film createdFilm = create(film);
+			log.info("Фильм {} успешно добавлен", createdFilm);
+			return createdFilm;
+		} else {
+			log.info("Начато обновление фильма. Получен объект {}", film);
+			Film updatedFilm = update(film);
+			log.info("Фильм {} успешно обновлен", updatedFilm);
+			return updatedFilm;
+		}
+	}
+
+	/*
+	 * удалить фильм по id
+	 */
+	@Override
+	public Film deleteFilm(Long filmId) {
+		String errorMessage = "Невозможно удалить фильм.";
+		exceptionsAppChecker.checkFilmNotFoundException(filmId, errorMessage);
+		likeAppStorage.deleteFilm(filmId);
+		log.info("Фильм с id=" + filmId + " удален");
+		return filmAppStorage.removeFilm(filmId);
+	}
+
+	/*
+	 * удалить все фильмы
+	 */
+	@Override
+	public void deleteAllFilms() {
+		filmAppStorage.clear();
+	}
+
+	/*
+	 * получить фильм по id
+	 */
+	@Override
+	public Film getFilm(Long filmId) {
+		String errorMessage = "Невозможно получить фильм";
+		exceptionsAppChecker.checkFilmNotFoundException(filmId, errorMessage);
+		return filmAppStorage.getFilm(filmId);
+	}
+
+	/*
+	 * получить список всех фильмов
+	 */
+	@Override
+	public List<Film> getAllFilms() {
+		return filmAppStorage.getAllFilms();
+	}
+
+	/*
+	 * создать фильм
+	 */
+	private Film create(Film film) {
+		String errorMessage = "Невозможно создать фильм";
+		exceptionsAppChecker.checkFilmIsExistException(film.getId(), errorMessage);
+		exceptionsAppChecker.checkGenreValueIsOutOfRangeException(film.getGenres(), errorMessage);
+		exceptionsAppChecker.checkGenreNotFoundException(film.getGenres(), errorMessage);
+		if (film.getMpa() != null) {
+			exceptionsAppChecker.checkMpaValueIsOutOfRangeException(film.getMpa().getId(), errorMessage);
+			exceptionsAppChecker.checkMpaNotFoundException(film.getMpa().getId(), errorMessage);
+		}
+		Film createdFilm = filmAppStorage.addFilm(film);
+		likeAppStorage.addFilm(film);
+		return createdFilm;
+	}
+
+	/*
+	 * обновить фильм
+	 */
+	private Film update(Film film) {
+		String errorMessage = "Невозможно обновить фильм";
+		exceptionsAppChecker.checkFilmNotFoundException(film.getId(), errorMessage);
+		exceptionsAppChecker.checkGenreValueIsOutOfRangeException(film.getGenres(), errorMessage);
+		exceptionsAppChecker.checkMpaValueIsOutOfRangeException(film.getMpa().getId(), errorMessage);
+		if (film.getMpa() != null) {
+			exceptionsAppChecker.checkMpaValueIsOutOfRangeException(film.getMpa().getId(), errorMessage);
+			exceptionsAppChecker.checkMpaNotFoundException(film.getMpa().getId(), errorMessage);
+		}
+		return filmAppStorage.updateFilm(film);
+	}
+}

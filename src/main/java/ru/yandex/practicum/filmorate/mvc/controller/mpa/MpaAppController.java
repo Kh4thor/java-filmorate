@@ -1,0 +1,20 @@
+package ru.yandex.practicum.filmorate.mvc.controller.mpa;
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.PathVariable;
+
+import ru.yandex.practicum.filmorate.model.mpa.Mpa;
+
+public interface MpaAppController {
+
+	/*
+	 * получить mpa по id
+	 */
+	Mpa getMpa(@PathVariable int mpaId);
+
+	/*
+	 * получить список всех mpa
+	 */
+	List<Mpa> getAllMpa();
+}
