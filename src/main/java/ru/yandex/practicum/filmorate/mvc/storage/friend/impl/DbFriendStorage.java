@@ -23,14 +23,16 @@ public class DbFriendStorage implements FriendAppStorage {
 
 	@Override
 	public boolean associateUsersAsFriends(Long userOneId, Long userTwoId) {
-		String sql = "MERGE INTO friends (user_one_id, user_two_id, user_two_status) KEY (user_one_id, user_two_id) VALUES (?, ?, ?)";
+		String sql = "MERGE INTO friends (user_one_id, user_two_id, user_two_status) "
+				+ "KEY (user_one_id, user_two_id) " + "VALUES (?, ?, ?)";
 		jdbcTemplate.update(sql, userOneId, userTwoId, true);
 		return isUsersAssociatedAsFriends(userOneId, userTwoId);
 	}
 
 	@Override
 	public boolean disassociateUserAsFriends(Long userOneId, Long userTwoId) {
-		String sql = "MERGE INTO friends (user_one_id, user_two_id, user_two_status) KEY (user_one_id, user_two_id) VALUES (?, ?, ?)";
+		String sql = "MERGE INTO friends (user_one_id, user_two_id, user_two_status) "
+				+ "KEY (user_one_id, user_two_id) " + "VALUES (?, ?, ?)";
 		jdbcTemplate.update(sql, userOneId, userTwoId, false);
 		return !isUsersAssociatedAsFriends(userOneId, userTwoId);
 	}

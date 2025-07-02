@@ -41,6 +41,7 @@ public class FriendController implements FriendAppController {
 	@Override
 	@DeleteMapping("/{friendsId}")
 	public void deleteFriend(Long id, Long friendsId) {
+		log.info("Начат процесс удаления друга. Получен id-пользователя=" + id + " и id-друга=" + friendsId);
 		friendAppService.disassociateUsersAsFriends(id, friendsId);
 	}
 
@@ -50,6 +51,7 @@ public class FriendController implements FriendAppController {
 	@Override
 	@GetMapping
 	public List<User> getListOfFriends(Long id) {
+		log.info("Начат процесс получения списка друзей. id-пользователя=" + id);
 		return friendAppService.getAllFriendsOfUser(id);
 	}
 
@@ -59,6 +61,8 @@ public class FriendController implements FriendAppController {
 	@Override
 	@GetMapping("/common/{otherId}")
 	public List<User> getCommonFriends(Long id, Long otherId) {
+		log.info("Начат процесс получения списка общих друзей. id-пользователя(1)=" + id + "id-пользователя(2)="
+				+ otherId);
 		return friendAppService.getCommonFriendsOfUsers(id, otherId);
 	}
 }

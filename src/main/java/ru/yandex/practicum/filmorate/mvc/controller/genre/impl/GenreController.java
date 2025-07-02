@@ -25,15 +25,14 @@ public class GenreController implements GenreAppController {
 	@Override
 	@GetMapping("/{genreId}")
 	public Genre getGenre(int genreId) {
-		log.info("Начат процесс вызова жанра id=" + genreId);
+		log.info("Начат вызов жанра. Получен id=" + genreId);
 		return genreAppService.getGenre(genreId);
 	}
 
 	@Override
 	@GetMapping
 	public List<Genre> getAllGenres() {
-		log.info("Начат процесс вызова списка всех жанров");
+		log.info("Начат вызов списка всех жанров");
 		return genreAppService.getAllGenres();
 	}
-
 }

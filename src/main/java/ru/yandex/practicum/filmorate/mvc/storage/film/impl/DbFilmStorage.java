@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.mvc.storage.film.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -47,7 +46,6 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	private void addGenresOfFilm(Film film) {
 		String deleteFilmsGenresSql = "DELETE FROM films_genres WHERE film_id=?";
 		jdbcTemplate.update(deleteFilmsGenresSql, film.getId());
-
 		String addGenreSql = "INSERT INTO films_genres (film_id, genre_id) VALUES (?,?)";
 		List<Genre> genreIdList = film.getGenres();
 		// заполнение таблицы films_genres для каждого значения id-жанра
@@ -103,19 +101,19 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	@Override
 	public Film getFilm(Long filmId) {
 		String getFilmSql = "SELECT f.id AS id,"
-								+ " f.name AS name,"
-								+ " f.description AS description,"
-								+ " f.release AS release,"
-								+ " f.duration AS duration,"
-								+ " m.id AS mpaId,"
-								+ " m.name AS mpaName,"
-								+ " STRING_AGG('{ \"id\": ' || g.id || ', \"name\": \"' || g.name || '\" }', ', ') AS genres_json "
-							+ "FROM films AS f "
-							+ "LEFT JOIN mpa AS m ON m.id = f.mpa "
-							+ "LEFT JOIN films_genres AS fg ON f.id = fg.film_id "
-							+ "LEFT JOIN genres AS g ON fg.genre_id = g.id "
-							+ "WHERE f.id = ? "
-							+ "GROUP BY f.id, f.name, f.description, f.release, f.duration, m.id, m.name";
+				+ " f.name AS name,"
+				+ " f.description AS description,"
+				+ " f.release AS release,"
+				+ " f.duration AS duration,"
+				+ " m.id AS mpaId,"
+				+ " m.name AS mpaName,"
+				+ " STRING_AGG('{ \"id\": ' || g.id || ', \"name\": \"' || g.name || '\" }', ', ') AS genres_json "
+				+ "FROM films AS f "
+				+ "LEFT JOIN mpa AS m ON m.id = f.mpa "
+				+ "LEFT JOIN films_genres AS fg ON f.id = fg.film_id "
+				+ "LEFT JOIN genres AS g ON fg.genre_id = g.id "
+				+ "WHERE f.id = ? "
+				+ "GROUP BY f.id, f.name, f.description, f.release, f.duration, m.id, m.name";
 		return jdbcTemplate.queryForObject(getFilmSql, new FilmRowMapper(), filmId);
 	}
 
@@ -139,13 +137,23 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	 */
 	@Override
 	public List<Film> getRatedFilms(List<Long> ratedFilmsIdList) {
-		List<Film> filmList = new ArrayList<>();
-		for (int i = 0; i < ratedFilmsIdList.size(); i++) {
-			Long filmId = ratedFilmsIdList.get(i);
-			Film film = getFilm(filmId);
-			filmList.add(film);
-		}
-		return filmList;
+		String ratedFilmsSql = "SELECT f.id AS id, "
+				+ "f.name AS name, "
+				+ "f.description AS description, "
+				+ "f.release AS release, "
+				+ "f.duration AS duration, "
+				+ "m.id AS mpaId, "
+				+ "m.name AS mpaName, "
+				+ "STRING_AGG('{ \"id\": ' || g.id || ', \"name\": \"' || g.name || '\" }', ', ') AS genres_json, "
+				+ "COUNT(fl.like_status) AS likes "
+				+ "FROM films AS f "
+				+ "LEFT JOIN mpa AS m ON m.id = f.mpa "
+				+ "LEFT JOIN films_genres AS fg ON f.id = fg.film_id "
+				+ "LEFT JOIN genres AS g ON fg.genre_id = g.id "
+				+ "LEFT JOIN films_likes AS fl ON fl.film_id = f.id "
+				+ "GROUP BY f.id, f.name, f.description, f.release, f.duration, m.id, m.name "
+				+ "ORDER BY COUNT(fl.like_status) DESC";
+		return jdbcTemplate.query(ratedFilmsSql, new FilmRowMapper());
 	}
 
 	/*
@@ -153,16 +161,19 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	 */
 	@Override
 	public List<Film> getAllFilms() {
-		List<Film> filmList = new ArrayList<>();
-		String sql = "SELECT id FROM films GROUP BY id";
-		// получить id-список всех фильмов
-		List<Long> filmIdList = jdbcTemplate.queryForList(sql, Long.class);
-		// получение и добавление фильмов в список по id-списку
-		for (int i = 0; i < filmIdList.size(); i++) {
-			Long filmId = filmIdList.get(i);
-			Film film = getFilm(filmId);
-			filmList.add(film);
-		}
-		return filmList;
+		String getFilmSql = "SELECT f.id AS id,"
+				+ " f.name AS name,"
+				+ " f.description AS description,"
+				+ " f.release AS release,"
+				+ " f.duration AS duration,"
+				+ " m.id AS mpaId,"
+				+ " m.name AS mpaName,"
+				+ " STRING_AGG('{ \"id\": ' || g.id || ', \"name\": \"' || g.name || '\" }', ', ') AS genres_json "
+				+ "FROM films AS f "
+				+ "LEFT JOIN mpa AS m ON m.id = f.mpa "
+				+ "LEFT JOIN films_genres AS fg ON f.id = fg.film_id "
+				+ "LEFT JOIN genres AS g ON fg.genre_id = g.id "
+				+ "GROUP BY f.id, f.name, f.description, f.release, f.duration, m.id, m.name";
+		return jdbcTemplate.query(getFilmSql, new FilmRowMapper());
 	}
 }

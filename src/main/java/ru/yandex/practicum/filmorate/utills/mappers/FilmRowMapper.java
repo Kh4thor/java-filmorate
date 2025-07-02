@@ -28,7 +28,7 @@ public class FilmRowMapper implements RowMapper<Film> {
 		film.setReleaseDate(rs.getDate("release").toLocalDate());
 		film.setDuration(rs.getLong("duration"));
 
-		// сборка объекта-рейтинга
+		// сборка Mpa
 		Integer mpaId = rs.getInt("mpaId");
 		String mpaName = rs.getString("mpaName");
 		Mpa mpa = new Mpa();
@@ -37,7 +37,7 @@ public class FilmRowMapper implements RowMapper<Film> {
 		}
 		film.setMpa(mpa);
 
-		// сборка списка-жанров
+		// сборка List<Genre>
 		String genresJson = rs.getString("genres_json");
 		ObjectMapper mapper = new ObjectMapper();
 		List<Genre> genres = new ArrayList<>();

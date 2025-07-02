@@ -16,8 +16,6 @@ import ru.yandex.practicum.filmorate.mvc.storage.user.UserAppStorage;
 @Service
 public class UserService implements UserAppService<User> {
 
-	private Long id = 0L;
-
 	private final UserAppStorage<User> userAppStorage;
 	private final FriendAppStorage friendAppStorage;
 	private final ExceptionAppChecker exceptionsAppChecker;
@@ -86,18 +84,10 @@ public class UserService implements UserAppService<User> {
 	}
 
 	/*
-	 * генератор id для нового пользователя
-	 */
-	private Long generateId() {
-		return ++id;
-	}
-
-	/*
 	 * создать пользователя
 	 */
 	private User create(User user) {
 		String errorMessage = "Невозможно создать пользователя";
-		user.setId(generateId());
 		exceptionsAppChecker.checkUserIsExistException(user.getId(), errorMessage);
 		friendAppStorage.addUser(user.getId());
 		return userAppStorage.addUser(user);

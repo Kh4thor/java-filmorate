@@ -26,9 +26,12 @@ public class DbUserStorage implements UserAppStorage<User> {
 
 	@Override
 	public User addUser(User user) {
-		String sql = "INSERT INTO users (id, name, login, email, birthday) VALUES (?, ?, ?, ?, ?)";
-		jdbcTemplate.update(sql, user.getId(), user.getName(), user.getLogin(), user.getEmail(), user.getBirthday());
-		return getUser(user.getId());
+		String sql = "INSERT INTO users (name, login, email, birthday) VALUES (?, ?, ?, ?)";
+		jdbcTemplate.update(sql, user.getName(), user.getLogin(), user.getEmail(), user.getBirthday());
+
+		String userIdSql = "SELECT MAX (id) FROM users";
+		Long userId = jdbcTemplate.queryForObject(userIdSql, Long.class);
+		return getUser(userId);
 	}
 
 	@Override

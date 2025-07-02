@@ -75,9 +75,6 @@ public class FriendService implements FriendAppService {
 		String errorMessage = "Невозможно получить список друзей пользователя";
 		exceptionsChecker.checkUserNotFoundException(userId, errorMessage);
 		List<Long> friendsIdList = friendAppStorage.getIdListOfAssociatedFriends(userId);
-//		if (friendsIdList.isEmpty() || friendsIdList == null) {
-//			return new ArrayList<>();
-//		}
 		return friendsIdList.stream().map(id -> userAppStorage.getUser(id)).toList();
 	}
 

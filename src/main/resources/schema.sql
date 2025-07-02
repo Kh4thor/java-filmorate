@@ -17,7 +17,7 @@ CREATE TABLE genres (
 );
 
 CREATE TABLE users (
-    id INTEGER PRIMARY KEY,
+    id IDENTITY PRIMARY KEY,
     name VARCHAR(50),
     login VARCHAR(50),
     email VARCHAR(50),
