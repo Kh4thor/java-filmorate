@@ -80,10 +80,10 @@ public class DbFriendStorage implements FriendAppStorage {
 
 	@Override
 	public List<User> getCommonFriends(Long userOneId, Long userTwoId) {
-		String getCommonFriendsSql = "SELECT u.* " 
+		String getCommonFriendsSql = "SELECT u.* "
 									+ "FROM users AS u "
 									+ "JOIN friends AS f1 ON u.id = f1.user_two_id "
-									+ "JOIN friends AS f2 ON u.id = f2.user_two_id " 
+									+ "JOIN friends AS f2 ON u.id = f2.user_two_id "
 									+ "WHERE f1.user_one_id = ? AND f2.user_one_id=?";
 		return jdbcTemplate.query(getCommonFriendsSql, new UserRowMapper(), userOneId, userTwoId);
 	}
