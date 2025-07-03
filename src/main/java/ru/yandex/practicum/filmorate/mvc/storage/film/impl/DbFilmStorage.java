@@ -2,8 +2,6 @@ package ru.yandex.practicum.filmorate.mvc.storage.film.impl;
 
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
