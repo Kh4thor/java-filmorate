@@ -1,0 +1,50 @@
+package ru.yandex.practicum.filmorate.mvc.storage.film;
+
+import java.util.List;
+
+import ru.yandex.practicum.filmorate.model.film.Film;
+
+public interface FilmAppStorage<T> {
+
+	/*
+	 * добавить фильм в хранилище
+	 */
+	T addFilm(T film);
+
+	/*
+	 * обновить фильм в хранилище
+	 */
+	T updateFilm(T film);
+
+	/*
+	 * очистить хранилище
+	 */
+	void clear();
+
+	/*
+	 * проверить хранилище на наличие ключа-id фильма
+	 */
+	boolean isFilmExist(Long filmId);
+
+	/*
+	 * получить фильм из хранилища
+	 */
+	T getFilm(Long id);
+
+	/*
+	 * удалить фильм из хранилища
+	 */
+	T removeFilm(Long filmId);
+
+	/*
+	 * получить спискок фильмов по рейтингу
+	 */
+	List<T> getRatedFilms(List<Long> ratedFilmsIdList);
+
+	/*
+	 * получить список всех фильмов
+	 */
+	List<T> getAllFilms();
+
+	List<Film> getRatedFilms(int ratedFilmsListLimit);
+}
