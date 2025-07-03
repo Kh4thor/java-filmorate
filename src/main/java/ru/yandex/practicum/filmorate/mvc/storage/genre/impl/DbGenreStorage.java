@@ -21,7 +21,8 @@ public class DbGenreStorage implements GenreAppStorage {
 
 	@Override
 	public Genre getGenre(int genreId) {
-		String sql = "SELECT * FROM genres WHERE id=?";
+		String sql = "SELECT * FROM genres "
+				   + "WHERE id=?";
 		try {
 			return jdbcTemplate.queryForObject(sql, new GenreRowMapper(), genreId);
 		} catch (EmptyResultDataAccessException exception) {
@@ -37,7 +38,9 @@ public class DbGenreStorage implements GenreAppStorage {
 
 	@Override
 	public boolean isGenreExist(int genreId) {
-		String sql = "SELECT EXISTS (SELECT id FROM genres WHERE id=?)";
+		String sql = "SELECT EXISTS (SELECT id "
+								  + "FROM genres "
+								  + "WHERE id=?)";
 		return jdbcTemplate.queryForObject(sql, Boolean.class, genreId);
 	}
 

@@ -2,6 +2,8 @@ package ru.yandex.practicum.filmorate.mvc.storage.friend;
 
 import java.util.List;
 
+import ru.yandex.practicum.filmorate.model.user.User;
+
 public interface FriendAppStorage {
 
 	/*
@@ -40,12 +42,12 @@ public interface FriendAppStorage {
 	void clearStorage();
 
 	/*
-	 * получить id-список связанных друзей пользователя
+	 * получить список общих друзей двух пользователей
 	 */
-	List<Long> getIdListOfAssociatedFriends(Long userId);
+	List<User> getCommonFriends(Long userOneId, Long userTwoId);
 
 	/*
-	 * получить id-список общих друзей двух пользователей
+	 * получить список друзей пользователя
 	 */
-	List<Long> getIdListOfCommonFriends(Long userOneId, Long userTwoId);
+	List<User> getAllFriendsOfUser(Long userId);
 }

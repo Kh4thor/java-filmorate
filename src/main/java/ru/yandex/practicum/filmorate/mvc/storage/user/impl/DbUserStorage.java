@@ -20,23 +20,29 @@ public class DbUserStorage implements UserAppStorage<User> {
 
 	@Override
 	public boolean isUserExist(Long userId) {
-		String sql = "SELECT EXISTS (SELECT id FROM users WHERE id=?)";
+		String sql = "SELECT EXISTS (SELECT id "
+								  + "FROM users "
+								  + "WHERE id=?)";
 		return jdbcTemplate.queryForObject(sql, Boolean.class, userId);
 	}
 
 	@Override
 	public User addUser(User user) {
-		String sql = "INSERT INTO users (name, login, email, birthday) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO users (name, login, email, birthday) "
+				   + "VALUES (?, ?, ?, ?)";
 		jdbcTemplate.update(sql, user.getName(), user.getLogin(), user.getEmail(), user.getBirthday());
 
-		String userIdSql = "SELECT MAX (id) FROM users";
+		String userIdSql = "SELECT MAX (id) "
+						 + "FROM users";
 		Long userId = jdbcTemplate.queryForObject(userIdSql, Long.class);
 		return getUser(userId);
 	}
 
 	@Override
 	public User updateUser(User user) {
-		String sql = "UPDATE users SET name=?, login=?, email=?, birthday=? WHERE id=?";
+		String sql = "UPDATE users "
+				   + "SET name=?, login=?, email=?, birthday=? "
+				   + "WHERE id=?";
 		jdbcTemplate.update(sql, user.getName(), user.getLogin(), user.getEmail(), user.getBirthday(), user.getId());
 		return getUser(user.getId());
 	}
@@ -54,7 +60,8 @@ public class DbUserStorage implements UserAppStorage<User> {
 
 	@Override
 	public User removeUser(Long userId) {
-		String sql = "DELETE FROM users WHERE id=?";
+		String sql = "DELETE FROM users "
+				   + "WHERE id=?";
 		User user = getUser(userId);
 		jdbcTemplate.update(sql, userId);
 		return user;
@@ -62,7 +69,8 @@ public class DbUserStorage implements UserAppStorage<User> {
 
 	@Override
 	public List<User> getAllUsers() {
-		String sql = "SELECT * FROM users";
+		String sql = "SELECT * "
+				   + "FROM users";
 		return jdbcTemplate.query(sql, new UserRowMapper());
 	}
 }

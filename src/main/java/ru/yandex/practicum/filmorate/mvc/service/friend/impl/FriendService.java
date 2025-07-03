@@ -10,19 +10,16 @@ import ru.yandex.practicum.filmorate.exceptions.friendExceptions.UsersAreNotFrie
 import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.mvc.service.friend.FriendAppService;
 import ru.yandex.practicum.filmorate.mvc.storage.friend.FriendAppStorage;
-import ru.yandex.practicum.filmorate.mvc.storage.user.UserAppStorage;
 
 @Service
 public class FriendService implements FriendAppService {
 
-	private final UserAppStorage<User> userAppStorage;
 	private final FriendAppStorage friendAppStorage;
 	private final ExceptionChecker exceptionsChecker;
 
-	public FriendService(@Qualifier("dbUserStorage") UserAppStorage<User> usersAppStorage,
-			@Qualifier("dbFriendStorage") FriendAppStorage friendAppStorage, ExceptionChecker exceptionsChecker) {
+	public FriendService(@Qualifier("dbFriendStorage") FriendAppStorage friendAppStorage,
+			ExceptionChecker exceptionsChecker) {
 		this.friendAppStorage = friendAppStorage;
-		this.userAppStorage = usersAppStorage;
 		this.exceptionsChecker = exceptionsChecker;
 	}
 
@@ -74,8 +71,7 @@ public class FriendService implements FriendAppService {
 	public List<User> getAllFriendsOfUser(Long userId) {
 		String errorMessage = "Невозможно получить список друзей пользователя";
 		exceptionsChecker.checkUserNotFoundException(userId, errorMessage);
-		List<Long> friendsIdList = friendAppStorage.getIdListOfAssociatedFriends(userId);
-		return friendsIdList.stream().map(id -> userAppStorage.getUser(id)).toList();
+		return friendAppStorage.getAllFriendsOfUser(userId);
 	}
 
 	@Override
@@ -84,7 +80,6 @@ public class FriendService implements FriendAppService {
 		exceptionsChecker.checkUserNotFoundException(userOneId, errorMessage);
 		exceptionsChecker.checkUserNotFoundException(userTwoId, errorMessage);
 		exceptionsChecker.checkUsersAreNotFriendsException(userOneId, userTwoId, errorMessage);
-		List<Long> commonFriendsIdList = friendAppStorage.getIdListOfCommonFriends(userOneId, userTwoId);
-		return commonFriendsIdList.stream().map(id -> userAppStorage.getUser(id)).toList();
+		return friendAppStorage.getCommonFriends(userOneId, userTwoId);
 	}
 }
