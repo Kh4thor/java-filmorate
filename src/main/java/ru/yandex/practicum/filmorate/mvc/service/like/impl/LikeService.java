@@ -57,13 +57,11 @@ public class LikeService implements LikeAppService {
 	 * вернуть список из первых count-фильмов по количеству лайков
 	 */
 	@Override
-	public List<Film> getRatedFilms(Integer count) {
+	public List<Film> getRatedFilms(Integer ratedFilmsListLimit) {
 		String errorMessage = "Невозможно получить список рейтиноговых фильмов";
-		exceptionsChecker.checkIllegalNumberFilmsCountException(count, errorMessage);
-		// id-cписок рейтинговых фильмов из хранилища лайков, ограниченный по длине count
-		List<Long> ratedFilmsIdList = likeAppStorage.getIdListOfFilmsIdByRate(count);
-		// список рейтиноговых фильмов из хранилища фильмов по id-
-		List<Film> ratedFilmsList = filmAppStorage.getRatedFilms(ratedFilmsIdList);
+		exceptionsChecker.checkIllegalNumberFilmsCountException(ratedFilmsListLimit, errorMessage);
+		// список рейтиноговых фильмов из хранилища фильмов
+		List<Film> ratedFilmsList = filmAppStorage.getRatedFilms(ratedFilmsListLimit);
 		if (ratedFilmsList.isEmpty()) {
 			log.info("Список рейтинговых фильмов пуст");
 		} else {

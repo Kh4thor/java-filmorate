@@ -46,5 +46,5 @@ public interface FilmAppStorage<T> {
 	 */
 	List<T> getAllFilms();
 
-	List<Film> getRatedFilms(int ratedFilmsListLimit) throws Exception;
+	List<Film> getRatedFilms(int ratedFilmsListLimit);
 }

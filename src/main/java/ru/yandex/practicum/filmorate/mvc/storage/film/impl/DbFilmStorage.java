@@ -155,7 +155,7 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 				+ "LEFT JOIN films_likes AS fl ON fl.film_id = f.id "
 				+ "GROUP BY f.id, f.name, f.description, f.release, f.duration, m.id, m.name "
 				+ "ORDER BY COUNT(fl.like_status) DESC "
-				+ "LIMIT "+ ratedFilmsListLimit;
+				+ "LIMIT " + ratedFilmsListLimit;
 		return jdbcTemplate.query(ratedFilmsSql, new FilmRowMapper());
 	}
 
@@ -182,8 +182,6 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 
 	@Override
 	public List<Film> getRatedFilms(List<Long> ratedFilmsIdList) {
-		String str = "метод List<Film> getRatedFilms(List<Long> ratedFilmsIdList) в классе dbFilmStorage не поддерживается";
-		Error error = new Error(str);
-		throw new RuntimeErrorException(error);
+		return null;
 	}
 }
