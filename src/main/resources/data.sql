@@ -1,3 +1,4 @@
+
 INSERT INTO genres (id, name) VALUES (1, 'Комедия');
 INSERT INTO genres (id, name) VALUES (2, 'Драма');
 INSERT INTO genres (id, name) VALUES (3, 'Мультфильм');
