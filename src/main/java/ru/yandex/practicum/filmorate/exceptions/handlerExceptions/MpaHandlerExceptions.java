@@ -6,22 +6,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import ru.yandex.practicum.filmorate.exceptions.ErrorResponse;
-import ru.yandex.practicum.filmorate.exceptions.friendExceptions.UsersAreAllreadyFriendsException;
-import ru.yandex.practicum.filmorate.exceptions.friendExceptions.UsersAreNotFriendsException;
+import ru.yandex.practicum.filmorate.exceptions.mpaExceptions.MpaNotFoundException;
+import ru.yandex.practicum.filmorate.exceptions.mpaExceptions.MpaValueIsOutOfRangeException;
 
 @RestControllerAdvice
-public class FriendsHandlerException {
+public class MpaHandlerExceptions {
 
 	@ExceptionHandler
-	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
-	public ErrorResponse handlerUsersAreAllreadyFriendsException(final UsersAreAllreadyFriendsException exception) {
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public ErrorResponse handlerMpaValueIsOutOfRangeException(final MpaValueIsOutOfRangeException exception) {
 		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
-
 	}
 
 	@ExceptionHandler
-	@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
-	public ErrorResponse handlerUsersAreNotFriendsException(final UsersAreNotFriendsException exception) {
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	public ErrorResponse handlerMpaIdNotFoundException(final MpaNotFoundException exception) {
 		return new ErrorResponse(exception.getErrorMessage(), exception.getMessage());
 	}
 

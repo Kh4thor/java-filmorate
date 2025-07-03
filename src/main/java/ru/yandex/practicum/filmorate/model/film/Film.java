@@ -1,8 +1,10 @@
 package ru.yandex.practicum.filmorate.model.film;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -13,6 +15,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import ru.yandex.practicum.filmorate.model.film.annotation.genreValidation.GenreValidator;
+import ru.yandex.practicum.filmorate.model.film.annotation.mpaValidation.MpaValidator;
+import ru.yandex.practicum.filmorate.model.film.annotation.releaseDate.ReleaseDateValidation;
+import ru.yandex.practicum.filmorate.model.genre.Genre;
+import ru.yandex.practicum.filmorate.model.mpa.Mpa;
 
 /*
  * Film.
@@ -22,6 +29,8 @@ import lombok.Setter;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
+@MpaValidator
+@GenreValidator
 public class Film implements Cloneable {
 
 	// id фильма
@@ -46,9 +55,22 @@ public class Film implements Cloneable {
 	@NotNull(message = "Поле duration не может быть null")
 	private Long duration;
 
+	// жанр фильм
+	@Nullable
+	private List<Genre> genres;
+
+	// рейтинг фильма
+	@Nullable
+	private Mpa mpa;
+
+	@Override
+	public Film clone() throws CloneNotSupportedException {
+		return (Film) super.clone();
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(description, duration, name, releaseDate);
+		return Objects.hash(description, duration, genres, id, mpa, name, releaseDate);
 	}
 
 	@Override
@@ -61,18 +83,15 @@ public class Film implements Cloneable {
 		}
 		Film other = (Film) obj;
 		return Objects.equals(description, other.description) && Objects.equals(duration, other.duration)
-				&& Objects.equals(name, other.name) && Objects.equals(releaseDate, other.releaseDate);
+				&& Objects.equals(genres, other.genres) && Objects.equals(id, other.id)
+				&& Objects.equals(mpa, other.mpa) && Objects.equals(name, other.name)
+				&& Objects.equals(releaseDate, other.releaseDate);
 	}
 
 	@Override
 	public String toString() {
-		return "Film [id=" + id + ", name=" + name + ", description=" + description + ", releaseDate=" + releaseDate
-				+ ", duration=" + duration + "]";
-	}
-
-	@Override
-	public Film clone() throws CloneNotSupportedException {
-		return (Film) super.clone();
+		return "Film [id=" + id + ", " + "name=" + name + ", " + "description=" + description + ", " + "releaseDate="
+				+ releaseDate + ", " + "duration=" + duration + ", " + "genres=" + genres + ", " + "mpa= " + mpa + "]";
 	}
 
 }
