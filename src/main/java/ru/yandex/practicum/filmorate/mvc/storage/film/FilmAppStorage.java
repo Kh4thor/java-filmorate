@@ -2,6 +2,8 @@ package ru.yandex.practicum.filmorate.mvc.storage.film;
 
 import java.util.List;
 
+import ru.yandex.practicum.filmorate.model.film.Film;
+
 public interface FilmAppStorage<T> {
 
 	/*
@@ -43,4 +45,6 @@ public interface FilmAppStorage<T> {
 	 * получить список всех фильмов
 	 */
 	List<T> getAllFilms();
+
+	List<Film> getRatedFilms(int ratedFilmsListLimit) throws Exception;
 }

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.stereotype.Component;
 
 import ru.yandex.practicum.filmorate.model.film.Film;
@@ -80,5 +82,12 @@ public class InMemoryFilmStorage implements FilmAppStorage<Film> {
 	@Override
 	public List<Film> getAllFilms() {
 		return filmsStorageMap.values().stream().toList();
+	}
+
+	@Override
+	public List<Film> getRatedFilms(int ratedFilmsListLimit) throws Exception {
+		String str = "метод List<Film> getRatedFilms(int ratedFilmsListLimit) в классе InMemoryFilmStorage не поддерживается";
+		Error error = new Error(str);
+		throw new RuntimeErrorException(error);
 	}
 }

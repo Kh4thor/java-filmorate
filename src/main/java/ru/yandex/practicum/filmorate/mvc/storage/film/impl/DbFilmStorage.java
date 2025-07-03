@@ -2,6 +2,8 @@ package ru.yandex.practicum.filmorate.mvc.storage.film.impl;
 
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -136,7 +138,7 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 	 * получить спискок фильмов по рейтингу
 	 */
 	@Override
-	public List<Film> getRatedFilms(List<Long> ratedFilmsIdList) {
+	public List<Film> getRatedFilms(int ratedFilmsListLimit) {
 		String ratedFilmsSql = "SELECT f.id AS id, "
 				+ "f.name AS name, "
 				+ "f.description AS description, "
@@ -152,7 +154,8 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 				+ "LEFT JOIN genres AS g ON fg.genre_id = g.id "
 				+ "LEFT JOIN films_likes AS fl ON fl.film_id = f.id "
 				+ "GROUP BY f.id, f.name, f.description, f.release, f.duration, m.id, m.name "
-				+ "ORDER BY COUNT(fl.like_status) DESC";
+				+ "ORDER BY COUNT(fl.like_status) DESC "
+				+ "LIMIT "+ ratedFilmsListLimit;
 		return jdbcTemplate.query(ratedFilmsSql, new FilmRowMapper());
 	}
 
@@ -175,5 +178,12 @@ public class DbFilmStorage implements FilmAppStorage<Film> {
 				+ "LEFT JOIN genres AS g ON fg.genre_id = g.id "
 				+ "GROUP BY f.id, f.name, f.description, f.release, f.duration, m.id, m.name";
 		return jdbcTemplate.query(getFilmSql, new FilmRowMapper());
+	}
+
+	@Override
+	public List<Film> getRatedFilms(List<Long> ratedFilmsIdList) {
+		String str = "метод List<Film> getRatedFilms(List<Long> ratedFilmsIdList) в классе dbFilmStorage не поддерживается";
+		Error error = new Error(str);
+		throw new RuntimeErrorException(error);
 	}
 }
