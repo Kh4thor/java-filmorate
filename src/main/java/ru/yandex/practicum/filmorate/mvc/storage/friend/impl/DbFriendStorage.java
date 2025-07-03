@@ -34,7 +34,7 @@ public class DbFriendStorage implements FriendAppStorage {
 	@Override
 	public boolean disassociateUserAsFriends(Long userOneId, Long userTwoId) {
 		String sql = "MERGE INTO friends (user_one_id, user_two_id, user_two_status) "
-					+ "KEY (user_one_id, user_two_id) " 
+					+ "KEY (user_one_id, user_two_id) "
 					+ "VALUES (?, ?, ?)";
 		jdbcTemplate.update(sql, userOneId, userTwoId, false);
 		return !isUsersAssociatedAsFriends(userOneId, userTwoId);
@@ -43,7 +43,7 @@ public class DbFriendStorage implements FriendAppStorage {
 	@Override
 	public boolean isUsersAssociatedAsFriends(Long userOneId, Long userTwoId) {
 		String sql = "SELECT EXISTS (SELECT 1 "
-					+ "FROM friends " 
+					+ "FROM friends "
 					+ "WHERE (user_one_id=? AND user_two_id=?))";
 		return jdbcTemplate.queryForObject(sql, Boolean.class, userOneId, userTwoId);
 	}
